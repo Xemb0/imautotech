@@ -1,0 +1,7 @@
+@charset "UTF-8";/*!
+ * _descriptions.scss
+ * diffco-site-template
+ *
+ * Created by Diffco.us
+ * Copyright © 2019 Diffco.us. All rights reserved.
+ */.g-used-by{padding:64px 0}@media (max-width:767px){.g-used-by{padding:48px 0}}.g-used-by .title{text-align:center;color:#131426;margin-bottom:80px}@media (max-width:767px){.g-used-by .title{margin-bottom:64px}}.g-used-by__items{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:center;-moz-column-gap:8px;column-gap:8px;row-gap:48px}@media (max-width:767px){.g-used-by__items{flex-wrap:nowrap;overflow-x:scroll;justify-content:flex-start}.g-used-by__items::-webkit-scrollbar{display:none}}.g-used-by__items .item{flex:0 0 16%}@media (max-width:1279px){.g-used-by__items .item{flex:0 0 calc(33% - 9px)}}@media (max-width:767px){.g-used-by__items .item{flex:0 0 180px}}.g-used-by__items .item img{max-width:100%;height:auto}
