@@ -1,0 +1,9 @@
+import ApplicationServices
+
+func requestAccessibilityPermissions() {
+    let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: true]
+    let accessEnabled = AXIsProcessTrustedWithOptions(options)
+    if !accessEnabled {
+        print("Accessibility permissions are not enabled. Please enable them in System Preferences.")
+    }
+}
