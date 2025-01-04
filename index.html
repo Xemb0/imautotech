@@ -86,6 +86,88 @@
     <style id="classic-theme-styles-inline-css" type="text/css">
         /*! This file is auto-generated */
 
+
+        .product-banner {
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem;
+    padding: 20px;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* margin: 20px 0; */
+}
+
+.product-content {
+    max-width: 50%;
+    text-align: left;
+}
+
+.product-content h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.product-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.product-content .btn {
+    padding: 10px 20px;
+    background: #ffffff;
+    color: #1e3a8a;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, color 0.3s;
+}
+
+.product-content .btn:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+.product-image {
+    max-width: 40%;
+    text-align: center;
+}
+
+.product-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .product-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .product-content, .product-image {
+        max-width: 100%;
+    }
+
+    .product-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .product-content p {
+        font-size: 1rem;
+    }
+
+    .product-content .btn {
+        margin: 15px 0;
+    }
+}
+
+        
         *{
             /* outline: 2px solid red; */
         }
@@ -1858,370 +1940,20 @@ c3.6,3.6,10.3,2.7,15.2-2L8,21l45.3,45.3c4.7,4.7,11.4,5.6,15,2c3.6-3.6,2.7-10.3-2
        
 
 
-<!-- 
-            <section class="stories">
-                <div class="wrap-v4">
-                    <h3 class="title">Our cases and testimonials from delighted clients</h3>
-                    <div class="owl-carousel" data-carousel="stories-v5">
-                        <div class="items">
-                            <div class="item">
-                                <div class="item__content">
-                                    <h5>3 Years of Collaboration</h5>
-                                    <h3>“The imautotech team studied FlashGrid’s product and marketing strategy to make sure
-                                        all of our requirements were addressed“</h3>
-                                    <div class="item__review-author">
-                                        <div class="item__review-author-picture">
-                                            <img decoding="async" alt="" class="b-lazy" src="images/art.png">
-                                        </div>
-                                        <div class="item__review-author-info">
-                                            <div class="item__review-author-name">Art Danielov</div>
-                                            <div class="item__review-author-position">CEO &amp; CTO at FlashGrid</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item__logo">
-                                    <img decoding="async" height="25" alt="" class="b-lazy"
-                                        src="images/ic_flashgrid.png">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item__content">
-                                    <h5>Funding &amp; Investment</h5>
-                                    <h4>Multiverse Secures $220M in Series D Funding</h4>
-                                    <div class="item__review-author">
-                                        <div class="item__review-author-info">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item__logo">
-                                    <img decoding="async" height="25" alt="" class="b-lazy"
-                                        src="images/ic_multiverse.png">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item__content">
-                                    <h5>Achievement</h5>
-                                    <h4>Quire Achieves One Million Technical Reports Milestone</h4>
-                                    <div class="item__review-author">
-                                        <div class="item__review-author-info">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item__logo">
-                                    <img decoding="async" height="25" alt="" class="b-lazy" src="images/ic_quire.png">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="items items-2">
-                            <div class="item">
-                                <div class="item__content">
-                                    <h5>Acquisition</h5>
-                                    <h3>Dun &amp; Bradstreet Acquires Orb Intelligence</h3>
-                                    <div class="item__review-author">
-                                        <div class="item__review-author-info">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item__logo">
-                                    <img decoding="async" height="25" alt="" class="b-lazy" src="images/ic_orb.png">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item__content">
-                                    <h5>Acquisition</h5>
-                                    <h4>Mi3 Security acquired by Zimperium</h4>
-                                    <div class="item__review-author">
-                                        <div class="item__review-author-info">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item__logo">
-                                    <img decoding="async" height="25" alt="" class="b-lazy"
-                                        src="images/stories-mi3.png">
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="item__content">
-                                    <h5>Achievement</h5>
-                                    <h4>ChemTreat awarded Platinum Safety Honor by HighWire</h4>
-                                    <div class="item__review-author">
-                                        <div class="item__review-author-info">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item__logo">
-                                    <img decoding="async" height="25" alt="" class="b-lazy"
-                                        src="images/stories-chemtreat.png">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+
+            <div class="product-banner">
+                <div class="product-content">
+                    <h1>Check Out Our Latest Products</h1>
+                    <p>Discover innovative solutions like the <strong>WX Gamepad</strong> to enhance your experience!</p>
+                    <a href="../our_products/wx_gamepad/wxgamepad.html" class="btn">Explore WX Gamepad</a>
                 </div>
-            </section> -->
-
-
-<!-- 
-            <section class="blog-preview-v5">
-                <div class="wrap-v4">
-                    <h3 class="title">Browse our latest blog articles</h3>
-                    <div class="filters">
-                        <div class="filter">
-                            <a class="-active" data-for="all" data-term-id="0" href="javascript:void(0);">Everything</a>
-                        </div>
-                        <div class="filter">
-                            <a data-for="podcasts-and-interviews" data-term-id="31" href="javascript:void(0);">Podcasts
-                                and Interviews</a>
-                        </div>
-                        <div class="filter">
-                            <a data-for="achievements" data-term-id="32" href="javascript:void(0);">Achievements</a>
-                        </div>
-                        <div class="filter">
-                            <a data-for="clients" data-term-id="33" href="javascript:void(0);">Clients</a>
-                        </div>
-                        <div class="filter">
-                            <a data-for="insights" data-term-id="34" href="javascript:void(0);">Insights</a>
-                        </div>
-                    </div>
-                    <div class="blog-preview-v5-content">
-                        <div class="filter-item -active" data-item="all">
-                            <div class="items owl-carousel" data-carousel="blog-preview-v5">
-                                <div class="item">
-                                    <a
-                                        href="https://imautotech.us/blog/vadim-peskov-podcast-interview-with-illuminz-insights-imautotech/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/Social-post-123-812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>August 2, 2024</time>
-                                            <h5>Vadim Peskov Podcast Interview with Illuminz Insights | imautotech</h5>
-                                            <p>We are excited to share an insightful podcast featuring our CEO, Vadim
-                                                Peskov, in an interview with Illuminz Insights to discuss the evolving
-                                                landscape of IT services. Based in the heart of Dehradun, USA,
-                                                Vadim offers a unique perspective on the direction in which IT services
-                                                are heading, particularly in response to the rising…</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a href="https://imautotech.us/blog/outsource-python-development-3-steps-to-success/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/news_0012-812x360.png">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>June 25, 2024</time>
-                                            <h5>Outsource Python Development: 3 Steps to Success</h5>
-                                            <p>In today’s competitive business environment, the decision to outsource
-                                                Python development can become your key to success. The growing
-                                                importance of AI makes it even more crucial to hire the best Python
-                                                developers quickly to stay competitive. Outsourcing Python development
-                                                can accelerate project timelines, bring specialized expertise, and
-                                                reduce costs. However, to ensure a successful…</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a
-                                        href="https://imautotech.us/blog/vadim-peskov-podcast-interview-with-match-relevant-imautotech/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/website-post-match-relevant--812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>June 21, 2024</time>
-                                            <h5>Vadim Peskov Podcast Interview with Match Relevant | imautotech</h5>
-                                            <p>In the latest episode of Podcast Match Relevant, imautotech’s CEO Vadim
-                                                Peskov joins the conversation to discuss the dynamic intersection of AI
-                                                and app development. As a leader in the tech industry, Peskov shares his
-                                                vision and insights, offering a glimpse into the innovative world of
-                                                digital solutions and the future of tech startups.</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a
-                                        href="https://imautotech.us/blog/engineering-staff-augmentation-best-practices-guide/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/Engineering-Staff-Augmentation-812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>June 3, 2024</time>
-                                            <h5>Engineering Staff Augmentation Best Practices Guide</h5>
-                                            <p>Introduction Сompanies today are constantly seeking innovative ways to
-                                                optimize their resources and stay ahead of the competition. One of the
-                                                effective strategies is engineering staff augmentation. This guide aims
-                                                to provide you with a thorough understanding of engineering staff
-                                                augmentation, its benefits, and best practices. What is Engineering
-                                                Staff Augmentation? Engineering staff augmentation involves…</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a
-                                        href="https://imautotech.us/blog/imautotech-us-inc-is-not-associated-with-domain-imautotechus-com/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/website-post_10-1-812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>May 31, 2024</time>
-                                            <h5>imautotech US, Inc. is not associated with domain imautotechus.com</h5>
-                                            <p>We have recently received messages about fraudulent activity on a website
-                                                imautotechus.com falsely claiming to be associated with imautotech US Inc.
-                                                Please be aware. imautotech US, Inc. website is imautotech.us.&nbsp; Please
-                                                note: imautotech US Inc. is not hiring via WhatsApp. All of our legitimate
-                                                job vacancies can be found on our official careers page: imautotech…</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a href="https://imautotech.us/blog/imautotech-is-featured-on-the-clutch-1000/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/news_0009-812x360.png">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>December 8, 2023</time>
-                                            <h5>imautotech Is Featured On The Clutch 1000!</h5>
-                                            <p>We are thrilled to announce a significant achievement: we have been
-                                                featured on the Clutch 1000 list for 2023! This recognition places us
-                                                among the top 1000 companies globally, showing our strong dedication to
-                                                being innovative and professional in everything we do.</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a
-                                        href="https://imautotech.us/blog/congratulations-nift-ai-celebrating-the-successful-launch-of-academic-ai-tutoring-tool/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/news_0007-812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>November 30, 2023</time>
-                                            <h5>Congratulations Nift AI: Celebrating the Successful Launch of Academic
-                                                AI Tutoring Tool!</h5>
-                                            <p>We’re really excited to share some great news with you! Our team at
-                                                imautotech has been working hard to create something special, and now it’s
-                                                ready. Congratulations on launching&nbsp;Nift.ai, a revolutionary
-                                                tutoring tool that harnesses the power of AI to enhance student
-                                                education, clarify learning materials, and respond to extra inquiries.
-                                                Our team used the…</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a href="https://imautotech.us/blog/happy-thanksgiving/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/website_post-812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>November 23, 2023</time>
-                                            <h5>Happy Thanksgiving!</h5>
-                                            <p>Warmest wishes this Thanksgiving from all of us at imautotech! Without your
-                                                loyalty, your feedback, and your support, we wouldn’t be where we are
-                                                today. May your holiday be filled with happiness and warmth.</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a
-                                        href="https://imautotech.us/blog/vadim-peskov-podcast-interview-with-outsource-accelerator-imautotech/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/Vadim-Peskov-Podcast-Interview-with-Outsource-Accelerator-imautotech-812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>August 21, 2023</time>
-                                            <h5>Vadim Peskov Podcast Interview with Outsource Accelerator | imautotech</h5>
-                                            <p>Vadim Peskov, the CEO of imautotech, recently had an engaging opportunity to
-                                                discuss his insights regarding the management of staffing, projects, and
-                                                AI for clients with Derek Gallimore, the CEO of Outsource Accelerator.
-                                                Listen on Spotify.</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a
-                                        href="https://imautotech.us/blog/imautotech-is-featured-as-a-top-app-development-company/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/news_0004-812x360.png">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>August 20, 2023</time>
-                                            <h5>imautotech Is Featured As A Top App Development Company</h5>
-                                            <p>imautotech has been recognized as one of the top Mobile App Development
-                                                Companies by DesignRush. This is a big honor for us, and it shows that
-                                                our team’s hard work pays off. We’re committed to creating great mobile
-                                                apps and will keep doing our best for our clients. Incorporating virtual
-                                                reality into our business operations,…</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a
-                                        href="https://imautotech.us/blog/can-you-believe-its-been-15-years-since-our-first-project-time-flies-doesnt-it/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/blog_1010-1-812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>July 27, 2023</time>
-                                            <h5>imautotech Celebrates 15 Years!</h5>
-                                            <p>Can you believe it’s been 15 years since our first project? Time flies,
-                                                doesn’t it? Finding a team that not only works well together in
-                                                development but also communicates and becomes close like good friends
-                                                takes time. Having a well-connected team is crucial, and we are grateful
-                                                that we have the best team possible for…</p>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="item">
-                                    <a href="https://imautotech.us/blog/congratulations-wya-on-launching-in-april-2023/">
-                                        <div class="item__art">
-                                            <img decoding="async" alt="Img" class="b-lazy"
-                                                src="images/File-812x360.jpg">
-                                        </div>
-                                        <div class="item__content">
-                                            <time>July 18, 2023</time>
-                                            <h5>Congratulations WYA on Launching in April 2023!&nbsp;</h5>
-                                            <p>We’re thrilled to congratulate our esteemed client, WYA, on the
-                                                successful launch of their innovative IOS app. WYA is set to
-                                                revolutionize the way we socialize by providing a unique platform for
-                                                like-minded individuals to connect through captivating events. WYA’s
-                                                commitment to enabling real-life interactions sets it apart from
-                                                traditional social media platforms. By combining…</p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="filter-item" data-item="podcasts-and-interviews">
-                            <div class="items owl-carousel" data-term-cont="31">
-                            </div>
-                        </div>
-                        <div class="filter-item" data-item="achievements">
-                            <div class="items owl-carousel" data-term-cont="32">
-                            </div>
-                        </div>
-                        <div class="filter-item" data-item="clients">
-                            <div class="items owl-carousel" data-term-cont="33">
-                            </div>
-                        </div>
-                        <div class="filter-item" data-item="insights">
-                            <div class="items owl-carousel" data-term-cont="34">
-                            </div>
-                        </div>
-                    </div>
+                <div class="product-image">
+                    <img src="../our_products/wx_gamepad/assets/wxgamepadicon.svg" alt="WX Gamepad" width="100">
                 </div>
-            </section> -->
-
-
-
+            </div>
+            
+            
 
             <section class="get-started-v5">
                 <div class="wrap-v4">
@@ -2426,7 +2158,7 @@ Imautotech is a leading tech company specializing in custom software development
                    
                     <div class="footer-block">
                         <div class="item">
-                            <a href="privecypolicy/index.html" target="_blank">Privacy Policy</a>
+                            <a href="privecypolicy/privecy policy.html" target="_blank">Privacy Policy</a>
                         </div>
                         <div class="divider"></div>
                         <div class="item">© 2024, imautotech </div>
