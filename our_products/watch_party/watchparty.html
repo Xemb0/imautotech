@@ -310,18 +310,50 @@
       });
     </script>
 
-    <script>
+<script>
 window.onload = function () {
-  const now = new Date().getTime();
-  setTimeout(function () {
-    if (new Date().getTime() - now < 2000) {
-      // App not installed, stay on page
-    }
-  }, 1500);
-
-  // Try to open app
-  window.location.href = "intent://our_products/watchparty.index#Intent;scheme=https;package=com.autotech.watchparty;end";
+  // Get room ID from URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const roomId = urlParams.get('roomId') || '';
+  
+  // Display room ID on page if you have an element for it
+  const roomDisplay = document.getElementById('roomIdDisplay');
+  if (roomDisplay && roomId) {
+    roomDisplay.textContent = roomId;
+  }
+  
+  // Only try to open app on mobile devices
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  
+  if (isMobile && isAndroid) {
+    const now = new Date().getTime();
+    
+    // Correct intent URL format that matches your manifest
+    const intentUrl = `intent://imautotech.in/our_products/watch_party/watchparty?roomId=${roomId}#Intent;scheme=https;package=com.autotech.watchparty;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.autotech.watchparty;end`;
+    
+    // Try to open the app
+    window.location.href = intentUrl;
+    
+    // Fallback to Play Store if app doesn't open
+    setTimeout(function () {
+      if (new Date().getTime() - now < 3000) {
+        // App likely not installed, redirect to Play Store
+        window.location.href = "https://play.google.com/store/apps/details?id=com.autotech.watchparty";
+      }
+    }, 2500);
+  }
 };
+
+// Function to manually try opening the app (for button clicks)
+function openApp() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const roomId = urlParams.get('roomId') || '';
+  
+  const intentUrl = `intent://imautotech.in/our_products/watch_party/watchparty?roomId=${roomId}#Intent;scheme=https;package=com.autotech.watchparty;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.autotech.watchparty;end`;
+  
+  window.location.href = intentUrl;
+}
 </script>
   </body>
 </html>
