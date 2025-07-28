@@ -309,5 +309,19 @@
         });
       });
     </script>
+
+    <script>
+window.onload = function () {
+  const now = new Date().getTime();
+  setTimeout(function () {
+    if (new Date().getTime() - now < 2000) {
+      // App not installed, stay on page
+    }
+  }, 1500);
+
+  // Try to open app
+  window.location.href = "intent://our_products/watchparty.index#Intent;scheme=https;package=com.autotech.watchparty;end";
+};
+</script>
   </body>
 </html>
