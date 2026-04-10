@@ -1,2 +1,0 @@
-*.dmg filter=lfs diff=lfs merge=lfs -text
-our_products/wx_gamepad/files/WxGamepad-Server-*.zip filter=lfs diff=lfs merge=lfs -text
