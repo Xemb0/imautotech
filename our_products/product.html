@@ -7,71 +7,156 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config={corePlugins:{preflight:false}}</script>
   <style>
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    @keyframes floatSlow { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(2deg)} }
+    @keyframes pulse-glow { 0%,100%{opacity:.3} 50%{opacity:.6} }
+    @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes scaleIn { from{opacity:0;transform:scale(.9)} to{opacity:1;transform:scale(1)} }
+    @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
     .float-anim { animation: float 6s ease-in-out infinite; }
-    .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+    .float-slow { animation: floatSlow 8s ease-in-out infinite; }
+    .pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
+    .slide-up { animation: slideUp .8s ease-out both; }
+    .slide-up-d1 { animation: slideUp .8s ease-out .1s both; }
+    .slide-up-d2 { animation: slideUp .8s ease-out .2s both; }
+    .slide-up-d3 { animation: slideUp .8s ease-out .3s both; }
+    .scale-in { animation: scaleIn .6s ease-out .2s both; }
+    .gradient-shift { background-size:200% 200%; animation: gradientShift 8s ease infinite; }
+    .glass { background:rgba(255,255,255,.03); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.08); }
+    .glass-hover:hover { background:rgba(255,255,255,.07); border-color:rgba(255,255,255,.15); }
   </style>
 </head>
 <body class="bg-gray-950 text-white min-h-screen">
 
   <!-- Hero -->
-  <section id="hero" class="relative min-h-[70vh] flex items-center overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-950 to-gray-900"></div>
-    <div class="absolute inset-0 opacity-20">
-      <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-500 rounded-full blur-[120px] float-anim"></div>
-      <div class="absolute bottom-10 right-20 w-96 h-96 bg-purple-500 rounded-full blur-[140px] float-anim" style="animation-delay:2s"></div>
+  <section id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+    <!-- Animated BG -->
+    <div id="hero-bg" class="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-950 to-gray-900 gradient-shift"></div>
+    <div class="absolute inset-0">
+      <div id="glow-1" class="absolute top-10 left-[10%] w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[160px] float-anim"></div>
+      <div id="glow-2" class="absolute bottom-0 right-[5%] w-[600px] h-[600px] bg-purple-500/15 rounded-full blur-[180px] float-anim" style="animation-delay:3s"></div>
+      <div id="glow-3" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-cyan-500/10 rounded-full blur-[140px] pulse-glow"></div>
     </div>
-    <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 flex flex-col lg:flex-row items-center gap-12 w-full">
-      <div class="flex-1">
-        <div class="flex items-center gap-4 mb-6">
-          <img id="product-icon" src="" alt="" class="w-20 h-20 rounded-2xl shadow-xl hidden">
-          <div>
-            <h1 id="product-title" class="text-4xl md:text-5xl font-bold"></h1>
-            <div id="product-platforms" class="flex gap-2 mt-2"></div>
+    <!-- Grid pattern overlay -->
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image:radial-gradient(circle,rgba(255,255,255,.5) 1px,transparent 1px);background-size:40px 40px"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 w-full">
+      <!-- Back nav -->
+      <a href="../index.html" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm mb-10 transition-colors slide-up">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Back to Products
+      </a>
+
+      <div class="flex flex-col lg:flex-row items-center gap-16">
+        <!-- Left: text -->
+        <div class="flex-1 text-center lg:text-left">
+          <div class="flex items-center gap-5 mb-8 justify-center lg:justify-start slide-up">
+            <img id="product-icon" src="" alt="" class="w-24 h-24 rounded-3xl shadow-2xl hidden ring-2 ring-white/10">
+            <div id="icon-fallback" class="w-24 h-24 rounded-3xl shadow-2xl ring-2 ring-white/10 flex items-center justify-center text-4xl font-black hidden"></div>
+          </div>
+          <h1 id="product-title" class="text-5xl md:text-6xl lg:text-7xl font-black mb-4 slide-up-d1 leading-tight"></h1>
+          <div id="product-platforms" class="flex flex-wrap gap-2 mb-6 justify-center lg:justify-start slide-up-d1"></div>
+          <p id="product-description" class="text-xl text-white/60 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed slide-up-d2"></p>
+          <div id="product-actions" class="flex flex-wrap gap-4 justify-center lg:justify-start slide-up-d3"></div>
+
+          <!-- Stats badge -->
+          <div id="stats-badge" class="hidden mt-8 slide-up-d3">
+            <span class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm text-emerald-400 font-medium">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+              <span id="stats-text"></span>
+            </span>
           </div>
         </div>
-        <p id="product-description" class="text-lg text-white/70 mb-8 max-w-xl"></p>
-        <div id="product-actions" class="flex flex-wrap gap-3"></div>
-      </div>
-      <div class="flex-shrink-0">
-        <img id="product-hero" src="" alt="" class="max-w-sm w-full rounded-2xl shadow-2xl hidden">
+
+        <!-- Right: feature graphic -->
+        <div class="flex-shrink-0 w-full lg:w-[45%] scale-in">
+          <!-- Hero image -->
+          <div id="hero-image-wrap" class="hidden relative">
+            <div id="hero-glow" class="absolute -inset-4 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-3xl blur-2xl"></div>
+            <img id="product-hero" src="" alt="" class="relative w-full rounded-2xl shadow-2xl ring-1 ring-white/10 float-slow">
+          </div>
+          <!-- Fallback: big icon with decorative frame -->
+          <div id="hero-fallback" class="hidden relative mx-auto max-w-sm">
+            <div id="fallback-glow" class="absolute -inset-8 rounded-[3rem] blur-3xl opacity-40"></div>
+            <div class="relative glass rounded-[2rem] p-12 flex flex-col items-center justify-center min-h-[360px]">
+              <img id="fallback-icon" src="" alt="" class="w-40 h-40 rounded-[2rem] shadow-2xl mb-6 float-slow">
+              <div id="fallback-title" class="text-2xl font-bold text-center text-white/80"></div>
+              <div id="fallback-type" class="text-sm text-white/40 mt-2 px-3 py-1 rounded-full bg-white/5"></div>
+              <!-- Decorative dots -->
+              <div class="absolute top-6 right-6 flex gap-1.5">
+                <div class="w-2.5 h-2.5 rounded-full bg-red-400/60"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-yellow-400/60"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-green-400/60"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Features -->
-  <section id="features-section" class="max-w-6xl mx-auto px-6 py-16 hidden">
-    <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
-    <div id="features-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+  <section id="features-section" class="py-20 hidden">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-14">
+        <span class="text-sm font-semibold text-indigo-400 tracking-wider uppercase">What it does</span>
+        <h2 class="text-4xl font-bold mt-2">Key Features</h2>
+      </div>
+      <div id="features-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+    </div>
   </section>
 
   <!-- Tech Stack -->
-  <section id="tech-section" class="max-w-6xl mx-auto px-6 py-12 hidden">
-    <h2 class="text-2xl font-bold mb-6 text-center">Built With</h2>
-    <div id="tech-grid" class="flex flex-wrap justify-center gap-3"></div>
+  <section id="tech-section" class="py-16 hidden">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-10">
+        <span class="text-sm font-semibold text-cyan-400 tracking-wider uppercase">Technology</span>
+        <h2 class="text-3xl font-bold mt-2">Built With</h2>
+      </div>
+      <div id="tech-grid" class="flex flex-wrap justify-center gap-3"></div>
+    </div>
   </section>
 
   <!-- Server Downloads -->
-  <section id="server-section" class="bg-gray-900 py-16 hidden">
+  <section id="server-section" class="bg-gray-900/50 py-20 hidden">
     <div class="max-w-5xl mx-auto px-6 text-center">
-      <h2 class="text-3xl font-bold mb-4">Desktop Downloads</h2>
-      <p class="text-gray-400 mb-10">Install the server on your computer to connect your phone.</p>
+      <span class="text-sm font-semibold text-blue-400 tracking-wider uppercase">Get Started</span>
+      <h2 class="text-3xl font-bold mt-2 mb-4">Desktop Downloads</h2>
+      <p class="text-gray-400 mb-12 max-w-lg mx-auto">Install the server on your computer to connect your phone as a controller.</p>
       <div id="server-grid" class="grid md:grid-cols-3 gap-6"></div>
     </div>
   </section>
 
   <!-- Screenshot Gallery -->
-  <section id="gallery-section" class="max-w-7xl mx-auto px-6 py-16 hidden">
-    <h2 class="text-3xl font-bold mb-8 text-center">Screenshots</h2>
-    <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+  <section id="gallery-section" class="py-20 hidden">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-14">
+        <span class="text-sm font-semibold text-purple-400 tracking-wider uppercase">See it in action</span>
+        <h2 class="text-4xl font-bold mt-2">Screenshots</h2>
+      </div>
+      <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta-section" class="py-20 hidden">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <div class="glass rounded-3xl p-12">
+        <h2 id="cta-title" class="text-3xl font-bold mb-4"></h2>
+        <p class="text-white/50 mb-8">Available on your favorite platform. Download now and get started.</p>
+        <div id="cta-actions" class="flex flex-wrap gap-4 justify-center"></div>
+      </div>
+    </div>
   </section>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-white py-8 text-center border-t border-white/10">
-    <p class="mb-2">&copy; 2025 Imautotech</p>
-    <div class="space-x-4">
-      <a href="../index.html" class="hover:underline text-indigo-300">Home</a>
-      <a href="javascript:history.back()" class="hover:underline text-indigo-300">Back</a>
+  <footer class="border-t border-white/5 py-10 text-center">
+    <div class="max-w-6xl mx-auto px-6">
+      <p class="text-white/30 text-sm mb-4">&copy; 2025 Imautotech. All rights reserved.</p>
+      <div class="flex justify-center gap-6 text-sm">
+        <a href="../index.html" class="text-white/40 hover:text-white/70 transition-colors">Home</a>
+        <a href="javascript:history.back()" class="text-white/40 hover:text-white/70 transition-colors">Back</a>
+      </div>
     </div>
   </footer>
 
@@ -83,83 +168,132 @@
     const slug = new URLSearchParams(window.location.search).get('slug');
     if (!slug) { document.getElementById('product-title').textContent = 'Product not found'; return; }
 
-    // Fetch product
-    const { data: p, error } = await _supabase
-      .from('products')
-      .select('*')
-      .eq('slug', slug)
-      .single();
-
+    const { data: p, error } = await _supabase.from('products').select('*').eq('slug', slug).single();
     if (error || !p) { document.getElementById('product-title').textContent = 'Product not found'; return; }
 
-    // If product has a custom page, redirect
-    if (p.has_custom_page && p.custom_page_path) {
-      window.location.href = '../' + p.custom_page_path;
-      return;
-    }
+    if (p.has_custom_page && p.custom_page_path) { window.location.href = '../' + p.custom_page_path; return; }
 
-    // Page title
     document.title = p.title + ' | Imautotech';
 
-    // Hero
+    // Apply product gradient to BG glows
+    const gradientColors = {
+      'from-blue-600': '#2563eb', 'to-cyan-500': '#06b6d4', 'from-emerald-600': '#059669', 'to-teal-500': '#14b8a6',
+      'from-violet-600': '#7c3aed', 'to-indigo-500': '#6366f1', 'from-pink-600': '#db2777', 'to-rose-500': '#f43f5e',
+      'from-amber-600': '#d97706', 'to-orange-500': '#f97316', 'from-green-600': '#16a34a', 'to-emerald-500': '#10b981',
+      'from-orange-600': '#ea580c', 'to-red-500': '#ef4444', 'from-slate-600': '#475569', 'to-gray-500': '#6b7280',
+      'from-teal-600': '#0d9488', 'to-green-500': '#22c55e', 'from-purple-600': '#9333ea', 'to-fuchsia-500': '#d946ef',
+      'from-indigo-600': '#4f46e5', 'to-blue-500': '#3b82f6', 'from-sky-600': '#0284c7', 'from-cyan-600': '#0891b2',
+    };
+    const grad = p.gradient || '';
+    const parts = grad.split(' ');
+    const c1 = gradientColors[parts[0]] || '#6366f1';
+    const c2 = gradientColors[parts[1]] || '#8b5cf6';
+
+    document.getElementById('hero-bg').style.background = `linear-gradient(135deg, #0f172a 0%, ${c1}15 30%, ${c2}10 70%, #0f172a 100%)`;
+    document.getElementById('glow-1').style.background = `${c1}25`;
+    document.getElementById('glow-2').style.background = `${c2}20`;
+    document.getElementById('glow-3').style.background = `${c1}12`;
+
+    // Title
     document.getElementById('product-title').textContent = p.title;
     document.getElementById('product-description').textContent = p.long_description || p.description || '';
 
+    // Icon
     if (p.icon_url) {
       const icon = document.getElementById('product-icon');
-      icon.src = p.icon_url;
-      icon.alt = p.title;
-      icon.classList.remove('hidden');
+      icon.src = p.icon_url; icon.alt = p.title; icon.classList.remove('hidden');
+    } else {
+      const fb = document.getElementById('icon-fallback');
+      fb.textContent = p.title[0]; fb.style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
+      fb.classList.remove('hidden');
     }
 
+    // Hero image or fallback
     if (p.hero_image_url) {
+      document.getElementById('hero-image-wrap').classList.remove('hidden');
+      document.getElementById('hero-glow').style.background = `linear-gradient(135deg, ${c1}30, ${c2}30)`;
       const hero = document.getElementById('product-hero');
-      hero.src = p.hero_image_url;
-      hero.alt = p.title;
-      hero.classList.remove('hidden');
+      hero.src = p.hero_image_url; hero.alt = p.title;
+    } else {
+      document.getElementById('hero-fallback').classList.remove('hidden');
+      document.getElementById('fallback-glow').style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
+      if (p.icon_url) {
+        document.getElementById('fallback-icon').src = p.icon_url;
+      }
+      document.getElementById('fallback-title').textContent = p.title;
+      document.getElementById('fallback-type').textContent = (p.platforms || []).join(' / ') + (p.type ? ` - ${p.type}` : '');
     }
 
     // Platforms
+    const platIcons = {
+      Android: '<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.523 2.23l1.644-1.644a.53.53 0 00-.75-.75L16.55 1.7C15.14.955 13.576.5 12 .5S8.86.955 7.45 1.7L5.583.836a.53.53 0 00-.75.75L6.477 2.23C4.343 3.63 2.883 5.893 2.648 8.5h18.704c-.235-2.607-1.695-4.87-3.829-6.27z"/></svg>',
+      iOS: '<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>',
+    };
     const platContainer = document.getElementById('product-platforms');
     (p.platforms || []).forEach(pl => {
       const badge = document.createElement('span');
-      badge.className = 'px-3 py-1 text-xs rounded-full bg-white/10 text-white/70';
-      badge.textContent = pl;
+      badge.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-full glass text-white/70 font-medium';
+      badge.innerHTML = (platIcons[pl] || '') + pl;
       platContainer.appendChild(badge);
     });
 
-    // Action buttons
+    // Actions
     const actions = document.getElementById('product-actions');
+    const ctaActions = document.getElementById('cta-actions');
+    let hasAction = false;
     if (p.play_store_url) {
-      actions.innerHTML += `<a href="${p.play_store_url}" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 px-6 py-3 rounded-full font-semibold text-white transition-colors">Google Play</a>`;
+      const btn = `<a href="${p.play_store_url}" target="_blank" class="inline-flex items-center gap-2 bg-white text-gray-900 hover:bg-gray-100 px-7 py-3.5 rounded-full font-semibold transition-colors shadow-lg shadow-white/10"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l12.8 8.5a1 1 0 010 1.6l-12.8 8.5c-.66.5-1.6.03-1.6-.8z"/></svg>Google Play</a>`;
+      actions.innerHTML += btn; ctaActions.innerHTML += btn; hasAction = true;
     }
     if (p.app_store_url) {
-      actions.innerHTML += `<a href="${p.app_store_url}" target="_blank" class="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-full font-semibold text-white transition-colors">App Store</a>`;
+      const btn = `<a href="${p.app_store_url}" target="_blank" class="inline-flex items-center gap-2 glass hover:bg-white/10 px-7 py-3.5 rounded-full font-semibold transition-colors">App Store</a>`;
+      actions.innerHTML += btn; ctaActions.innerHTML += btn; hasAction = true;
     }
     if (p.apk_download_url) {
-      actions.innerHTML += `<a href="${p.apk_download_url}" class="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-full font-semibold text-white transition-colors" download>Download APK</a>`;
+      const btn = `<a href="${p.apk_download_url}" class="inline-flex items-center gap-2 glass hover:bg-white/10 px-7 py-3.5 rounded-full font-semibold transition-colors" download><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>Download APK</a>`;
+      actions.innerHTML += btn; ctaActions.innerHTML += btn; hasAction = true;
+    }
+
+    // Stats
+    if (p.stats) {
+      document.getElementById('stats-badge').classList.remove('hidden');
+      document.getElementById('stats-text').textContent = p.stats;
+    }
+
+    // CTA section
+    if (hasAction) {
+      document.getElementById('cta-section').classList.remove('hidden');
+      document.getElementById('cta-title').textContent = `Get ${p.title}`;
     }
 
     // Features
     const features = p.features || [];
     if (features.length > 0) {
       document.getElementById('features-section').classList.remove('hidden');
-      const grid = document.getElementById('features-grid');
-      const icons = ['M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', 'M13 10V3L4 14h7v7l9-11h-7z', 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4', 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'];
-      grid.innerHTML = features.map((f, i) => `
-        <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-colors">
-          <svg class="w-8 h-8 text-indigo-400 mb-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="${icons[i % icons.length]}"/></svg>
-          <h3 class="font-semibold text-lg mb-1">${f}</h3>
+      const featureIcons = [
+        'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+        'M13 10V3L4 14h7v7l9-11h-7z',
+        'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+        'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z',
+        'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z',
+        'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+      ];
+      document.getElementById('features-grid').innerHTML = features.map((f, i) => `
+        <div class="glass glass-hover rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${p.gradient || 'from-indigo-500 to-purple-500'} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="${featureIcons[i % featureIcons.length]}"/></svg>
+          </div>
+          <h3 class="font-semibold text-lg">${f}</h3>
         </div>
       `).join('');
     }
 
-    // Tech Stack
+    // Tech
     const tech = p.tech || [];
     if (tech.length > 0) {
       document.getElementById('tech-section').classList.remove('hidden');
       document.getElementById('tech-grid').innerHTML = tech.map(t =>
-        `<span class="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-white/70 hover:bg-white/10 transition-colors">${t}</span>`
+        `<span class="px-5 py-2.5 glass glass-hover rounded-full text-sm text-white/70 font-medium transition-all hover:text-white">${t}</span>`
       ).join('');
     }
 
@@ -170,22 +304,30 @@
       const platformSvg = {
         Windows: '<path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>',
         macOS: '<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>',
-        Linux: '<circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>',
+        Linux: '<path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489C4.343 14.23 2.34 16.33 2.34 18c0 1.7 1.3 3 3 3h13.32c1.7 0 3-1.3 3-3 0-1.67-2.003-3.77-2.501-5.669.122-.805-.01-1.657-.287-2.489-.59-1.771-1.831-3.47-2.716-4.521-.75-1.067-.974-1.928-1.05-3.02-.065-1.491 1.056-5.965-3.17-6.298A5.5 5.5 0 0012.504 0z"/>',
       };
-      const colors = { Windows: 'bg-blue-600 hover:bg-blue-500', macOS: 'bg-gray-600 hover:bg-gray-500', Linux: 'bg-yellow-600 hover:bg-yellow-500' };
+      const colors = { Windows: 'bg-blue-600 hover:bg-blue-500', macOS: 'bg-gray-600 hover:bg-gray-500', Linux: 'bg-amber-600 hover:bg-amber-500' };
       document.getElementById('server-grid').innerHTML = downloads.map(d => `
-        <div class="bg-gray-800 rounded-xl p-6 flex flex-col items-center">
-          <svg class="w-12 h-12 mb-4 text-white/60" fill="currentColor" viewBox="0 0 24 24">${platformSvg[d.platform] || ''}</svg>
-          <h3 class="text-xl font-semibold mb-2">${d.platform}</h3>
-          <p class="text-gray-400 text-sm mb-4">${d.label || ''}</p>
+        <div class="glass glass-hover rounded-2xl p-8 flex flex-col items-center transition-all hover:-translate-y-1">
+          <svg class="w-14 h-14 mb-5 text-white/50" fill="currentColor" viewBox="0 0 24 24">${platformSvg[d.platform] || ''}</svg>
+          <h3 class="text-xl font-semibold mb-1">${d.platform}</h3>
+          <p class="text-white/40 text-sm mb-5">${d.label || ''}</p>
           <a href="${d.url}" class="${colors[d.platform] || 'bg-indigo-600 hover:bg-indigo-500'} px-6 py-3 rounded-full font-semibold text-white w-full text-center transition-colors" download>Download</a>
         </div>
       `).join('');
     }
 
     // Gallery
-    document.getElementById('gallery-section').classList.remove('hidden');
-    await loadGallery(slug);
+    const { data: screenshots } = await _supabase
+      .from('product_screenshots')
+      .select('id')
+      .eq('product_id', p.id)
+      .limit(1);
+
+    if (screenshots && screenshots.length > 0) {
+      document.getElementById('gallery-section').classList.remove('hidden');
+      await loadGallery(slug);
+    }
   })();
   </script>
 </body>
