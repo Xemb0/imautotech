@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading... | Imautotech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={corePlugins:{preflight:false}}</script>
+  <style>
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .float-anim { animation: float 6s ease-in-out infinite; }
+    .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  </style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+
+  <!-- Hero -->
+  <section id="hero" class="relative min-h-[70vh] flex items-center overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-indigo-950 to-gray-900"></div>
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-500 rounded-full blur-[120px] float-anim"></div>
+      <div class="absolute bottom-10 right-20 w-96 h-96 bg-purple-500 rounded-full blur-[140px] float-anim" style="animation-delay:2s"></div>
+    </div>
+    <div class="relative z-10 max-w-6xl mx-auto px-6 py-20 flex flex-col lg:flex-row items-center gap-12 w-full">
+      <div class="flex-1">
+        <div class="flex items-center gap-4 mb-6">
+          <img id="product-icon" src="" alt="" class="w-20 h-20 rounded-2xl shadow-xl hidden">
+          <div>
+            <h1 id="product-title" class="text-4xl md:text-5xl font-bold"></h1>
+            <div id="product-platforms" class="flex gap-2 mt-2"></div>
+          </div>
+        </div>
+        <p id="product-description" class="text-lg text-white/70 mb-8 max-w-xl"></p>
+        <div id="product-actions" class="flex flex-wrap gap-3"></div>
+      </div>
+      <div class="flex-shrink-0">
+        <img id="product-hero" src="" alt="" class="max-w-sm w-full rounded-2xl shadow-2xl hidden">
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features-section" class="max-w-6xl mx-auto px-6 py-16 hidden">
+    <h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2>
+    <div id="features-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section id="tech-section" class="max-w-6xl mx-auto px-6 py-12 hidden">
+    <h2 class="text-2xl font-bold mb-6 text-center">Built With</h2>
+    <div id="tech-grid" class="flex flex-wrap justify-center gap-3"></div>
+  </section>
+
+  <!-- Server Downloads -->
+  <section id="server-section" class="bg-gray-900 py-16 hidden">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold mb-4">Desktop Downloads</h2>
+      <p class="text-gray-400 mb-10">Install the server on your computer to connect your phone.</p>
+      <div id="server-grid" class="grid md:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- Screenshot Gallery -->
+  <section id="gallery-section" class="max-w-7xl mx-auto px-6 py-16 hidden">
+    <h2 class="text-3xl font-bold mb-8 text-center">Screenshots</h2>
+    <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-8 text-center border-t border-white/10">
+    <p class="mb-2">&copy; 2025 Imautotech</p>
+    <div class="space-x-4">
+      <a href="../index.html" class="hover:underline text-indigo-300">Home</a>
+      <a href="javascript:history.back()" class="hover:underline text-indigo-300">Back</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/gallery.js"></script>
+  <script>
+  (async function() {
+    const slug = new URLSearchParams(window.location.search).get('slug');
+    if (!slug) { document.getElementById('product-title').textContent = 'Product not found'; return; }
+
+    // Fetch product
+    const { data: p, error } = await _supabase
+      .from('products')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+
+    if (error || !p) { document.getElementById('product-title').textContent = 'Product not found'; return; }
+
+    // If product has a custom page, redirect
+    if (p.has_custom_page && p.custom_page_path) {
+      window.location.href = '../' + p.custom_page_path;
+      return;
+    }
+
+    // Page title
+    document.title = p.title + ' | Imautotech';
+
+    // Hero
+    document.getElementById('product-title').textContent = p.title;
+    document.getElementById('product-description').textContent = p.long_description || p.description || '';
+
+    if (p.icon_url) {
+      const icon = document.getElementById('product-icon');
+      icon.src = p.icon_url;
+      icon.alt = p.title;
+      icon.classList.remove('hidden');
+    }
+
+    if (p.hero_image_url) {
+      const hero = document.getElementById('product-hero');
+      hero.src = p.hero_image_url;
+      hero.alt = p.title;
+      hero.classList.remove('hidden');
+    }
+
+    // Platforms
+    const platContainer = document.getElementById('product-platforms');
+    (p.platforms || []).forEach(pl => {
+      const badge = document.createElement('span');
+      badge.className = 'px-3 py-1 text-xs rounded-full bg-white/10 text-white/70';
+      badge.textContent = pl;
+      platContainer.appendChild(badge);
+    });
+
+    // Action buttons
+    const actions = document.getElementById('product-actions');
+    if (p.play_store_url) {
+      actions.innerHTML += `<a href="${p.play_store_url}" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 px-6 py-3 rounded-full font-semibold text-white transition-colors">Google Play</a>`;
+    }
+    if (p.app_store_url) {
+      actions.innerHTML += `<a href="${p.app_store_url}" target="_blank" class="bg-blue-600 hover:bg-blue-500 px-6 py-3 rounded-full font-semibold text-white transition-colors">App Store</a>`;
+    }
+    if (p.apk_download_url) {
+      actions.innerHTML += `<a href="${p.apk_download_url}" class="bg-green-600 hover:bg-green-500 px-6 py-3 rounded-full font-semibold text-white transition-colors" download>Download APK</a>`;
+    }
+
+    // Features
+    const features = p.features || [];
+    if (features.length > 0) {
+      document.getElementById('features-section').classList.remove('hidden');
+      const grid = document.getElementById('features-grid');
+      const icons = ['M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', 'M13 10V3L4 14h7v7l9-11h-7z', 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4', 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'];
+      grid.innerHTML = features.map((f, i) => `
+        <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-colors">
+          <svg class="w-8 h-8 text-indigo-400 mb-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="${icons[i % icons.length]}"/></svg>
+          <h3 class="font-semibold text-lg mb-1">${f}</h3>
+        </div>
+      `).join('');
+    }
+
+    // Tech Stack
+    const tech = p.tech || [];
+    if (tech.length > 0) {
+      document.getElementById('tech-section').classList.remove('hidden');
+      document.getElementById('tech-grid').innerHTML = tech.map(t =>
+        `<span class="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm text-white/70 hover:bg-white/10 transition-colors">${t}</span>`
+      ).join('');
+    }
+
+    // Server Downloads
+    const downloads = p.server_downloads || [];
+    if (downloads.length > 0) {
+      document.getElementById('server-section').classList.remove('hidden');
+      const platformSvg = {
+        Windows: '<path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>',
+        macOS: '<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>',
+        Linux: '<circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>',
+      };
+      const colors = { Windows: 'bg-blue-600 hover:bg-blue-500', macOS: 'bg-gray-600 hover:bg-gray-500', Linux: 'bg-yellow-600 hover:bg-yellow-500' };
+      document.getElementById('server-grid').innerHTML = downloads.map(d => `
+        <div class="bg-gray-800 rounded-xl p-6 flex flex-col items-center">
+          <svg class="w-12 h-12 mb-4 text-white/60" fill="currentColor" viewBox="0 0 24 24">${platformSvg[d.platform] || ''}</svg>
+          <h3 class="text-xl font-semibold mb-2">${d.platform}</h3>
+          <p class="text-gray-400 text-sm mb-4">${d.label || ''}</p>
+          <a href="${d.url}" class="${colors[d.platform] || 'bg-indigo-600 hover:bg-indigo-500'} px-6 py-3 rounded-full font-semibold text-white w-full text-center transition-colors" download>Download</a>
+        </div>
+      `).join('');
+    }
+
+    // Gallery
+    document.getElementById('gallery-section').classList.remove('hidden');
+    await loadGallery(slug);
+  })();
+  </script>
+</body>
+</html>

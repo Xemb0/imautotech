@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Imautotech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .toast{position:fixed;top:1rem;right:1rem;z-index:9999;padding:.75rem 1.5rem;border-radius:.5rem;color:#fff;font-weight:500;transform:translateX(120%);transition:transform .3s}
+    .toast.show{transform:translateX(0)}
+    .toast-success{background:#059669}
+    .toast-error{background:#dc2626}
+  </style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+  <div id="toast" class="toast"></div>
+
+  <!-- Login Screen -->
+  <div id="login-screen" class="min-h-screen flex items-center justify-center">
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 w-full max-w-md">
+      <h1 class="text-2xl font-bold mb-6 text-center">Imautotech Admin</h1>
+      <form id="login-form" class="space-y-4">
+        <input id="login-email" type="email" placeholder="Email" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500" required>
+        <input id="login-password" type="password" placeholder="Password" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500" required>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 py-3 rounded-lg font-semibold transition-colors">Sign In</button>
+        <p id="login-error" class="text-red-400 text-sm text-center hidden"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="hidden">
+    <!-- Top Bar -->
+    <nav class="bg-gray-900 border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+      <h1 class="text-xl font-bold">Imautotech Admin</h1>
+      <div class="flex items-center gap-4">
+        <span id="user-email" class="text-sm text-gray-400"></span>
+        <button onclick="logout()" class="text-sm bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition-colors">Logout</button>
+      </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <!-- Action Bar -->
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold">Products</h2>
+        <button onclick="openProductForm()" class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 rounded-lg font-semibold transition-colors flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+          Add Product
+        </button>
+      </div>
+
+      <!-- Products Table -->
+      <div id="products-table" class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+        <div class="p-8 text-center text-gray-400">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Form Modal -->
+  <div id="product-modal" class="fixed inset-0 z-[100] bg-black/80 hidden items-center justify-center overflow-y-auto">
+    <div class="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-3xl mx-4 my-8 p-6 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-6">
+        <h3 id="modal-title" class="text-xl font-bold">Add Product</h3>
+        <button onclick="closeProductForm()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+      </div>
+      <form id="product-form" class="space-y-4">
+        <input type="hidden" id="f-id">
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Title *</label>
+            <input id="f-title" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" required>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Slug *</label>
+            <input id="f-slug" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" required>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Type</label>
+            <select id="f-type" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none">
+              <option value="Android">Android</option>
+              <option value="KMP">KMP</option>
+              <option value="iOS">iOS</option>
+              <option value="Web">Web</option>
+              <option value="Desktop">Desktop</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Organization</label>
+            <select id="f-org" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none">
+              <option value="imautotech">Imautotech</option>
+              <option value="appilary">Appilary</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">Platforms (comma-separated)</label>
+          <input id="f-platforms" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="Android, iOS, macOS">
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">Short Description</label>
+          <textarea id="f-desc" rows="2" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm text-gray-400 mb-1">Long Description</label>
+          <textarea id="f-longdesc" rows="3" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none"></textarea>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Features (comma-separated)</label>
+            <input id="f-features" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="Feature 1, Feature 2">
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Tech Stack (comma-separated)</label>
+            <input id="f-tech" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="Kotlin, Firebase">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Gradient</label>
+            <input id="f-gradient" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="from-blue-600 to-cyan-500">
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Display Order</label>
+            <input id="f-order" type="number" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" value="0">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Play Store URL</label>
+            <input id="f-playstore" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">App Store URL</label>
+            <input id="f-appstore" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">GitHub URL</label>
+            <input id="f-github" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Stats</label>
+            <input id="f-stats" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="4K+ Users">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Icon</label>
+            <input id="f-icon" type="file" accept="image/*" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-600 file:text-white file:font-semibold hover:file:bg-indigo-500">
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Hero Image</label>
+            <input id="f-hero" type="file" accept="image/*" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-600 file:text-white file:font-semibold hover:file:bg-indigo-500">
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input id="f-visible" type="checkbox" checked class="w-4 h-4 accent-indigo-500"> Visible
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input id="f-custompage" type="checkbox" class="w-4 h-4 accent-indigo-500"> Has Custom Page
+          </label>
+        </div>
+        <div id="f-custompath-wrap" class="hidden">
+          <label class="block text-sm text-gray-400 mb-1">Custom Page Path</label>
+          <input id="f-custompath" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:border-indigo-500 focus:outline-none" placeholder="our_products/my_app/page.html">
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 py-3 rounded-lg font-semibold transition-colors">Save Product</button>
+      </form>
+
+      <!-- Screenshots Manager (shown in edit mode) -->
+      <div id="screenshots-manager" class="hidden mt-8 border-t border-gray-800 pt-6">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="text-lg font-semibold">Screenshots</h4>
+          <label class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg font-semibold text-sm cursor-pointer transition-colors">
+            Upload
+            <input id="ss-upload" type="file" accept="image/*,video/mp4" multiple class="hidden">
+          </label>
+        </div>
+        <div id="ss-progress" class="hidden mb-4">
+          <div class="bg-gray-800 rounded-full h-2"><div id="ss-bar" class="bg-indigo-500 h-2 rounded-full transition-all" style="width:0%"></div></div>
+          <p id="ss-status" class="text-sm text-gray-400 mt-1"></p>
+        </div>
+        <div id="ss-grid" class="grid grid-cols-3 md:grid-cols-5 gap-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
