@@ -317,5 +317,144 @@ async function deleteScreenshot(id, storagePath) {
   loadScreenshots(currentProductId);
 }
 
+// ── Tabs ──
+function switchTab(tab) {
+  document.getElementById('panel-products').classList.toggle('hidden', tab !== 'products');
+  document.getElementById('panel-tickets').classList.toggle('hidden', tab !== 'tickets');
+  document.getElementById('tab-products').className = `px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors ${tab === 'products' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'}`;
+  document.getElementById('tab-tickets').className = `px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors ${tab === 'tickets' ? 'bg-indigo-600 text-white' : 'text-gray-400 hover:text-white'}`;
+  if (tab === 'tickets') loadTicketsTable();
+}
+
+// ── Tickets ──
+let currentTicketId = null;
+let ticketChannel = null;
+
+async function loadTicketsTable() {
+  const status = document.getElementById('ticket-filter-status').value;
+  const category = document.getElementById('ticket-filter-category').value;
+
+  let query = _supabase.from('support_tickets').select('*, products(title)').order('created_at', { ascending: false });
+  if (status) query = query.eq('status', status);
+  if (category) query = query.eq('category', category);
+
+  const { data: tickets } = await query;
+  const table = document.getElementById('tickets-table');
+
+  if (!tickets || tickets.length === 0) {
+    table.innerHTML = '<div class="p-8 text-center text-gray-400">No tickets found.</div>';
+    return;
+  }
+
+  const statusColors = { open: 'bg-yellow-500/20 text-yellow-400', in_progress: 'bg-blue-500/20 text-blue-400', resolved: 'bg-emerald-500/20 text-emerald-400', closed: 'bg-gray-500/20 text-gray-400' };
+  const catColors = { issue: 'text-red-400', feedback: 'text-blue-400', suggestion: 'text-emerald-400', account_deletion: 'text-orange-400' };
+
+  table.innerHTML = `
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-800 text-gray-400 text-left">
+          <tr>
+            <th class="px-4 py-3">Ticket</th>
+            <th class="px-4 py-3">Product</th>
+            <th class="px-4 py-3">From</th>
+            <th class="px-4 py-3">Category</th>
+            <th class="px-4 py-3">Subject</th>
+            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">Date</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-800">
+          ${tickets.map(t => `
+            <tr class="hover:bg-gray-800/50 transition-colors cursor-pointer" onclick="openTicketChat('${t.id}')">
+              <td class="px-4 py-3 font-mono text-xs text-indigo-400">${t.ticket_number}</td>
+              <td class="px-4 py-3 text-gray-400">${t.products?.title || '-'}</td>
+              <td class="px-4 py-3"><div class="font-medium">${t.name}</div><div class="text-gray-500 text-xs">${t.email}</div></td>
+              <td class="px-4 py-3"><span class="${catColors[t.category] || ''} capitalize">${t.category.replace('_', ' ')}</span></td>
+              <td class="px-4 py-3 max-w-[200px] truncate">${t.subject}</td>
+              <td class="px-4 py-3"><span class="px-2 py-0.5 text-xs rounded-full capitalize ${statusColors[t.status] || ''}">${t.status.replace('_', ' ')}</span></td>
+              <td class="px-4 py-3 text-gray-500 text-xs">${new Date(t.created_at).toLocaleDateString()}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+async function openTicketChat(ticketId) {
+  currentTicketId = ticketId;
+  const { data: ticket } = await _supabase.from('support_tickets').select('*, products(title)').eq('id', ticketId).single();
+  if (!ticket) return;
+
+  document.getElementById('tm-subject').textContent = ticket.subject;
+  document.getElementById('tm-ticket-num').textContent = ticket.ticket_number;
+  document.getElementById('tm-email').textContent = ticket.email;
+  document.getElementById('tm-status').value = ticket.status;
+
+  // Load messages
+  const { data: messages } = await _supabase.from('ticket_messages').select('*').eq('ticket_id', ticketId).order('created_at');
+  const container = document.getElementById('tm-messages');
+  container.innerHTML = (messages || []).map(msg => {
+    const isAdmin = msg.sender_type === 'admin';
+    const time = new Date(msg.created_at).toLocaleString();
+    return `
+      <div class="flex ${isAdmin ? 'justify-end' : 'justify-start'} mb-3">
+        <div class="max-w-[80%] ${isAdmin ? 'bg-indigo-600/20 border-indigo-500/30' : 'bg-white/5 border-white/10'} border rounded-2xl px-4 py-3">
+          <div class="text-xs ${isAdmin ? 'text-indigo-400' : 'text-white/40'} mb-1">${isAdmin ? 'You (Admin)' : ticket.name} &middot; ${time}</div>
+          <div class="text-sm text-white/80 whitespace-pre-wrap">${msg.message}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  container.scrollTop = container.scrollHeight;
+
+  // Subscribe to realtime
+  if (ticketChannel) ticketChannel.unsubscribe();
+  ticketChannel = _supabase
+    .channel('admin-ticket-' + ticketId)
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'ticket_messages', filter: 'ticket_id=eq.' + ticketId }, (payload) => {
+      const msg = payload.new;
+      const isAdmin = msg.sender_type === 'admin';
+      const time = new Date(msg.created_at).toLocaleString();
+      container.innerHTML += `
+        <div class="flex ${isAdmin ? 'justify-end' : 'justify-start'} mb-3">
+          <div class="max-w-[80%] ${isAdmin ? 'bg-indigo-600/20 border-indigo-500/30' : 'bg-white/5 border-white/10'} border rounded-2xl px-4 py-3">
+            <div class="text-xs ${isAdmin ? 'text-indigo-400' : 'text-white/40'} mb-1">${isAdmin ? 'You (Admin)' : 'User'} &middot; ${time}</div>
+            <div class="text-sm text-white/80 whitespace-pre-wrap">${msg.message}</div>
+          </div>
+        </div>
+      `;
+      container.scrollTop = container.scrollHeight;
+    })
+    .subscribe();
+
+  document.getElementById('ticket-modal').classList.remove('hidden');
+  document.getElementById('ticket-modal').classList.add('flex');
+}
+
+function closeTicketModal() {
+  document.getElementById('ticket-modal').classList.add('hidden');
+  document.getElementById('ticket-modal').classList.remove('flex');
+  if (ticketChannel) { ticketChannel.unsubscribe(); ticketChannel = null; }
+  currentTicketId = null;
+  loadTicketsTable();
+}
+
+async function updateTicketStatus() {
+  if (!currentTicketId) return;
+  const status = document.getElementById('tm-status').value;
+  await _supabase.from('support_tickets').update({ status }).eq('id', currentTicketId);
+  toast('Status updated', 'success');
+}
+
+document.getElementById('tm-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const input = document.getElementById('tm-input');
+  const msg = input.value.trim();
+  if (!msg || !currentTicketId) return;
+  input.value = '';
+  await _supabase.from('ticket_messages').insert({ ticket_id: currentTicketId, sender_type: 'admin', message: msg });
+});
+
 // ── Init ──
 checkAuth();

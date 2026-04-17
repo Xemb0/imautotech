@@ -153,9 +153,11 @@
   <footer class="border-t border-white/5 py-10 text-center">
     <div class="max-w-6xl mx-auto px-6">
       <p class="text-white/30 text-sm mb-4">&copy; 2025 Imautotech. All rights reserved.</p>
-      <div class="flex justify-center gap-6 text-sm">
+      <div class="flex flex-wrap justify-center gap-6 text-sm">
         <a href="../index.html" class="text-white/40 hover:text-white/70 transition-colors">Home</a>
-        <a href="javascript:history.back()" class="text-white/40 hover:text-white/70 transition-colors">Back</a>
+        <a id="footer-support" href="../support/" class="text-white/40 hover:text-white/70 transition-colors">Help & Support</a>
+        <a id="footer-privacy" href="../support/privacy.html" class="text-white/40 hover:text-white/70 transition-colors">Privacy Policy</a>
+        <a id="footer-terms" href="../support/terms.html" class="text-white/40 hover:text-white/70 transition-colors">Terms of Service</a>
       </div>
     </div>
   </footer>
@@ -174,6 +176,11 @@
     if (p.has_custom_page && p.custom_page_path) { window.location.href = '../' + p.custom_page_path; return; }
 
     document.title = p.title + ' | Imautotech';
+
+    // Footer support links
+    document.getElementById('footer-support').href = `../support/?product=${slug}`;
+    document.getElementById('footer-privacy').href = `../support/privacy.html?product=${slug}`;
+    document.getElementById('footer-terms').href = `../support/terms.html?product=${slug}`;
 
     // Apply product gradient to BG glows
     const gradientColors = {

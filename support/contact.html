@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Imautotech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={corePlugins:{preflight:false}}</script>
+  <style>.glass{background:rgba(255,255,255,.03);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08)}</style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+
+  <nav class="border-b border-white/5 px-6 py-4">
+    <div class="max-w-3xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="text-lg font-bold">Imautotech</a>
+      <a id="back-link" href="index.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">&larr; Support</a>
+    </div>
+  </nav>
+
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <!-- New Ticket Form -->
+    <div id="ticket-form-wrap">
+      <h1 class="text-3xl font-bold mb-2">Contact Us</h1>
+      <p class="text-white/50 mb-8">Raise a ticket and our team will get back to you. You'll receive a ticket number to track your request.</p>
+
+      <form id="ticket-form" class="space-y-5">
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-white/50 mb-1">Name *</label>
+            <input id="f-name" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500" required>
+          </div>
+          <div>
+            <label class="block text-sm text-white/50 mb-1">Email *</label>
+            <input id="f-email" type="email" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500" required>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-white/50 mb-1">Category</label>
+            <select id="f-category" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500">
+              <option value="issue">Report an Issue</option>
+              <option value="feedback">Feedback</option>
+              <option value="suggestion">Suggestion / Improvement</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-white/50 mb-1">Subject *</label>
+            <input id="f-subject" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500" required>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm text-white/50 mb-1">Message *</label>
+          <textarea id="f-message" rows="5" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500" required></textarea>
+        </div>
+        <button type="submit" id="submit-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 py-3.5 rounded-lg font-semibold transition-colors">Submit Ticket</button>
+      </form>
+    </div>
+
+    <!-- Chat Thread (shown after ticket creation or when viewing existing ticket) -->
+    <div id="chat-wrap" class="hidden">
+      <div class="glass rounded-2xl p-6 mb-6">
+        <div class="flex justify-between items-start">
+          <div>
+            <h2 id="chat-subject" class="text-xl font-bold"></h2>
+            <p id="chat-ticket-num" class="text-indigo-400 text-sm mt-1"></p>
+          </div>
+          <span id="chat-status" class="px-3 py-1 text-xs rounded-full"></span>
+        </div>
+        <p class="text-white/40 text-sm mt-3">Save your ticket number to check back later. We'll respond as soon as possible.</p>
+      </div>
+
+      <!-- Messages -->
+      <div id="chat-messages" class="space-y-1 mb-6 max-h-[50vh] overflow-y-auto px-2"></div>
+
+      <!-- Reply input -->
+      <div id="chat-input-wrap">
+        <form id="chat-form" class="flex gap-3">
+          <input id="chat-input" type="text" placeholder="Type a message..." class="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500">
+          <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-lg font-semibold transition-colors">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/support.js"></script>
+  <script>
+  (async function() {
+    const params = new URLSearchParams(window.location.search);
+    const product = params.get('product');
+    const ticketParam = params.get('ticket');
+
+    if (product) {
+      document.getElementById('back-link').href = `index.html?product=${product}`;
+    }
+
+    // If viewing existing ticket
+    if (ticketParam) {
+      await showChat(ticketParam);
+      return;
+    }
+
+    // New ticket form
+    document.getElementById('ticket-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true; btn.textContent = 'Submitting...';
+
+      try {
+        const ticket = await createTicket(
+          product,
+          document.getElementById('f-name').value,
+          document.getElementById('f-email').value,
+          document.getElementById('f-category').value,
+          document.getElementById('f-subject').value,
+          document.getElementById('f-message').value,
+        );
+        await showChat(ticket.id);
+      } catch (err) {
+        btn.disabled = false; btn.textContent = 'Submit Ticket';
+        alert('Error: ' + err.message);
+      }
+    });
+
+    async function showChat(ticketId) {
+      // Load ticket
+      const { data: ticket } = await _supabase.from('support_tickets').select('*, products(title)').eq('id', ticketId).single();
+      if (!ticket) { alert('Ticket not found'); return; }
+
+      document.getElementById('ticket-form-wrap').classList.add('hidden');
+      document.getElementById('chat-wrap').classList.remove('hidden');
+
+      document.getElementById('chat-subject').textContent = ticket.subject;
+      document.getElementById('chat-ticket-num').textContent = ticket.ticket_number + (ticket.products?.title ? ` - ${ticket.products.title}` : '');
+
+      const statusColors = { open: 'bg-yellow-500/20 text-yellow-400', in_progress: 'bg-blue-500/20 text-blue-400', resolved: 'bg-emerald-500/20 text-emerald-400', closed: 'bg-gray-500/20 text-gray-400' };
+      const statusEl = document.getElementById('chat-status');
+      statusEl.textContent = ticket.status.replace('_', ' ');
+      statusEl.className = `px-3 py-1 text-xs rounded-full capitalize ${statusColors[ticket.status] || ''}`;
+
+      // Load messages
+      const messages = await loadTicketThread(ticketId);
+      const container = document.getElementById('chat-messages');
+      container.innerHTML = messages.map(renderMessage).join('');
+      container.scrollTop = container.scrollHeight;
+
+      // Subscribe to realtime
+      subscribeToMessages(ticketId, (msg) => {
+        container.innerHTML += renderMessage(msg);
+        container.scrollTop = container.scrollHeight;
+      });
+
+      // Send reply
+      document.getElementById('chat-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('chat-input');
+        const msg = input.value.trim();
+        if (!msg) return;
+        input.value = '';
+        await sendMessage(ticketId, msg, 'user');
+      });
+
+      // Hide reply if ticket is closed
+      if (ticket.status === 'closed') {
+        document.getElementById('chat-input-wrap').innerHTML = '<p class="text-white/30 text-sm text-center py-4">This ticket is closed.</p>';
+      }
+    }
+  })();
+  </script>
+</body>
+</html>

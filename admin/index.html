@@ -40,18 +40,79 @@
     </nav>
 
     <div class="max-w-7xl mx-auto px-6 py-8">
-      <!-- Action Bar -->
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-2xl font-bold">Products</h2>
-        <button onclick="openProductForm()" class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 rounded-lg font-semibold transition-colors flex items-center gap-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
-          Add Product
-        </button>
+      <!-- Tabs -->
+      <div class="flex gap-1 mb-8 bg-gray-900 rounded-xl p-1 w-fit">
+        <button onclick="switchTab('products')" id="tab-products" class="px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors bg-indigo-600 text-white">Products</button>
+        <button onclick="switchTab('tickets')" id="tab-tickets" class="px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors text-gray-400 hover:text-white">Tickets</button>
       </div>
 
-      <!-- Products Table -->
-      <div id="products-table" class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-        <div class="p-8 text-center text-gray-400">Loading...</div>
+      <!-- Products Tab -->
+      <div id="panel-products">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold">Products</h2>
+          <button onclick="openProductForm()" class="bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 rounded-lg font-semibold transition-colors flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+            Add Product
+          </button>
+        </div>
+        <div id="products-table" class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+          <div class="p-8 text-center text-gray-400">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Tickets Tab -->
+      <div id="panel-tickets" class="hidden">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold">Support Tickets</h2>
+          <div class="flex gap-2">
+            <select id="ticket-filter-status" onchange="loadTicketsTable()" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none focus:border-indigo-500">
+              <option value="">All Status</option>
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+            <select id="ticket-filter-category" onchange="loadTicketsTable()" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none focus:border-indigo-500">
+              <option value="">All Categories</option>
+              <option value="issue">Issues</option>
+              <option value="feedback">Feedback</option>
+              <option value="suggestion">Suggestions</option>
+              <option value="account_deletion">Account Deletion</option>
+            </select>
+          </div>
+        </div>
+        <div id="tickets-table" class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+          <div class="p-8 text-center text-gray-400">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ticket Chat Modal -->
+    <div id="ticket-modal" class="fixed inset-0 z-[100] bg-black/80 hidden items-center justify-center">
+      <div class="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-2xl mx-4 my-8 flex flex-col max-h-[90vh]">
+        <div class="flex justify-between items-center p-6 border-b border-gray-800">
+          <div>
+            <h3 id="tm-subject" class="text-lg font-bold"></h3>
+            <div class="flex items-center gap-3 mt-1">
+              <span id="tm-ticket-num" class="text-indigo-400 text-sm"></span>
+              <span id="tm-email" class="text-gray-500 text-sm"></span>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <select id="tm-status" onchange="updateTicketStatus()" class="px-3 py-1.5 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none">
+              <option value="open">Open</option>
+              <option value="in_progress">In Progress</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+            <button onclick="closeTicketModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+          </div>
+        </div>
+        <div id="tm-messages" class="flex-1 overflow-y-auto p-6 space-y-1"></div>
+        <form id="tm-form" class="p-4 border-t border-gray-800 flex gap-3">
+          <input id="tm-input" type="text" placeholder="Reply to user..." class="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500">
+          <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-lg font-semibold transition-colors">Send</button>
+        </form>
       </div>
     </div>
   </div>

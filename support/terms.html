@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service | Imautotech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={corePlugins:{preflight:false}}</script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+  <nav class="border-b border-white/5 px-6 py-4">
+    <div class="max-w-3xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="text-lg font-bold">Imautotech</a>
+      <a id="back-link" href="index.html" class="text-white/40 hover:text-white/70 text-sm">&larr; Support</a>
+    </div>
+  </nav>
+
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <div class="mb-10">
+      <span class="text-sm text-purple-400 font-semibold">Legal</span>
+      <h1 id="page-title" class="text-4xl font-bold mt-1">Terms of Service</h1>
+      <p class="text-white/40 text-sm mt-2">Last updated: April 10, 2026</p>
+    </div>
+
+    <article id="content" class="prose prose-invert max-w-none text-white/70 leading-relaxed space-y-6">
+      <p>Loading...</p>
+    </article>
+  </div>
+
+  <footer class="border-t border-white/5 py-8 text-center mt-12"><p class="text-white/30 text-sm">&copy; 2025 Imautotech</p></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script>
+  (async function() {
+    const product = new URLSearchParams(window.location.search).get('product');
+    let appName = 'Our Application';
+
+    if (product) {
+      document.getElementById('back-link').href = `index.html?product=${product}`;
+      const { data: p } = await _supabase.from('products').select('title').eq('slug', product).single();
+      if (p) appName = p.title;
+    }
+
+    document.getElementById('page-title').textContent = `${appName} - Terms of Service`;
+    document.title = `${appName} Terms of Service | Imautotech`;
+
+    document.getElementById('content').innerHTML = `
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">1. Acceptance of Terms</h2>
+        <p>By downloading, installing, or using <strong>${appName}</strong> ("the App"), you agree to be bound by these Terms of Service. If you do not agree, do not use the App.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">2. License</h2>
+        <p>Imautotech grants you a limited, non-exclusive, non-transferable, revocable license to use the App for personal, non-commercial purposes subject to these Terms.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">3. User Responsibilities</h2>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>You must be at least 13 years old to use the App</li>
+          <li>You are responsible for maintaining the confidentiality of your account</li>
+          <li>You agree not to use the App for any unlawful purpose</li>
+          <li>You agree not to reverse engineer, decompile, or disassemble the App</li>
+          <li>You agree not to distribute, sell, or sublicense the App</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">4. Intellectual Property</h2>
+        <p>All content, features, and functionality of ${appName} are owned by Imautotech and are protected by copyright, trademark, and other intellectual property laws.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">5. In-App Purchases & Subscriptions</h2>
+        <p>Some features may require in-app purchases or subscriptions. All purchases are final and non-refundable except as required by applicable law. Subscriptions auto-renew unless cancelled before the renewal date.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">6. Advertisements</h2>
+        <p>The App may display advertisements from third-party providers including Google AdMob. Ad content is governed by the respective provider's terms.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">7. Disclaimer of Warranties</h2>
+        <p>The App is provided "AS IS" without warranties of any kind, either express or implied. We do not warrant that the App will be uninterrupted, error-free, or free of viruses.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">8. Limitation of Liability</h2>
+        <p>Imautotech shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the App.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">9. Account Termination</h2>
+        <p>We reserve the right to suspend or terminate your access to the App at any time for violation of these Terms. You may also request account deletion through our <a href="delete.html${product ? '?product=' + product : ''}" class="text-indigo-400 hover:text-indigo-300 underline">Delete My Account</a> page.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">10. Changes to Terms</h2>
+        <p>We may modify these Terms at any time. Continued use of the App after changes constitutes acceptance of the new Terms.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">11. Governing Law</h2>
+        <p>These Terms are governed by the laws of India. Any disputes shall be resolved in the courts of Dehradun, Uttarakhand.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">12. Contact</h2>
+        <p>For questions about these Terms, contact us at <a href="mailto:imautotech@gmail.com" class="text-indigo-400 hover:text-indigo-300">imautotech@gmail.com</a> or <a href="contact.html${product ? '?product=' + product : ''}" class="text-indigo-400 hover:text-indigo-300">raise a support ticket</a>.</p>
+      </section>
+    `;
+  })();
+  </script>
+</body>
+</html>

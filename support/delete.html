@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Account | Imautotech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={corePlugins:{preflight:false}}</script>
+  <style>.glass{background:rgba(255,255,255,.03);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08)}</style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+  <nav class="border-b border-white/5 px-6 py-4">
+    <div class="max-w-2xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="text-lg font-bold">Imautotech</a>
+      <a id="back-link" href="index.html" class="text-white/40 hover:text-white/70 text-sm">&larr; Support</a>
+    </div>
+  </nav>
+
+  <div class="max-w-2xl mx-auto px-6 py-12">
+    <!-- Form -->
+    <div id="form-wrap">
+      <div class="mb-8">
+        <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-red-600 to-rose-600 flex items-center justify-center mb-4">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </div>
+        <h1 id="page-title" class="text-3xl font-bold">Delete My Account</h1>
+        <p class="text-white/50 mt-2">Request permanent deletion of your account and all associated data. This action cannot be undone.</p>
+      </div>
+
+      <div class="glass rounded-2xl p-6 mb-6">
+        <h3 class="font-semibold text-red-400 mb-3">What will be deleted:</h3>
+        <ul class="text-white/60 text-sm space-y-2">
+          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Your account and profile information</li>
+          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> All saved preferences and settings</li>
+          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Usage history and activity data</li>
+          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Any content you have created</li>
+        </ul>
+      </div>
+
+      <form id="delete-form" class="space-y-5">
+        <div>
+          <label class="block text-sm text-white/50 mb-1">Email address associated with your account *</label>
+          <input id="f-email" type="email" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500" required>
+        </div>
+        <div>
+          <label class="block text-sm text-white/50 mb-1">Reason for deletion (optional)</label>
+          <textarea id="f-reason" rows="3" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500" placeholder="Help us improve by telling us why you're leaving..."></textarea>
+        </div>
+        <label class="flex items-start gap-3 cursor-pointer">
+          <input id="f-confirm" type="checkbox" class="w-5 h-5 accent-red-500 mt-0.5" required>
+          <span class="text-sm text-white/60">I understand that this action is permanent and all my data will be deleted within 30 days of this request.</span>
+        </label>
+        <button type="submit" id="submit-btn" class="w-full bg-red-600 hover:bg-red-500 py-3.5 rounded-lg font-semibold transition-colors">Request Account Deletion</button>
+      </form>
+    </div>
+
+    <!-- Success -->
+    <div id="success-wrap" class="hidden text-center py-12">
+      <div class="w-20 h-20 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-6">
+        <svg class="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h2 class="text-2xl font-bold mb-3">Deletion Request Submitted</h2>
+      <p class="text-white/50 mb-2">Your account deletion request has been received.</p>
+      <p id="success-ticket" class="text-indigo-400 font-mono text-sm mb-6"></p>
+      <p class="text-white/40 text-sm max-w-md mx-auto">Your data will be permanently deleted within 30 days. You will receive a confirmation email once the process is complete.</p>
+    </div>
+  </div>
+
+  <footer class="border-t border-white/5 py-8 text-center mt-12"><p class="text-white/30 text-sm">&copy; 2025 Imautotech</p></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script src="../js/support.js"></script>
+  <script>
+  (async function() {
+    const product = new URLSearchParams(window.location.search).get('product');
+    let appName = 'your account';
+
+    if (product) {
+      document.getElementById('back-link').href = `index.html?product=${product}`;
+      const { data: p } = await _supabase.from('products').select('title').eq('slug', product).single();
+      if (p) { appName = p.title; document.getElementById('page-title').textContent = `Delete ${p.title} Account`; }
+    }
+
+    document.getElementById('delete-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true; btn.textContent = 'Submitting...';
+
+      try {
+        const email = document.getElementById('f-email').value;
+        const reason = document.getElementById('f-reason').value || 'No reason provided';
+        const ticket = await createTicket(
+          product, 'Account Deletion', email, 'account_deletion',
+          `Account Deletion Request - ${appName}`,
+          `User requests account deletion.\n\nEmail: ${email}\nReason: ${reason}`
+        );
+        document.getElementById('form-wrap').classList.add('hidden');
+        document.getElementById('success-wrap').classList.remove('hidden');
+        document.getElementById('success-ticket').textContent = `Ticket: ${ticket.ticket_number}`;
+      } catch (err) {
+        btn.disabled = false; btn.textContent = 'Request Account Deletion';
+        alert('Error: ' + err.message);
+      }
+    });
+  })();
+  </script>
+</body>
+</html>

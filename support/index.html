@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support | Imautotech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={corePlugins:{preflight:false}}</script>
+  <style>
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in{animation:fadeIn .5s ease both}
+    .glass{background:rgba(255,255,255,.03);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08)}
+  </style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+
+  <!-- Header -->
+  <nav class="border-b border-white/5 px-6 py-4">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="text-lg font-bold">Imautotech</a>
+      <span class="text-white/40 text-sm">Help & Support</span>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <!-- Product selector (shown when no product param) -->
+    <div id="product-select" class="hidden">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-3">How can we help?</h1>
+        <p class="text-white/50 text-lg">Select a product to get support</p>
+      </div>
+      <div id="product-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- Support modules (shown when product is selected) -->
+    <div id="support-modules" class="hidden">
+      <a href="javascript:history.back()" class="inline-flex items-center gap-2 text-white/40 hover:text-white/70 text-sm mb-8 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Back
+      </a>
+      <div class="flex items-center gap-4 mb-10">
+        <img id="mod-icon" src="" class="w-14 h-14 rounded-xl hidden">
+        <div>
+          <h1 id="mod-title" class="text-3xl font-bold"></h1>
+          <p class="text-white/40">Help & Support</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Contact Us -->
+        <a id="link-contact" href="#" class="glass rounded-2xl p-8 hover:bg-white/5 transition-all hover:-translate-y-1 group">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Contact Us</h3>
+          <p class="text-white/50 text-sm">Raise a ticket, report issues, share feedback, or chat with our support team.</p>
+        </a>
+
+        <!-- Privacy Policy -->
+        <a id="link-privacy" href="#" class="glass rounded-2xl p-8 hover:bg-white/5 transition-all hover:-translate-y-1 group">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Privacy Policy</h3>
+          <p class="text-white/50 text-sm">Learn how we collect, use, and protect your personal information.</p>
+        </a>
+
+        <!-- Terms of Service -->
+        <a id="link-terms" href="#" class="glass rounded-2xl p-8 hover:bg-white/5 transition-all hover:-translate-y-1 group">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-600 to-violet-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Terms of Service</h3>
+          <p class="text-white/50 text-sm">Review the terms and conditions for using our application.</p>
+        </a>
+
+        <!-- Delete Account -->
+        <a id="link-delete" href="#" class="glass rounded-2xl p-8 hover:bg-white/5 transition-all hover:-translate-y-1 group">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-red-600 to-rose-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Delete My Account</h3>
+          <p class="text-white/50 text-sm">Request permanent deletion of your account and associated data.</p>
+        </a>
+      </div>
+
+      <!-- Existing ticket lookup -->
+      <div class="mt-12 glass rounded-2xl p-8">
+        <h3 class="text-lg font-semibold mb-4">Have an existing ticket?</h3>
+        <form id="lookup-form" class="flex gap-3">
+          <input id="lookup-ticket" type="text" placeholder="Enter ticket number (e.g. TKT-260410-1234)" class="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500 text-sm">
+          <input id="lookup-email" type="email" placeholder="Your email" class="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-indigo-500 text-sm">
+          <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-3 rounded-lg font-semibold text-sm transition-colors whitespace-nowrap">View Ticket</button>
+        </form>
+        <p id="lookup-error" class="text-red-400 text-sm mt-2 hidden"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t border-white/5 py-8 text-center mt-12">
+    <p class="text-white/30 text-sm">&copy; 2025 Imautotech</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script>
+  (async function() {
+    const product = new URLSearchParams(window.location.search).get('product');
+
+    if (!product) {
+      // Show product grid
+      document.getElementById('product-select').classList.remove('hidden');
+      const { data: products } = await _supabase.from('products').select('slug, title, icon_url, organization').eq('is_visible', true).eq('organization', 'imautotech').order('display_order');
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = (products || []).map(p => `
+        <a href="?product=${p.slug}" class="glass rounded-xl p-5 flex items-center gap-4 hover:bg-white/5 transition-all hover:-translate-y-0.5 fade-in">
+          ${p.icon_url ? `<img src="${p.icon_url}" class="w-12 h-12 rounded-xl object-cover">` : `<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-xl font-bold">${p.title[0]}</div>`}
+          <div>
+            <div class="font-semibold">${p.title}</div>
+            <div class="text-white/40 text-xs">Get support</div>
+          </div>
+        </a>
+      `).join('');
+      return;
+    }
+
+    // Show support modules for product
+    document.getElementById('support-modules').classList.remove('hidden');
+    const { data: p } = await _supabase.from('products').select('title, icon_url').eq('slug', product).single();
+    if (p) {
+      document.getElementById('mod-title').textContent = p.title;
+      document.title = p.title + ' Support | Imautotech';
+      if (p.icon_url) { const ic = document.getElementById('mod-icon'); ic.src = p.icon_url; ic.classList.remove('hidden'); }
+    }
+
+    document.getElementById('link-contact').href = `contact.html?product=${product}`;
+    document.getElementById('link-privacy').href = `privacy.html?product=${product}`;
+    document.getElementById('link-terms').href = `terms.html?product=${product}`;
+    document.getElementById('link-delete').href = `delete.html?product=${product}`;
+
+    // Ticket lookup
+    document.getElementById('lookup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const num = document.getElementById('lookup-ticket').value.trim();
+      const email = document.getElementById('lookup-email').value.trim();
+      const err = document.getElementById('lookup-error');
+      err.classList.add('hidden');
+      const { data: ticket } = await _supabase.from('support_tickets').select('id, ticket_number, email').eq('ticket_number', num).single();
+      if (!ticket || ticket.email.toLowerCase() !== email.toLowerCase()) {
+        err.textContent = 'Ticket not found or email does not match.'; err.classList.remove('hidden'); return;
+      }
+      window.location.href = `contact.html?ticket=${ticket.id}`;
+    });
+  })();
+  </script>
+</body>
+</html>

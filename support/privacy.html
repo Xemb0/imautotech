@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Imautotech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={corePlugins:{preflight:false}}</script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+  <nav class="border-b border-white/5 px-6 py-4">
+    <div class="max-w-3xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="text-lg font-bold">Imautotech</a>
+      <a id="back-link" href="index.html" class="text-white/40 hover:text-white/70 text-sm">&larr; Support</a>
+    </div>
+  </nav>
+
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <div class="mb-10">
+      <span class="text-sm text-indigo-400 font-semibold">Legal</span>
+      <h1 id="page-title" class="text-4xl font-bold mt-1">Privacy Policy</h1>
+      <p class="text-white/40 text-sm mt-2">Last updated: April 10, 2026</p>
+    </div>
+
+    <article id="content" class="prose prose-invert max-w-none text-white/70 leading-relaxed space-y-6">
+      <p>Loading...</p>
+    </article>
+  </div>
+
+  <footer class="border-t border-white/5 py-8 text-center mt-12">
+    <p class="text-white/30 text-sm">&copy; 2025 Imautotech</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-config.js"></script>
+  <script>
+  (async function() {
+    const product = new URLSearchParams(window.location.search).get('product');
+    let appName = 'Our Application';
+    let companyName = 'Imautotech';
+
+    if (product) {
+      document.getElementById('back-link').href = `index.html?product=${product}`;
+      const { data: p } = await _supabase.from('products').select('title').eq('slug', product).single();
+      if (p) appName = p.title;
+    }
+
+    document.getElementById('page-title').textContent = `${appName} - Privacy Policy`;
+    document.title = `${appName} Privacy Policy | Imautotech`;
+
+    document.getElementById('content').innerHTML = `
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">1. Introduction</h2>
+        <p>${companyName} ("we", "our", or "us") operates <strong>${appName}</strong>. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and related services.</p>
+        <p>By using ${appName}, you agree to the collection and use of information in accordance with this policy.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">2. Information We Collect</h2>
+        <h3 class="text-lg font-medium text-white/90 mb-2">2.1 Information You Provide</h3>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>Account registration information (name, email address)</li>
+          <li>Profile information and preferences</li>
+          <li>Communications you send to us (support tickets, feedback)</li>
+        </ul>
+        <h3 class="text-lg font-medium text-white/90 mb-2 mt-4">2.2 Information Collected Automatically</h3>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>Device information (model, operating system, unique identifiers)</li>
+          <li>Usage data (features used, time spent, crash reports)</li>
+          <li>Advertising identifiers (for personalized ads, if applicable)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">3. How We Use Your Information</h2>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>To provide and maintain ${appName}</li>
+          <li>To improve and personalize your experience</li>
+          <li>To communicate with you about updates and support</li>
+          <li>To detect and prevent fraud or abuse</li>
+          <li>To comply with legal obligations</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">4. Third-Party Services</h2>
+        <p>We may use the following third-party services that collect information:</p>
+        <ul class="list-disc pl-6 space-y-1">
+          <li><strong>Google AdMob</strong> — for displaying advertisements</li>
+          <li><strong>Firebase Analytics</strong> — for usage analytics and crash reporting</li>
+          <li><strong>Google Play Services</strong> — for app distribution and updates</li>
+        </ul>
+        <p class="mt-2">Each third-party service has its own Privacy Policy governing the use of your data.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">5. Data Retention</h2>
+        <p>We retain your personal data only as long as necessary to provide our services. You may request deletion of your data at any time by contacting us or using the <a href="delete.html${product ? '?product=' + product : ''}" class="text-indigo-400 hover:text-indigo-300 underline">Delete My Account</a> option.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">6. Data Security</h2>
+        <p>We implement industry-standard security measures to protect your personal information, including encryption in transit and at rest. However, no method of transmission over the Internet is 100% secure.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">7. Children's Privacy</h2>
+        <p>${appName} is not intended for children under 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">8. Your Rights</h2>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>Access your personal data</li>
+          <li>Correct inaccurate data</li>
+          <li>Request deletion of your data</li>
+          <li>Opt out of marketing communications</li>
+          <li>Data portability</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">9. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">10. Contact Us</h2>
+        <p>If you have questions about this Privacy Policy, please contact us:</p>
+        <ul class="list-disc pl-6 space-y-1">
+          <li>Email: <a href="mailto:imautotech@gmail.com" class="text-indigo-400 hover:text-indigo-300">imautotech@gmail.com</a></li>
+          <li>Support: <a href="contact.html${product ? '?product=' + product : ''}" class="text-indigo-400 hover:text-indigo-300">Raise a ticket</a></li>
+        </ul>
+      </section>
+    `;
+  })();
+  </script>
+</body>
+</html>
