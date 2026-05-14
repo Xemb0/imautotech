@@ -161,24 +161,56 @@
 </div>
 <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
 
-<div id="unsupported-browser" style="display: none; text-align: center; padding: 40px; font-family: system-ui; background: #121212; color: #fff; height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-sizing: border-box;">
-    <h2>Browser Not Supported</h2>
-    <p>WatchParty requires a modern browser with WebAssembly GC support.</p>
-    <p>Please use Chrome 119+, Firefox 120+, or Edge 119+.</p>
+<div id="unsupported-browser" style="display: none; text-align: center; padding: 40px; font-family: system-ui; background: #121212; color: #fff; height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-sizing: border-box; overflow: auto;">
+    <h2>WatchParty couldn't start</h2>
+    <p id="wp-fail-reason" style="color:#f87171; max-width: 800px; margin: 12px auto; font-family: ui-monospace, monospace; font-size: 13px; white-space: pre-wrap; text-align: left;"></p>
+    <p style="opacity: 0.7; max-width: 600px; margin: 16px auto;">If this looks like a "WebAssembly GC" error, you need Chrome 119+, Firefox 120+, Edge 119+, or Safari 18.4+. Otherwise paste the message above when reporting.</p>
+    <button onclick="location.reload()" style="margin-top: 16px; background: #6200ee; color: #fff; border: 0; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Retry</button>
 </div>
 
 <script>
+    // Capture the FIRST JS / wasm error so the fallback screen can show
+    // something actionable. The 30-second timeout used to flash an
+    // "unsupported browser" message even when the actual problem was a
+    // bug in our own code — completely opaque to anyone debugging.
+    window.__wp_first_error = null;
+    window.addEventListener('error', function(e) {
+        if (!window.__wp_first_error) {
+            window.__wp_first_error = (e.error && (e.error.stack || e.error.message)) || e.message || String(e);
+        }
+        console.error('[WP] window.error:', e);
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+        if (!window.__wp_first_error) {
+            window.__wp_first_error = (e.reason && (e.reason.stack || e.reason.message)) || String(e.reason);
+        }
+        console.error('[WP] unhandledrejection:', e.reason);
+    });
+
     window.__wp_wasm_loaded = false;
+    // 60 s — first-visit wasm download + compile on a slow mobile network
+    // can legitimately need close to a minute. The previous 30 s window
+    // was firing on real cold loads.
     setTimeout(function() {
         if (!window.__wp_wasm_loaded) {
             var loading = document.getElementById('loading');
             if (loading) loading.style.display = 'none';
             var unsupported = document.getElementById('unsupported-browser');
+            var reason = document.getElementById('wp-fail-reason');
+            if (reason) {
+                if (window.__wp_first_error) {
+                    reason.textContent = String(window.__wp_first_error);
+                } else if (typeof WebAssembly === 'undefined') {
+                    reason.textContent = 'WebAssembly is not available in this browser.';
+                } else {
+                    reason.textContent = 'No error logged, but the wasm module never reported as loaded within 60 s. Check the browser console for blocked requests or a CSP error.';
+                }
+            }
             if (unsupported) unsupported.style.display = 'flex';
             var compose = document.getElementById('composeTarget');
             if (compose) compose.style.display = 'none';
         }
-    }, 30000);
+    }, 60000);
 </script>
 
 <script type="module">
@@ -291,36 +323,20 @@
     };
 </script>
 
-<!-- RevenueCat Web Billing SDK (UMD bundle) -->
-<script src="https://unpkg.com/@revenuecat/purchases-js@1/dist/index.umd.js"></script>
+<!-- RevenueCat Web Billing SDK — DISABLED on web for now.
+     The previous unpkg URL (purchases-js@1) 404'd because the package's
+     dist layout changed upstream, and trying to load a 404'd JS file
+     threw "Unexpected token '<<'" during page parse — which killed the
+     entire wasm bootstrap. Subscription billing isn't required to watch
+     a room on web; we install no-op stubs so any wasm call-site that
+     reaches for these globals gets a quiet null. Re-enable once we pin
+     a working CDN URL (jsdelivr @latest/+esm works as of writing). -->
 <script>
     window.__wp_rc = null;
-
-    window.__wp_rc_init = async function(apiKey, userId) {
-        try {
-            window.__wp_rc = RevenuecatPurchasesJs.Purchases.configure(apiKey, userId);
-            console.log('[WP-RC] Initialized for user:', userId);
-            return true;
-        } catch(e) { console.error('[WP-RC] Init failed:', e); return false; }
-    };
-
-    window.__wp_rc_getOfferings = async function() {
-        if (!window.__wp_rc) return null;
-        try { return JSON.stringify(await window.__wp_rc.getOfferings()); }
-        catch(e) { console.error('[WP-RC] getOfferings failed:', e); return null; }
-    };
-
-    window.__wp_rc_purchase = async function(packageId) {
-        if (!window.__wp_rc) return null;
-        try { return JSON.stringify(await window.__wp_rc.purchase({ rcPackage: packageId })); }
-        catch(e) { console.error('[WP-RC] purchase failed:', e); return null; }
-    };
-
-    window.__wp_rc_getCustomerInfo = async function() {
-        if (!window.__wp_rc) return null;
-        try { return JSON.stringify(await window.__wp_rc.getCustomerInfo()); }
-        catch(e) { console.error('[WP-RC] getCustomerInfo failed:', e); return null; }
-    };
+    window.__wp_rc_init = async function() { return false; };
+    window.__wp_rc_getOfferings = async function() { return null; };
+    window.__wp_rc_purchase = async function() { return null; };
+    window.__wp_rc_getCustomerInfo = async function() { return null; };
 </script>
 
 <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
