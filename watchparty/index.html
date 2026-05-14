@@ -161,24 +161,56 @@
 </div>
 <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
 
-<div id="unsupported-browser" style="display: none; text-align: center; padding: 40px; font-family: system-ui; background: #121212; color: #fff; height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-sizing: border-box;">
-    <h2>Browser Not Supported</h2>
-    <p>WatchParty requires a modern browser with WebAssembly GC support.</p>
-    <p>Please use Chrome 119+, Firefox 120+, or Edge 119+.</p>
+<div id="unsupported-browser" style="display: none; text-align: center; padding: 40px; font-family: system-ui; background: #121212; color: #fff; height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-sizing: border-box; overflow: auto;">
+    <h2>WatchParty couldn't start</h2>
+    <p id="wp-fail-reason" style="color:#f87171; max-width: 800px; margin: 12px auto; font-family: ui-monospace, monospace; font-size: 13px; white-space: pre-wrap; text-align: left;"></p>
+    <p style="opacity: 0.7; max-width: 600px; margin: 16px auto;">If this looks like a "WebAssembly GC" error, you need Chrome 119+, Firefox 120+, Edge 119+, or Safari 18.4+. Otherwise paste the message above when reporting.</p>
+    <button onclick="location.reload()" style="margin-top: 16px; background: #6200ee; color: #fff; border: 0; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Retry</button>
 </div>
 
 <script>
+    // Capture the FIRST JS / wasm error so the fallback screen can show
+    // something actionable. The 30-second timeout used to flash an
+    // "unsupported browser" message even when the actual problem was a
+    // bug in our own code — completely opaque to anyone debugging.
+    window.__wp_first_error = null;
+    window.addEventListener('error', function(e) {
+        if (!window.__wp_first_error) {
+            window.__wp_first_error = (e.error && (e.error.stack || e.error.message)) || e.message || String(e);
+        }
+        console.error('[WP] window.error:', e);
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+        if (!window.__wp_first_error) {
+            window.__wp_first_error = (e.reason && (e.reason.stack || e.reason.message)) || String(e.reason);
+        }
+        console.error('[WP] unhandledrejection:', e.reason);
+    });
+
     window.__wp_wasm_loaded = false;
+    // 60 s — first-visit wasm download + compile on a slow mobile network
+    // can legitimately need close to a minute. The previous 30 s window
+    // was firing on real cold loads.
     setTimeout(function() {
         if (!window.__wp_wasm_loaded) {
             var loading = document.getElementById('loading');
             if (loading) loading.style.display = 'none';
             var unsupported = document.getElementById('unsupported-browser');
+            var reason = document.getElementById('wp-fail-reason');
+            if (reason) {
+                if (window.__wp_first_error) {
+                    reason.textContent = String(window.__wp_first_error);
+                } else if (typeof WebAssembly === 'undefined') {
+                    reason.textContent = 'WebAssembly is not available in this browser.';
+                } else {
+                    reason.textContent = 'No error logged, but the wasm module never reported as loaded within 60 s. Check the browser console for blocked requests or a CSP error.';
+                }
+            }
             if (unsupported) unsupported.style.display = 'flex';
             var compose = document.getElementById('composeTarget');
             if (compose) compose.style.display = 'none';
         }
-    }, 30000);
+    }, 60000);
 </script>
 
 <script type="module">
