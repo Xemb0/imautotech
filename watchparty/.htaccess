@@ -1,0 +1,38 @@
+# Serve .wasm with the correct MIME so the browser instantiates the module
+# instead of treating it as octet-stream. Apache hosts that don't do this
+# fail the streaming compile with "Incorrect response MIME type".
+AddType application/wasm .wasm
+
+# Compress text-like assets — wasm itself is already mostly incompressible,
+# but the JS bundles + index.html shrink ~70% under gzip/brotli. Saves
+# bandwidth on every page load.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/javascript application/json text/css text/html text/javascript application/wasm
+</IfModule>
+
+# Long-cache the hashed asset bundles (filename changes when contents change,
+# so cache-busting is automatic). Don't cache index.html — it's the only
+# entry point that needs to refresh when we redeploy.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType application/wasm "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresDefault "access plus 1 day"
+    <FilesMatch "^index\.html$">
+        ExpiresActive On
+        ExpiresDefault "access plus 0 seconds"
+        Header set Cache-Control "no-store, no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# SPA fallback — Compose-router is client-side, so any deep URL (e.g.
+# /watchparty/room/ABCD) needs to serve index.html and let the client
+# resolve. Without this, refreshing a deep link returns 404.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /watchparty/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.html [L]
+</IfModule>
