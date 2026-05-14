@@ -356,6 +356,24 @@
 <script src="https://unpkg.com/livekit-client@2.17.3/dist/livekit-client.umd.js"></script>
 <script>
     window.__wp_lk_room = null;
+    // identity -> Set<HTMLVideoElement>. A renderer registers here BEFORE the
+    // remote track may have arrived; we then re-attach inside trackSubscribed /
+    // localTrackPublished. Without this map, attaching once at mount silently
+    // no-ops whenever the publication isn't ready yet.
+    window.__wp_lk_videoBindings = window.__wp_lk_videoBindings || {};
+
+    function __wp_lk_tryAttachToBindings(participant) {
+        if (!participant) return;
+        var els = window.__wp_lk_videoBindings[participant.identity];
+        if (!els || els.size === 0) return;
+        participant.videoTrackPublications.forEach(function(pub) {
+            if (pub.track) {
+                els.forEach(function(el) {
+                    try { pub.track.attach(el); } catch (e) { console.error('[WP-LK] attach failed', e); }
+                });
+            }
+        });
+    }
 
     window.__wp_lk_connect = async function(url, token) {
         try {
@@ -363,13 +381,31 @@
             await room.connect(url, token);
             window.__wp_lk_room = room;
 
-            // Set up participant tracking
-            room.on('participantConnected', () => {});
+            // Re-attach any pre-registered renderers whenever a track lands.
+            room.on('trackSubscribed', function(track, pub, participant) {
+                if (track.kind === 'video') {
+                    __wp_lk_tryAttachToBindings(participant);
+                }
+            });
+            room.on('localTrackPublished', function(pub, participant) {
+                if (pub.kind === 'video') {
+                    __wp_lk_tryAttachToBindings(participant);
+                }
+            });
+            room.on('participantConnected', function(participant) {
+                __wp_lk_tryAttachToBindings(participant);
+            });
+            room.on('trackUnsubscribed', function(track) {
+                try { track.detach(); } catch (_) {}
+            });
+            // Stubs (polling drives state)
             room.on('participantDisconnected', () => {});
-            room.on('trackSubscribed', () => {});
-            room.on('trackUnsubscribed', () => {});
             room.on('activeSpeakersChanged', () => {});
             room.on('connectionStateChanged', () => {});
+
+            // Local participant's camera track may already be published before
+            // the renderer mounts — attach once at connect time too.
+            __wp_lk_tryAttachToBindings(room.localParticipant);
 
             console.log('[WP-LK] Connected to room');
             return true;
@@ -439,25 +475,37 @@
     };
 
     window.__wp_lk_attachVideo = function(identity, videoElement) {
-        if (!window.__wp_lk_room) return false;
+        // Always register the binding so events can re-attach later, even if
+        // the room isn't connected yet or the track hasn't been published.
+        if (!window.__wp_lk_videoBindings[identity]) {
+            window.__wp_lk_videoBindings[identity] = new Set();
+        }
+        window.__wp_lk_videoBindings[identity].add(videoElement);
+
+        if (!window.__wp_lk_room) return true; // will attach on connect
         var participant = null;
         if (window.__wp_lk_room.localParticipant.identity === identity) {
             participant = window.__wp_lk_room.localParticipant;
         } else {
             participant = window.__wp_lk_room.remoteParticipants.get(identity);
         }
-        if (!participant) return false;
+        if (!participant) return true; // will attach on participantConnected
 
         participant.videoTrackPublications.forEach(function(pub) {
             if (pub.track) {
-                pub.track.attach(videoElement);
+                try { pub.track.attach(videoElement); } catch (e) { console.error('[WP-LK] attach', e); }
             }
         });
         return true;
     };
 
     window.__wp_lk_detachVideo = function(videoElement) {
-        // Detach all tracks from this element
+        // Remove from all bindings.
+        if (window.__wp_lk_videoBindings) {
+            Object.keys(window.__wp_lk_videoBindings).forEach(function(k) {
+                window.__wp_lk_videoBindings[k].delete(videoElement);
+            });
+        }
         if (videoElement.srcObject) {
             videoElement.srcObject.getTracks().forEach(function(t) { t.stop(); });
             videoElement.srcObject = null;
