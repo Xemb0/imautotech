@@ -323,36 +323,20 @@
     };
 </script>
 
-<!-- RevenueCat Web Billing SDK (UMD bundle) -->
-<script src="https://unpkg.com/@revenuecat/purchases-js@1/dist/index.umd.js"></script>
+<!-- RevenueCat Web Billing SDK — DISABLED on web for now.
+     The previous unpkg URL (purchases-js@1) 404'd because the package's
+     dist layout changed upstream, and trying to load a 404'd JS file
+     threw "Unexpected token '<<'" during page parse — which killed the
+     entire wasm bootstrap. Subscription billing isn't required to watch
+     a room on web; we install no-op stubs so any wasm call-site that
+     reaches for these globals gets a quiet null. Re-enable once we pin
+     a working CDN URL (jsdelivr @latest/+esm works as of writing). -->
 <script>
     window.__wp_rc = null;
-
-    window.__wp_rc_init = async function(apiKey, userId) {
-        try {
-            window.__wp_rc = RevenuecatPurchasesJs.Purchases.configure(apiKey, userId);
-            console.log('[WP-RC] Initialized for user:', userId);
-            return true;
-        } catch(e) { console.error('[WP-RC] Init failed:', e); return false; }
-    };
-
-    window.__wp_rc_getOfferings = async function() {
-        if (!window.__wp_rc) return null;
-        try { return JSON.stringify(await window.__wp_rc.getOfferings()); }
-        catch(e) { console.error('[WP-RC] getOfferings failed:', e); return null; }
-    };
-
-    window.__wp_rc_purchase = async function(packageId) {
-        if (!window.__wp_rc) return null;
-        try { return JSON.stringify(await window.__wp_rc.purchase({ rcPackage: packageId })); }
-        catch(e) { console.error('[WP-RC] purchase failed:', e); return null; }
-    };
-
-    window.__wp_rc_getCustomerInfo = async function() {
-        if (!window.__wp_rc) return null;
-        try { return JSON.stringify(await window.__wp_rc.getCustomerInfo()); }
-        catch(e) { console.error('[WP-RC] getCustomerInfo failed:', e); return null; }
-    };
+    window.__wp_rc_init = async function() { return false; };
+    window.__wp_rc_getOfferings = async function() { return null; };
+    window.__wp_rc_purchase = async function() { return null; };
+    window.__wp_rc_getCustomerInfo = async function() { return null; };
 </script>
 
 <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
