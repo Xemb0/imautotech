@@ -83,6 +83,12 @@
         
         <div class="mt-8 text-center lg:text-left">
           <p class="text-gray-400 text-sm">🚀 Join over 10,000+ users watching together!</p>
+          <p class="text-gray-500 text-xs mt-3">
+            By installing or signing in to WatchParty you agree to our
+            <a href="terms-of-service.html" class="text-purple-400 hover:text-purple-300 underline underline-offset-2">Terms of Service</a>
+            and
+            <a href="privacy-policy.html" class="text-purple-400 hover:text-purple-300 underline underline-offset-2">Privacy Policy</a>.
+          </p>
         </div>
       </div>
       
@@ -284,9 +290,11 @@
           <p class="text-gray-400 mb-6">© 2025 WatchParty by Imautotech - Bringing people together through shared experiences</p>
           
           <div class="flex flex-wrap justify-center gap-6 text-sm">
-            <a href="../../support/?product=watchparty" class="text-purple-400 hover:text-purple-300 transition-colors">Help & Support</a>
-            <a href="../../support/privacy.html?product=watchparty" class="text-purple-400 hover:text-purple-300 transition-colors">Privacy Policy</a>
-            <a href="../../support/terms.html?product=watchparty" class="text-purple-400 hover:text-purple-300 transition-colors">Terms of Service</a>
+            <a href="privacy-policy.html" class="text-purple-400 hover:text-purple-300 transition-colors">Privacy Policy</a>
+            <a href="terms-of-service.html" class="text-purple-400 hover:text-purple-300 transition-colors">Terms of Service</a>
+            <a href="contact.html" class="text-purple-400 hover:text-purple-300 transition-colors">Contact Us</a>
+            <a href="../../support/?product=watchparty" class="text-purple-400 hover:text-purple-300 transition-colors">Help Center</a>
+            <a href="../../support/delete.html?product=watchparty" class="text-purple-400 hover:text-purple-300 transition-colors">Delete Account</a>
             <a href="../../index.html" class="text-pink-400 hover:text-pink-300 transition-colors">Need an App Built?</a>
           </div>
           
@@ -324,49 +332,54 @@
     </script>
 
 <script>
-window.onload = function () {
-  // Get room ID from URL parameters
-  const urlParams = new URLSearchParams(window.location.search);
-  const roomId = urlParams.get('roomId') || '';
-  
-  // Display room ID on page if you have an element for it
-  const roomDisplay = document.getElementById('roomIdDisplay');
-  if (roomDisplay && roomId) {
-    roomDisplay.textContent = roomId;
+(function () {
+  // Invite landing. We do NOT auto-redirect to intent:// on load — Android
+  // Chrome blocks external-scheme navigations without a user gesture and shows
+  // "no page found". Instead, when ?roomId= is present we show a focused
+  // tap-to-open overlay. (When the app is installed and App Links are verified,
+  // Android opens the app directly and this page is never seen.)
+  function getRoomId() {
+    return (new URLSearchParams(window.location.search).get('roomId') || '').trim();
   }
-  
-  // Only try to open app on mobile devices
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const isAndroid = /Android/i.test(navigator.userAgent);
-  
-  if (isMobile && isAndroid) {
-    const now = new Date().getTime();
-    
-    // Correct intent URL format that matches your manifest
-    const intentUrl = `intent://imautotech.in/our_products/watch_party/watchparty?roomId=${roomId}#Intent;scheme=https;package=com.autotech.watchparty;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.autotech.watchparty;end`;
-    
-    // Try to open the app
-    window.location.href = intentUrl;
-    
-    // Fallback to Play Store if app doesn't open
-    setTimeout(function () {
-      if (new Date().getTime() - now < 3000) {
-        // App likely not installed, redirect to Play Store
-        window.location.href = "https://play.google.com/store/apps/details?id=com.autotech.watchparty";
-      }
-    }, 2500);
+  var PLAY_URL = 'https://play.google.com/store/apps/details?id=com.autotech.watchparty';
+  function buildIntent(roomId) {
+    return 'intent://imautotech.in/our_products/watch_party/watchparty?roomId='
+      + encodeURIComponent(roomId)
+      + '#Intent;scheme=https;package=com.autotech.watchparty;S.browser_fallback_url='
+      + encodeURIComponent(PLAY_URL) + ';end';
   }
-};
-
-// Function to manually try opening the app (for button clicks)
-function openApp() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const roomId = urlParams.get('roomId') || '';
-  
-  const intentUrl = `intent://imautotech.in/our_products/watch_party/watchparty?roomId=${roomId}#Intent;scheme=https;package=com.autotech.watchparty;S.browser_fallback_url=https://play.google.com/store/apps/details?id=com.autotech.watchparty;end`;
-  
-  window.location.href = intentUrl;
-}
+  window.openApp = function () {
+    var r = getRoomId();
+    window.location.href = r ? buildIntent(r) : PLAY_URL;
+  };
+  window.addEventListener('load', function () {
+    var roomId = getRoomId();
+    if (!roomId) return; // plain marketing page when there is no invite
+    var isAndroid = /Android/i.test(navigator.userAgent);
+    var safeRoom = roomId.replace(/[^A-Za-z0-9_-]/g, '');
+    var ov = document.createElement('div');
+    ov.id = 'wp-invite-overlay';
+    ov.style.cssText = 'position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(120% 120% at 50% 0%,#1e1b4b 0%,#0b0b14 70%);';
+    ov.innerHTML =
+      '<div style="max-width:380px;width:100%;text-align:center;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;">'
+      + '<div style="font-size:13px;letter-spacing:.18em;color:#a78bfa;font-weight:700;">INVITED TO A WATCH PARTY</div>'
+      + '<h1 style="font-size:26px;font-weight:800;margin:10px 0 4px;">Join the room</h1>'
+      + '<p style="color:#cbd5e1;font-size:14px;margin:0 0 18px;">Watch movies and videos together, in sync.</p>'
+      + '<div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 16px;margin-bottom:22px;">'
+      + '<span style="color:#94a3b8;font-size:12px;">ROOM</span>'
+      + '<span style="font-weight:800;letter-spacing:.12em;font-size:16px;">' + safeRoom + '</span>'
+      + '</div>'
+      + '<a id="wp-open-btn" href="#" style="display:block;background:linear-gradient(90deg,#2563eb,#06b6d4);color:#fff;font-weight:700;font-size:16px;text-decoration:none;padding:15px;border-radius:14px;margin-bottom:12px;">Open in WatchParty</a>'
+      + '<a href="' + PLAY_URL + '" style="display:block;color:#cbd5e1;font-size:13px;text-decoration:none;">No app yet? Get it on Google Play</a>'
+      + '</div>';
+    document.body.appendChild(ov);
+    document.body.style.overflow = 'hidden';
+    document.getElementById('wp-open-btn').addEventListener('click', function (e) {
+      e.preventDefault();
+      window.location.href = isAndroid ? buildIntent(roomId) : PLAY_URL;
+    });
+  });
+})();
 </script>
   </body>
 </html>
