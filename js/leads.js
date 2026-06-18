@@ -20,21 +20,26 @@
       ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
+  // Leads are controlled in the Support Console, which lives on its OWN
+  // dedicated Supabase project — NOT the imautotech app project. So we write
+  // leads with a small dedicated client (publishable key, safe to embed).
+  var SUPPORT_URL = 'https://fmfohiluxefyfedptlvh.supabase.co';
+  var SUPPORT_ANON_KEY = 'sb_publishable_4Wq6WxhkaLel03iGhUgh7Q_r08OnOYL';
+  var _leadsClient = null;
+  function leadsClient() {
+    if (!_leadsClient && window.supabase) {
+      _leadsClient = window.supabase.createClient(SUPPORT_URL, SUPPORT_ANON_KEY);
+    }
+    return _leadsClient;
+  }
+
   // Insert one lead. Returns the created row (throws on error).
   async function createLead(payload) {
-    if (typeof _supabase === 'undefined') {
-      throw new Error('Supabase client not loaded');
-    }
+    var client = leadsClient();
+    if (!client) throw new Error('Supabase client not loaded');
 
-    let product_id = null;
-    if (payload.product) {
-      try {
-        const { data: prod } = await _supabase
-          .from('products').select('id').eq('slug', payload.product).single();
-        if (prod) product_id = prod.id;
-      } catch (_) { /* slug may not match a product — fine */ }
-    }
-
+    // Leads live in the support project, which has no products table — the
+    // originating product is carried in `source` (e.g. "product:watchparty").
     const row = {
       name: (payload.name || '').trim(),
       email: (payload.email || '').trim(),
@@ -43,12 +48,11 @@
       message: (payload.message || '').trim() || null,
       source: payload.source || 'website',
       interest: (payload.interest || '').trim() || null,
-      product_id,
       status: 'new',
     };
 
     try {
-      const { data, error } = await _supabase.from('leads').insert(row).select().single();
+      const { data, error } = await client.from('leads').insert(row).select().single();
       if (error) throw error;
       return data;
     } catch (supaErr) {

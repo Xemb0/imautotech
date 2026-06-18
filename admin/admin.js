@@ -38,8 +38,6 @@ function showDashboard(user) {
   document.getElementById('dashboard').classList.remove('hidden');
   document.getElementById('user-email').textContent = user.email;
   loadProductsTable();
-  refreshLeadsBadge();
-  subscribeLeads();
 }
 
 async function logout() {
@@ -321,7 +319,7 @@ async function deleteScreenshot(id, storagePath) {
 
 // ── Tabs ──
 function switchTab(tab) {
-  ['products', 'tickets', 'leads'].forEach(t => {
+  ['products', 'tickets'].forEach(t => {
     document.getElementById('panel-' + t).classList.toggle('hidden', t !== tab);
     const btn = document.getElementById('tab-' + t);
     const active = t === tab;
@@ -331,7 +329,6 @@ function switchTab(tab) {
     btn.classList.toggle('hover:text-white', !active);
   });
   if (tab === 'tickets') loadTicketsTable();
-  if (tab === 'leads') loadLeadsTable();
 }
 
 // ── Tickets ──
@@ -463,136 +460,6 @@ document.getElementById('tm-form').addEventListener('submit', async (e) => {
   input.value = '';
   await _supabase.from('ticket_messages').insert({ ticket_id: currentTicketId, sender_type: 'admin', message: msg });
 });
-
-// ── Leads ──
-let currentLeadId = null;
-let leadsChannel = null;
-
-function escHtml(s) {
-  return String(s == null ? '' : s).replace(/[&<>"']/g, c =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-}
-
-const LEAD_STATUS_COLORS = {
-  new: 'bg-amber-500/20 text-amber-400',
-  contacted: 'bg-blue-500/20 text-blue-400',
-  qualified: 'bg-violet-500/20 text-violet-400',
-  won: 'bg-emerald-500/20 text-emerald-400',
-  lost: 'bg-gray-500/20 text-gray-400',
-};
-
-async function loadLeadsTable() {
-  const status = document.getElementById('lead-filter-status').value;
-  let query = _supabase.from('leads').select('*, products(title)').order('created_at', { ascending: false });
-  if (status) query = query.eq('status', status);
-
-  const { data: leads, error } = await query;
-  const table = document.getElementById('leads-table');
-
-  if (error) { table.innerHTML = `<div class="p-8 text-center text-red-400">Error loading leads: ${escHtml(error.message)}</div>`; return; }
-  if (!leads || leads.length === 0) { table.innerHTML = '<div class="p-8 text-center text-gray-400">No leads yet.</div>'; return; }
-
-  table.innerHTML = `
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm">
-        <thead class="bg-gray-800 text-gray-400 text-left">
-          <tr>
-            <th class="px-4 py-3">From</th>
-            <th class="px-4 py-3">Phone</th>
-            <th class="px-4 py-3">Source</th>
-            <th class="px-4 py-3">Message</th>
-            <th class="px-4 py-3">Status</th>
-            <th class="px-4 py-3">Date</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-800">
-          ${leads.map(l => {
-            const src = l.products?.title ? `${escHtml(l.source || '')} · ${escHtml(l.products.title)}` : escHtml(l.source || '-');
-            return `
-            <tr class="hover:bg-gray-800/50 transition-colors cursor-pointer" onclick="openLeadDetail('${l.id}')">
-              <td class="px-4 py-3"><div class="font-medium">${escHtml(l.name)}</div><div class="text-gray-500 text-xs">${escHtml(l.email)}</div></td>
-              <td class="px-4 py-3 text-gray-400">${escHtml(l.phone || '-')}</td>
-              <td class="px-4 py-3 text-gray-400 text-xs">${src}</td>
-              <td class="px-4 py-3 max-w-[220px] truncate text-gray-300">${escHtml(l.message || '-')}</td>
-              <td class="px-4 py-3"><span class="px-2 py-0.5 text-xs rounded-full capitalize ${LEAD_STATUS_COLORS[l.status] || ''}">${escHtml(l.status)}</span></td>
-              <td class="px-4 py-3 text-gray-500 text-xs">${new Date(l.created_at).toLocaleDateString()}</td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
-}
-
-async function openLeadDetail(id) {
-  currentLeadId = id;
-  const { data: l } = await _supabase.from('leads').select('*, products(title)').eq('id', id).single();
-  if (!l) return;
-
-  document.getElementById('ld-name').textContent = l.name;
-  document.getElementById('ld-date').textContent = new Date(l.created_at).toLocaleString();
-  const emailEl = document.getElementById('ld-email');
-  emailEl.textContent = l.email; emailEl.href = 'mailto:' + l.email;
-  const phoneEl = document.getElementById('ld-phone');
-  if (l.phone) { phoneEl.textContent = l.phone; phoneEl.href = 'tel:' + l.phone; }
-  else { phoneEl.textContent = '—'; phoneEl.removeAttribute('href'); }
-  document.getElementById('ld-source').textContent = l.source || '—';
-  document.getElementById('ld-interest').textContent = l.interest || l.products?.title || '—';
-  document.getElementById('ld-message').textContent = l.message || '—';
-  document.getElementById('ld-notes').value = l.admin_notes || '';
-  document.getElementById('ld-status').value = l.status || 'new';
-
-  const subject = encodeURIComponent('Re: your enquiry to Imautotech');
-  const body = encodeURIComponent(`Hi ${l.name},\n\nThanks for reaching out to Imautotech.\n\n`);
-  document.getElementById('ld-reply').href = `mailto:${l.email}?subject=${subject}&body=${body}`;
-
-  document.getElementById('lead-modal').classList.remove('hidden');
-  document.getElementById('lead-modal').classList.add('flex');
-}
-
-function closeLeadModal() {
-  document.getElementById('lead-modal').classList.add('hidden');
-  document.getElementById('lead-modal').classList.remove('flex');
-  currentLeadId = null;
-  loadLeadsTable();
-  refreshLeadsBadge();
-}
-
-async function updateLeadStatus() {
-  if (!currentLeadId) return;
-  const status = document.getElementById('ld-status').value;
-  const { error } = await _supabase.from('leads').update({ status }).eq('id', currentLeadId);
-  if (error) { toast('Error: ' + error.message, 'error'); return; }
-  toast('Lead status updated', 'success');
-  refreshLeadsBadge();
-}
-
-async function saveLeadNotes() {
-  if (!currentLeadId) return;
-  const admin_notes = document.getElementById('ld-notes').value;
-  const { error } = await _supabase.from('leads').update({ admin_notes }).eq('id', currentLeadId);
-  if (error) { toast('Error: ' + error.message, 'error'); return; }
-  toast('Notes saved', 'success');
-}
-
-async function refreshLeadsBadge() {
-  const { count } = await _supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'new');
-  const badge = document.getElementById('leads-badge');
-  if (count && count > 0) { badge.textContent = count; badge.classList.remove('hidden'); }
-  else { badge.classList.add('hidden'); }
-}
-
-function subscribeLeads() {
-  if (leadsChannel) return;
-  leadsChannel = _supabase
-    .channel('admin-leads')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'leads' }, () => {
-      refreshLeadsBadge();
-      toast('🔔 New lead just came in!', 'success');
-      if (!document.getElementById('panel-leads').classList.contains('hidden')) loadLeadsTable();
-    })
-    .subscribe();
-}
 
 // ── Init ──
 checkAuth();
