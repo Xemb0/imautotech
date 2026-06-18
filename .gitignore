@@ -1,0 +1,6 @@
+# OS junk
+.DS_Store
+
+# Node tooling — never commit (scripts embed Supabase service_role keys)
+scripts/node_modules/
+node_modules/

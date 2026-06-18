@@ -1,0 +1,28 @@
+# Netlify redirects — imautotech.in (apex)
+# Product marketing/legal pages now live on dedicated subdomains.
+# 301! is forced so the redirect fires even though the old files still exist in the deploy.
+# Note: /our_products/<product>/files/*.apk are intentionally NOT redirected — the
+# subdomains don't host /files/*, so the old APK download links keep working from the apex.
+
+# ── Arc Launcher → arclauncher.imautotech.in ──
+/our_products/arc_launcher/arcLauncher.html        https://arclauncher.imautotech.in/                       301!
+/our_products/arc_launcher/privacy-policy.html     https://arclauncher.imautotech.in/privacy-policy.html    301!
+/our_products/arc_launcher/terms-of-service.html   https://arclauncher.imautotech.in/terms-of-service.html  301!
+/our_products/arc_launcher/contact.html            https://arclauncher.imautotech.in/contact.html           301!
+
+# ── WX Gamepad → wxgamepad.imautotech.in ──
+/our_products/wx_gamepad/wxgamepad.html            https://wxgamepad.imautotech.in/                         301!
+/our_products/wx_gamepad/privacy-policy.html       https://wxgamepad.imautotech.in/privacy-policy.html      301!
+/our_products/wx_gamepad/terms-of-service.html     https://wxgamepad.imautotech.in/terms-of-service.html    301!
+/our_products/wx_gamepad/contact.html              https://wxgamepad.imautotech.in/contact.html             301!
+
+# ── Watch Party → watchparty.imautotech.in (marketing/legal only; the web app at /watchparty/ and invites stay on the apex) ──
+/our_products/watch_party/watchparty.html          https://watchparty.imautotech.in/                        301!
+/our_products/watch_party/privacy-policy.html      https://watchparty.imautotech.in/privacy-policy.html     301!
+/our_products/watch_party/terms-of-service.html    https://watchparty.imautotech.in/terms-of-service.html   301!
+/our_products/watch_party/contact.html             https://watchparty.imautotech.in/contact.html            301!
+
+# ── Rentle → rentle.imautotech.in (no in-repo landing page existed) ──
+/our_products/rentle/privacy-policy.html           https://rentle.imautotech.in/privacy-policy.html         301!
+/our_products/rentle/terms-of-service.html         https://rentle.imautotech.in/terms-of-service.html       301!
+/our_products/rentle/contact.html                  https://rentle.imautotech.in/contact.html                301!
