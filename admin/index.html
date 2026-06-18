@@ -44,6 +44,10 @@
       <div class="flex gap-1 mb-8 bg-gray-900 rounded-xl p-1 w-fit">
         <button onclick="switchTab('products')" id="tab-products" class="px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors bg-indigo-600 text-white">Products</button>
         <button onclick="switchTab('tickets')" id="tab-tickets" class="px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors text-gray-400 hover:text-white">Tickets</button>
+        <button onclick="switchTab('leads')" id="tab-leads" class="relative px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors text-gray-400 hover:text-white">
+          Leads
+          <span id="leads-badge" class="hidden ml-1.5 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-bold rounded-full bg-amber-500 text-gray-900 align-middle">0</span>
+        </button>
       </div>
 
       <!-- Products Tab -->
@@ -83,6 +87,84 @@
         </div>
         <div id="tickets-table" class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
           <div class="p-8 text-center text-gray-400">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Leads Tab -->
+      <div id="panel-leads" class="hidden">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h2 class="text-2xl font-bold">Customer Leads</h2>
+            <p class="text-gray-500 text-sm mt-0.5">New customers from the website — not support. Respond directly by email or phone.</p>
+          </div>
+          <select id="lead-filter-status" onchange="loadLeadsTable()" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none focus:border-amber-500">
+            <option value="">All Status</option>
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="qualified">Qualified</option>
+            <option value="won">Won</option>
+            <option value="lost">Lost</option>
+          </select>
+        </div>
+        <div id="leads-table" class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+          <div class="p-8 text-center text-gray-400">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lead Detail Modal -->
+    <div id="lead-modal" class="fixed inset-0 z-[100] bg-black/80 hidden items-center justify-center overflow-y-auto">
+      <div class="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-xl mx-4 my-8 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-start p-6 border-b border-gray-800">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
+              <h3 id="ld-name" class="text-lg font-bold"></h3>
+            </div>
+            <p id="ld-date" class="text-gray-500 text-xs mt-1"></p>
+          </div>
+          <div class="flex items-center gap-3">
+            <select id="ld-status" onchange="updateLeadStatus()" class="px-3 py-1.5 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none">
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="qualified">Qualified</option>
+              <option value="won">Won</option>
+              <option value="lost">Lost</option>
+            </select>
+            <button onclick="closeLeadModal()" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+          </div>
+        </div>
+        <div class="p-6 space-y-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <div class="text-xs text-gray-500 mb-0.5">Email</div>
+              <a id="ld-email" href="#" class="text-indigo-400 hover:text-indigo-300 text-sm break-all"></a>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 mb-0.5">Phone</div>
+              <a id="ld-phone" href="#" class="text-indigo-400 hover:text-indigo-300 text-sm"></a>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 mb-0.5">Source</div>
+              <div id="ld-source" class="text-sm text-gray-300"></div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 mb-0.5">Interest / Product</div>
+              <div id="ld-interest" class="text-sm text-gray-300"></div>
+            </div>
+          </div>
+          <div>
+            <div class="text-xs text-gray-500 mb-0.5">Message</div>
+            <div id="ld-message" class="text-sm text-gray-200 whitespace-pre-wrap bg-gray-800/60 border border-gray-800 rounded-lg p-3"></div>
+          </div>
+          <div>
+            <div class="text-xs text-gray-500 mb-1">Internal notes (only you can see these)</div>
+            <textarea id="ld-notes" rows="3" class="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none focus:border-amber-500" placeholder="Notes about this lead…"></textarea>
+          </div>
+          <div class="flex items-center gap-3">
+            <button onclick="saveLeadNotes()" class="bg-gray-800 hover:bg-gray-700 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors">Save notes</button>
+            <a id="ld-reply" href="#" class="flex-1 text-center bg-amber-500 hover:bg-amber-400 text-gray-900 px-4 py-2.5 rounded-lg text-sm font-bold transition-colors">Reply by email</a>
+          </div>
         </div>
       </div>
     </div>
