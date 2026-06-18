@@ -9,10 +9,7 @@
   };
 
   function renderProductCard(p) {
-    const link = p.has_custom_page && p.custom_page_path
-      ? p.custom_page_path
-      : `our_products/product.html?slug=${p.slug}`;
-
+    // Redirect intentionally disabled for now — product cards are display-only.
     const platforms = (p.platforms || []).map(pl =>
       `<span class="inline-flex items-center gap-1 text-xs text-white/70">${platformIcons[pl] || ''}${pl}</span>`
     ).join('');
@@ -22,7 +19,7 @@
       : `<div class="w-16 h-16 rounded-2xl bg-gradient-to-br ${p.gradient || 'from-gray-600 to-gray-500'} flex items-center justify-center text-white text-2xl font-bold shadow-lg">${p.title[0]}</div>`;
 
     return `
-      <a href="${link}" class="group block">
+      <div class="group block">
         <div class="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:shadow-2xl hover:-translate-y-1" style="box-shadow: 0 0 0 transparent;">
           <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="box-shadow: 0 0 40px ${p.glow_color || 'rgba(99,102,241,0.2)'}"></div>
           <div class="relative z-10">
@@ -37,11 +34,10 @@
             <p class="text-white/60 text-sm mb-4 line-clamp-2">${p.description || ''}</p>
             <div class="flex items-center justify-between">
               <div class="flex gap-2">${platforms}</div>
-              <span class="text-xs text-white/40 group-hover:text-white/70 transition-colors">Explore &rarr;</span>
             </div>
           </div>
         </div>
-      </a>
+      </div>
     `;
   }
 

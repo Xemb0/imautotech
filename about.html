@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Imautotech</title>
+  <meta name="description" content="Imautotech (VISHAL NISHAD) is a Dehradun-based software studio building full-cycle custom apps, websites and managed services for clients worldwide.">
+  <link rel="icon" href="fav_diffco_black.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --navy:#131426;
+      --navy-2:#1b1d35;
+      --gold:#F8B000;
+      --muted:#9AA3C6;
+      --light:#EEEFF5;
+      --line:rgba(154,163,198,.16);
+    }
+    *{font-family:'Inter',sans-serif}
+    body{background:var(--navy);color:var(--light);-webkit-font-smoothing:antialiased}
+    .gold{color:var(--gold)}
+    .topbar{height:3px;background:linear-gradient(90deg,var(--gold),rgba(248,176,0,.15))}
+    .card{background:var(--navy-2);border:1px solid var(--line);border-radius:18px;transition:border-color .3s,transform .3s}
+    .card:hover{border-color:rgba(248,176,0,.35);transform:translateY(-4px)}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(248,176,0,.1);border:1px solid rgba(248,176,0,.25);font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--gold)}
+    .eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+    .ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(248,176,0,.1);color:var(--gold);flex-shrink:0}
+    .stat-num{font-size:2.6rem;font-weight:900;line-height:1;background:linear-gradient(135deg,#fff,var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    a.btn-gold{background:var(--gold);color:#131426;font-weight:700;border-radius:12px;transition:filter .25s,transform .25s}
+    a.btn-gold:hover{filter:brightness(1.08);transform:translateY(-2px)}
+    a.btn-ghost{border:1px solid var(--line);color:#fff;font-weight:600;border-radius:12px;transition:all .25s}
+    a.btn-ghost:hover{border-color:rgba(248,176,0,.4);background:rgba(248,176,0,.06)}
+    ::selection{background:rgba(248,176,0,.25)}
+  </style>
+</head>
+<body>
+  <div class="topbar"></div>
+
+  <!-- Header -->
+  <header class="border-b" style="border-color:var(--line)">
+    <div class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <img src="images/logo-white.png" alt="Imautotech" class="h-9 w-auto">
+        <span class="text-sm font-semibold tracking-wide text-white/80 group-hover:text-white transition">IMAUTOTECH</span>
+      </a>
+      <nav class="hidden sm:flex items-center gap-7 text-sm font-medium">
+        <a href="about.html" class="gold">About</a>
+        <a href="pricing.html" class="text-white/60 hover:text-white transition">Pricing</a>
+        <a href="support/index.html" class="text-white/60 hover:text-white transition">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-12">
+    <span class="chip mb-6">Based in Dehradun · Operating worldwide</span>
+    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.05] max-w-3xl">
+      We build software that <span class="gold">moves your business forward</span>.
+    </h1>
+    <p class="text-[var(--muted)] text-lg mt-6 max-w-2xl leading-relaxed">
+      Imautotech is a full-cycle software studio. We design, build, ship and manage custom mobile apps, websites and digital products — and we run our own apps used by people around the world. From a single idea to a launched, maintained product, we handle the whole journey.
+    </p>
+    <div class="flex flex-wrap gap-3 mt-8">
+      <a href="pricing.html" class="btn-gold px-6 py-3 text-sm">See our pricing</a>
+      <a href="support/index.html" class="btn-ghost px-6 py-3 text-sm">Get in touch</a>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="max-w-6xl mx-auto px-6 pb-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="card p-6"><div class="stat-num">4+</div><p class="text-[var(--muted)] text-sm mt-2">Live products of our own</p></div>
+      <div class="card p-6"><div class="stat-num">360°</div><p class="text-[var(--muted)] text-sm mt-2">Design, build &amp; manage</p></div>
+      <div class="card p-6"><div class="stat-num">2</div><p class="text-[var(--muted)] text-sm mt-2">Android &amp; iOS, one codebase</p></div>
+      <div class="card p-6"><div class="stat-num">∞</div><p class="text-[var(--muted)] text-sm mt-2">Worldwide reach</p></div>
+    </div>
+  </section>
+
+  <!-- Who we are -->
+  <section class="max-w-6xl mx-auto px-6 pb-20">
+    <div class="grid lg:grid-cols-2 gap-12 items-start">
+      <div>
+        <p class="eyebrow mb-3">Who we are</p>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-5">A product studio, not just an agency</h2>
+        <p class="text-[var(--muted)] leading-relaxed mb-4">
+          Imautotech (operated by <span class="text-white font-medium">VISHAL NISHAD</span>) is a software development and staff-augmentation company based in Dehradun, India. We work with founders and businesses to turn ideas into real, shipped products — and we keep them running long after launch.
+        </p>
+        <p class="text-[var(--muted)] leading-relaxed">
+          Because we build and operate our own apps too, we feel every part of the product lifecycle: performance, store policies, user support, updates and growth. That experience goes straight back into the work we do for clients.
+        </p>
+      </div>
+      <div class="card p-8">
+        <p class="eyebrow mb-4">What you can count on</p>
+        <ul class="space-y-4">
+          <li class="flex gap-3"><span class="gold font-bold">→</span><div><span class="text-white font-semibold">Full ownership.</span> <span class="text-[var(--muted)]">From first wireframe to live app store listing — one team, end to end.</span></div></li>
+          <li class="flex gap-3"><span class="gold font-bold">→</span><div><span class="text-white font-semibold">Honest, fixed pricing.</span> <span class="text-[var(--muted)]">Clear quotes before work begins. No surprises.</span></div></li>
+          <li class="flex gap-3"><span class="gold font-bold">→</span><div><span class="text-white font-semibold">We stay after launch.</span> <span class="text-[var(--muted)]">Managed handling plans keep your product healthy and growing.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="max-w-6xl mx-auto px-6 pb-20">
+    <p class="eyebrow mb-3">What we do</p>
+    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Services</h2>
+    <p class="text-[var(--muted)] max-w-2xl mb-10">Everything you need to take a product from idea to live and maintained.</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="card p-7">
+        <div class="ic mb-5"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+        <h3 class="text-lg font-bold mb-2">Mobile Development</h3>
+        <p class="text-[var(--muted)] text-sm leading-relaxed">Native-quality Android &amp; iOS apps from a single Kotlin Multiplatform codebase — fast, modern and maintainable.</p>
+      </div>
+      <div class="card p-7">
+        <div class="ic mb-5"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/></svg></div>
+        <h3 class="text-lg font-bold mb-2">Backend Development</h3>
+        <p class="text-[var(--muted)] text-sm leading-relaxed">Scalable APIs, databases, auth and real-time infrastructure that your apps and websites can rely on.</p>
+      </div>
+      <div class="card p-7">
+        <div class="ic mb-5"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg></div>
+        <h3 class="text-lg font-bold mb-2">Web Development</h3>
+        <p class="text-[var(--muted)] text-sm leading-relaxed">Marketing sites, web apps and dashboards — responsive, fast and built to convert.</p>
+      </div>
+      <div class="card p-7">
+        <div class="ic mb-5"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M4 17l6-6-6-6M12 19h8"/></svg></div>
+        <h3 class="text-lg font-bold mb-2">Frontend Development</h3>
+        <p class="text-[var(--muted)] text-sm leading-relaxed">Polished, accessible interfaces and design systems that feel great to use on every screen.</p>
+      </div>
+      <div class="card p-7">
+        <div class="ic mb-5"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13A4 4 0 0119 7"/></svg></div>
+        <h3 class="text-lg font-bold mb-2">Team Augmentation</h3>
+        <p class="text-[var(--muted)] text-sm leading-relaxed">Need extra hands? Plug our developers into your team and ship faster without the hiring overhead.</p>
+      </div>
+      <div class="card p-7">
+        <div class="ic mb-5"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M12 2a3 3 0 013 3v1a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M5 21v-2a4 4 0 014-4h6a4 4 0 014 4v2M12 9v6"/></svg></div>
+        <h3 class="text-lg font-bold mb-2">Managed Handling</h3>
+        <p class="text-[var(--muted)] text-sm leading-relaxed">We run your live app or website — hosting, updates, fixes and growth — so you can focus on your business. <a href="pricing.html" class="gold underline underline-offset-2">See plans</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solutions -->
+  <section class="max-w-6xl mx-auto px-6 pb-20">
+    <p class="eyebrow mb-3">What we specialise in</p>
+    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-10">Solutions</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="card p-6"><h3 class="font-bold mb-2 gold">AI-Driven Software</h3><p class="text-[var(--muted)] text-sm leading-relaxed">Intelligent features and automation built into your product.</p></div>
+      <div class="card p-6"><h3 class="font-bold mb-2 gold">Enterprise Development</h3><p class="text-[var(--muted)] text-sm leading-relaxed">Robust systems that scale with serious workloads and teams.</p></div>
+      <div class="card p-6"><h3 class="font-bold mb-2 gold">Custom Development</h3><p class="text-[var(--muted)] text-sm leading-relaxed">Bespoke software shaped exactly around your workflow.</p></div>
+      <div class="card p-6"><h3 class="font-bold mb-2 gold">Healthcare Software</h3><p class="text-[var(--muted)] text-sm leading-relaxed">Considered, compliant solutions for health and care.</p></div>
+    </div>
+  </section>
+
+  <!-- Our products -->
+  <section class="max-w-6xl mx-auto px-6 pb-20">
+    <p class="eyebrow mb-3">Built &amp; run by us</p>
+    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Our own products</h2>
+    <p class="text-[var(--muted)] max-w-2xl mb-10">We don't just build for others — these are live apps we designed, shipped and maintain ourselves.</p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="card p-6"><h3 class="font-bold mb-2">WatchParty</h3><p class="text-[var(--muted)] text-sm leading-relaxed">Watch movies and videos together with friends, in sync, from anywhere.</p></div>
+      <div class="card p-6"><h3 class="font-bold mb-2">WX Gamepad</h3><p class="text-[var(--muted)] text-sm leading-relaxed">Turn your phone into a wireless gamepad for your PC and games.</p></div>
+      <div class="card p-6"><h3 class="font-bold mb-2">Arc Launcher</h3><p class="text-[var(--muted)] text-sm leading-relaxed">A fast, clean and customisable Android home-screen launcher.</p></div>
+      <div class="card p-6"><h3 class="font-bold mb-2">Rentle</h3><p class="text-[var(--muted)] text-sm leading-relaxed">A rental management experience that keeps listings and bookings simple.</p></div>
+    </div>
+    <p class="text-[var(--muted)] text-sm mt-6">Need help with one of our apps? Visit the <a href="support/index.html" class="gold underline underline-offset-2">Support Center</a>.</p>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    <div class="card p-10 md:p-14 text-center" style="background:linear-gradient(160deg,rgba(248,176,0,.08),var(--navy-2))">
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Let's build something together</h2>
+      <p class="text-[var(--muted)] max-w-xl mx-auto mb-7">Tell us about your idea or your live product. We'll recommend the right path — usually within a day.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="support/index.html" class="btn-gold px-7 py-3.5 text-sm">Start a conversation</a>
+        <a href="pricing.html" class="btn-ghost px-7 py-3.5 text-sm">View pricing</a>
+      </div>
+      <div class="mt-8 pt-8 border-t flex flex-col sm:flex-row items-center justify-center gap-x-8 gap-y-2 text-sm text-[var(--muted)]" style="border-color:var(--line)">
+        <span>📞 +91 9456742578</span>
+        <span>📍 253-1, Dharampur, Dehradun, Uttarakhand-248001</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t" style="border-color:var(--line)">
+    <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-white/40">&copy; 2026 VISHAL NISHAD · Imautotech. All rights reserved.</p>
+      <nav class="flex items-center gap-6 text-sm font-medium">
+        <a href="about.html" class="gold">About</a>
+        <a href="pricing.html" class="text-white/55 hover:text-white transition">Pricing</a>
+        <a href="privacy-policy.html" class="text-white/55 hover:text-white transition">Privacy</a>
+        <a href="terms-of-service.html" class="text-white/55 hover:text-white transition">Terms</a>
+        <a href="support/index.html" class="text-white/55 hover:text-white transition">Support</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
