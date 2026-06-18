@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing | Imautotech</title>
+  <meta name="description" content="Transparent pricing — 1-hour consultancy, custom app development from ₹10,000, and managed app/website handling plans from Imautotech.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,600;1,9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{fontFamily:{display:['Fraunces','serif'],body:['Outfit','sans-serif']}}}}</script>
+  <style>
+    :root{
+      --bg:#0b0a18;
+      --ink:#f5f3ff;
+      --c-blue:#4f7cff;
+      --c-mint:#2de3b0;
+      --c-violet:#b56bff;
+      --c-coral:#ff6b8a;
+      --c-amber:#ffb84f;
+      --c-magenta:#ec4899;
+      --c-cyan:#38e1ff;
+    }
+    *{font-family:'Outfit',sans-serif}
+    h1,h2,h3,.font-display{font-family:'Fraunces',serif;font-optical-sizing:auto}
+    body{background:var(--bg);color:var(--ink);overflow-x:hidden}
+
+    /* ═══ ANIMATIONS ═══ */
+    @keyframes reveal{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes float-slow{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(40px,-30px) rotate(2deg)}66%{transform:translate(-20px,20px) rotate(-2deg)}}
+    @keyframes float-med{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,40px)}}
+    @keyframes float-fast{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-20px)}}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    @keyframes shimmer{0%{transform:translateX(-120%) skewX(-20deg)}100%{transform:translateX(220%) skewX(-20deg)}}
+    @keyframes gradient-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+    @keyframes sparkle{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
+    @keyframes count-pop{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+
+    .reveal{animation:reveal .8s cubic-bezier(.2,.9,.3,1.2) both}
+    .reveal-d1{animation:reveal .8s cubic-bezier(.2,.9,.3,1.2) .1s both}
+    .reveal-d2{animation:reveal .8s cubic-bezier(.2,.9,.3,1.2) .2s both}
+    .reveal-d3{animation:reveal .8s cubic-bezier(.2,.9,.3,1.2) .3s both}
+    .reveal-d4{animation:reveal .8s cubic-bezier(.2,.9,.3,1.2) .4s both}
+    .reveal-d5{animation:reveal .8s cubic-bezier(.2,.9,.3,1.2) .5s both}
+
+    /* ═══ BACKGROUND ═══ */
+    .bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+    .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;mix-blend-mode:screen}
+    .blob-1{width:560px;height:560px;background:var(--c-blue);top:-180px;left:-140px;animation:float-slow 22s ease-in-out infinite}
+    .blob-2{width:480px;height:480px;background:var(--c-magenta);top:-120px;right:-160px;animation:float-med 18s ease-in-out infinite}
+    .blob-3{width:520px;height:520px;background:var(--c-mint);bottom:-200px;left:10%;animation:float-slow 26s ease-in-out infinite reverse}
+    .blob-4{width:420px;height:420px;background:var(--c-amber);bottom:-120px;right:-100px;animation:float-med 20s ease-in-out infinite reverse}
+    .blob-5{width:380px;height:380px;background:var(--c-violet);top:40%;left:40%;animation:float-fast 16s ease-in-out infinite;opacity:.35}
+    .grid-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse at center,rgba(0,0,0,.6),transparent 70%)}
+    .grain{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+    .sparkle{position:absolute;width:4px;height:4px;border-radius:50%;background:#fff;box-shadow:0 0 8px rgba(255,255,255,.8);animation:sparkle 3s ease-in-out infinite}
+
+    /* ═══ HEADLINE ═══ */
+    .hero-word{background:linear-gradient(90deg,var(--c-cyan),var(--c-violet),var(--c-coral),var(--c-amber),var(--c-cyan));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradient-shift 6s ease-in-out infinite;font-style:italic;font-weight:700}
+    .pill-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;color:rgba(255,255,255,.85)}
+    .pill-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--c-mint);box-shadow:0 0 10px var(--c-mint);animation:bob 2s ease-in-out infinite}
+
+    /* ═══ CURRENCY TOGGLE ═══ */
+    .cur-toggle{display:inline-flex;padding:4px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px)}
+    .cur-btn{padding:7px 18px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,.55);transition:all .35s cubic-bezier(.2,.9,.3,1.2);cursor:pointer;border:none;background:transparent}
+    .cur-btn.active{color:#0b0a18;background:linear-gradient(135deg,var(--c-cyan),var(--c-violet));box-shadow:0 8px 24px -8px var(--c-violet)}
+    .amount{display:inline-block;animation:count-pop .35s cubic-bezier(.2,.9,.3,1.2)}
+
+    /* ═══ PRICE CARDS ═══ */
+    .price-card{position:relative;border-radius:28px;padding:30px;overflow:hidden;isolation:isolate;transition:transform .6s cubic-bezier(.2,.9,.3,1.2);background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);display:flex;flex-direction:column}
+    .price-card::before{content:'';position:absolute;inset:-2px;border-radius:30px;padding:2px;background:linear-gradient(135deg,var(--pc1),var(--pc2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.32;transition:opacity .5s;z-index:-1}
+    .price-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 0%,var(--pc1),transparent 55%),radial-gradient(circle at 100% 100%,var(--pc2),transparent 55%);opacity:.14;transition:opacity .5s;z-index:-1}
+    .price-card:hover{transform:translateY(-7px) scale(1.012)}
+    .price-card:hover::before{opacity:.8}
+    .price-card:hover::after{opacity:.3}
+    .price-card.featured{background:linear-gradient(160deg,rgba(181,107,255,.12),rgba(56,225,255,.06))}
+    .price-card.featured::before{opacity:.7}
+    .pc-shimmer{position:absolute;top:0;left:0;right:0;height:100%;width:40%;background:linear-gradient(110deg,transparent,rgba(255,255,255,.1),transparent);transform:translateX(-200%);pointer-events:none}
+    .price-card:hover .pc-shimmer{animation:shimmer 1.4s ease-out}
+    .pc-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--pc1)}
+    .pc-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--pc1);box-shadow:0 0 10px var(--pc1)}
+    .pc-badge{position:absolute;top:18px;right:18px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#0b0a18;padding:5px 12px;border-radius:999px;background:linear-gradient(135deg,var(--c-amber),var(--c-coral));box-shadow:0 8px 24px -8px var(--c-coral)}
+    .feat-row{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,.7);line-height:1.5}
+    .feat-check{flex-shrink:0;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px;background:linear-gradient(135deg,var(--pc1),var(--pc2))}
+
+    /* ═══ BUTTONS ═══ */
+    .btn-vivid{position:relative;background:linear-gradient(135deg,var(--c-cyan),var(--c-violet),var(--c-coral));background-size:200% 100%;color:#0b0a18;font-weight:700;letter-spacing:.02em;transition:all .4s;overflow:hidden}
+    .btn-vivid:hover{background-position:100% 50%;transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(236,72,153,.5)}
+    .btn-ghost{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#fff;font-weight:600;transition:all .35s}
+    .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+
+    ::-webkit-scrollbar{width:8px;height:8px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:8px}
+    ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
+
+    /* FAQ */
+    .faq-item{border:1px solid rgba(255,255,255,.08);border-radius:18px;background:rgba(255,255,255,.02);overflow:hidden;transition:border-color .3s}
+    .faq-item:hover{border-color:rgba(255,255,255,.16)}
+    .faq-q{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 22px;font-weight:600}
+    .faq-q::-webkit-details-marker{display:none}
+    .faq-item[open] .faq-chev{transform:rotate(45deg)}
+    .faq-chev{transition:transform .35s cubic-bezier(.2,.9,.3,1.2);flex-shrink:0}
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- Background -->
+  <div class="bg-canvas">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+  </div>
+  <div class="grid-overlay"></div>
+  <div class="grain"></div>
+
+  <!-- Floating sparkles -->
+  <div class="fixed inset-0 pointer-events-none z-[3]">
+    <span class="sparkle" style="top:12%;left:8%;animation-delay:0s"></span>
+    <span class="sparkle" style="top:22%;left:78%;animation-delay:.6s"></span>
+    <span class="sparkle" style="top:60%;left:14%;animation-delay:1.2s"></span>
+    <span class="sparkle" style="top:78%;left:86%;animation-delay:1.8s"></span>
+    <span class="sparkle" style="top:40%;left:92%;animation-delay:.3s"></span>
+    <span class="sparkle" style="top:8%;left:54%;animation-delay:1.6s"></span>
+  </div>
+
+  <!-- Nav -->
+  <nav class="relative z-10 px-6 py-6">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="group flex items-center gap-2.5">
+        <span class="w-8 h-8 rounded-xl flex items-center justify-center font-display font-bold text-lg" style="background:linear-gradient(135deg,var(--c-cyan),var(--c-violet));color:#0b0a18">i</span>
+        <span class="text-sm tracking-[.12em] uppercase text-white/70 group-hover:text-white transition-colors font-medium">Imautotech</span>
+      </a>
+      <span class="pill-tag">
+        <span class="dot"></span>
+        Pricing
+      </span>
+    </div>
+  </nav>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 pt-6 md:pt-10 pb-20">
+
+    <!-- ═══ HERO ═══ -->
+    <div class="mb-12 md:mb-16 reveal text-center md:text-left">
+      <div class="flex justify-center md:justify-start mb-7">
+        <span class="pill-tag" style="color:var(--c-cyan)">
+          <span class="dot" style="background:var(--c-cyan);box-shadow:0 0 10px var(--c-cyan)"></span>
+          Simple, honest pricing
+        </span>
+      </div>
+      <h1 class="text-[44px] md:text-[80px] leading-[.95] font-display font-bold tracking-[-.02em] max-w-4xl mx-auto md:mx-0">
+        Build it, ship it,<br>and we'll <span class="hero-word">handle it.</span>
+      </h1>
+      <p class="text-white/55 text-lg md:text-xl mt-7 max-w-2xl mx-auto md:mx-0 leading-relaxed">
+        From a single hour of expert consultancy to a custom-built app and fully-managed handling — pick exactly what you need. No hidden fees, no surprises.
+      </p>
+
+      <!-- Currency toggle -->
+      <div class="flex items-center justify-center md:justify-start gap-3 mt-9">
+        <span class="text-white/40 text-xs tracking-[.18em] uppercase font-semibold">Show prices in</span>
+        <div class="cur-toggle" role="group" aria-label="Currency">
+          <button class="cur-btn active" data-cur="INR">₹ INR</button>
+          <button class="cur-btn" data-cur="USD">$ USD</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CONSULTANCY (hero band) ═══ -->
+    <div class="mb-16 reveal-d1">
+      <div class="relative rounded-[28px] p-8 md:p-12 overflow-hidden" style="background:linear-gradient(135deg,rgba(56,225,255,.09),rgba(45,227,176,.05));border:1px solid rgba(255,255,255,.1)">
+        <div class="absolute -top-24 -right-16 w-80 h-80 rounded-full" style="background:radial-gradient(circle,rgba(56,225,255,.28),transparent 70%);filter:blur(40px)"></div>
+        <div class="relative grid md:grid-cols-[1fr_auto] gap-8 md:gap-10 items-center">
+          <div>
+            <div class="pc-eyebrow mb-4" style="--pc1:var(--c-cyan)">1-on-1 Consultancy</div>
+            <h2 class="text-3xl md:text-4xl font-display font-bold mb-3">Book an hour with an expert</h2>
+            <p class="text-white/60 leading-relaxed max-w-xl">
+              Strategy, architecture review, debugging, tech direction, or a second opinion — get focused, hands-on guidance from our team. Pay per hour, no retainer required.
+            </p>
+            <div class="flex flex-wrap gap-x-6 gap-y-2 mt-5 text-sm text-white/55">
+              <span class="inline-flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--c-cyan)"></span> Video or in-person</span>
+              <span class="inline-flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--c-mint)"></span> Notes &amp; action plan shared after</span>
+              <span class="inline-flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full" style="background:var(--c-violet)"></span> Billed per hour</span>
+            </div>
+          </div>
+          <div class="text-center md:text-right md:pl-8 md:border-l border-white/10">
+            <div class="flex items-end justify-center md:justify-end gap-1">
+              <span class="text-5xl md:text-6xl font-display font-bold leading-none price" data-inr="1999" data-usd="24"></span>
+            </div>
+            <p class="text-white/45 text-sm mt-2">per hour</p>
+            <a href="support/contact.html" class="btn-vivid mt-6 inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm w-full md:w-auto">
+              Book a session
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ APP DEVELOPMENT ═══ -->
+    <div class="mb-16 reveal-d2">
+      <div class="flex items-end justify-between mb-6">
+        <div>
+          <p class="text-[11px] tracking-[.22em] uppercase text-white/40 font-semibold mb-1">Build from scratch</p>
+          <h2 class="text-2xl md:text-3xl font-display font-bold">Custom app &amp; website development</h2>
+        </div>
+      </div>
+      <div class="relative rounded-[28px] p-8 md:p-10 overflow-hidden" style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08)">
+        <div class="absolute -bottom-20 -left-16 w-80 h-80 rounded-full" style="background:radial-gradient(circle,rgba(181,107,255,.22),transparent 70%);filter:blur(40px)"></div>
+        <div class="relative grid md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-center">
+          <div class="text-center md:text-left md:pr-10 md:border-r border-white/10">
+            <p class="text-white/45 text-xs tracking-[.18em] uppercase font-semibold mb-2">Starting from</p>
+            <div class="flex items-end justify-center md:justify-start gap-1">
+              <span class="text-5xl md:text-6xl font-display font-bold leading-none price" data-inr="10000" data-usd="120"></span>
+            </div>
+            <p class="text-white/45 text-sm mt-2">one-time · scope-based quote</p>
+            <a href="support/contact.html" class="btn-ghost mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm w-full md:w-auto">
+              Get a quote
+            </a>
+          </div>
+          <div>
+            <p class="text-white/60 leading-relaxed mb-5">
+              MVP, full product, or a marketing website — we design, build, and ship it. The starting price covers a focused build; final pricing scales with features, platforms (Android / iOS / web), and integrations.
+            </p>
+            <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3">
+              <div class="feat-row" style="--pc1:var(--c-violet);--pc2:var(--c-cyan)"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Native Android &amp; iOS (KMP)</div>
+              <div class="feat-row" style="--pc1:var(--c-violet);--pc2:var(--c-cyan)"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>UI/UX design included</div>
+              <div class="feat-row" style="--pc1:var(--c-violet);--pc2:var(--c-cyan)"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Backend &amp; API setup</div>
+              <div class="feat-row" style="--pc1:var(--c-violet);--pc2:var(--c-cyan)"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Store submission &amp; launch</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MANAGEMENT / HANDLING PLANS ═══ -->
+    <div class="mb-10 reveal-d3">
+      <div class="text-center mb-3">
+        <p class="text-[11px] tracking-[.22em] uppercase text-white/40 font-semibold mb-2">Already live? Hand it over</p>
+        <h2 class="text-2xl md:text-4xl font-display font-bold">Managed handling &amp; maintenance</h2>
+        <p class="text-white/55 mt-3 max-w-2xl mx-auto">We take care of every aspect of your app or website — uptime, updates, fixes, and growth. Pick a tier by how much you want us to run.</p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5 reveal-d4">
+
+      <!-- BASIC -->
+      <div class="price-card" style="--pc1:#4f7cff;--pc2:#38e1ff">
+        <div class="pc-shimmer"></div>
+        <div class="pc-eyebrow mb-4">Basic</div>
+        <h3 class="text-xl font-display font-bold mb-1">Single App</h3>
+        <p class="text-white/45 text-sm mb-5">Everything for one app, fully handled.</p>
+        <div class="flex items-end gap-1 mb-1">
+          <span class="text-4xl font-display font-bold leading-none price" data-inr="10000" data-usd="120"></span>
+        </div>
+        <p class="text-white/40 text-xs mb-6">per month</p>
+        <div class="space-y-2.5 mb-7 flex-1">
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>1 app or website</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Hosting &amp; uptime monitoring</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Bug fixes &amp; minor updates</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Email support</div>
+        </div>
+        <a href="support/contact.html" class="btn-ghost text-center px-5 py-3 rounded-xl text-sm">Choose Basic</a>
+      </div>
+
+      <!-- GROWTH -->
+      <div class="price-card" style="--pc1:#2de3b0;--pc2:#4f7cff">
+        <div class="pc-shimmer"></div>
+        <div class="pc-eyebrow mb-4">Growth</div>
+        <h3 class="text-xl font-display font-bold mb-1">Multi-App</h3>
+        <p class="text-white/45 text-sm mb-5">For a growing product or a small suite.</p>
+        <div class="flex items-end gap-1 mb-1">
+          <span class="text-4xl font-display font-bold leading-none price" data-inr="29000" data-usd="340"></span>
+        </div>
+        <p class="text-white/40 text-xs mb-6">per month</p>
+        <div class="space-y-2.5 mb-7 flex-1">
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Up to 3 apps / sites</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Everything in Basic</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Feature updates each month</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Priority email &amp; chat</div>
+        </div>
+        <a href="support/contact.html" class="btn-ghost text-center px-5 py-3 rounded-xl text-sm">Choose Growth</a>
+      </div>
+
+      <!-- PRO (featured) -->
+      <div class="price-card featured" style="--pc1:#b56bff;--pc2:#38e1ff">
+        <div class="pc-badge">Popular</div>
+        <div class="pc-shimmer"></div>
+        <div class="pc-eyebrow mb-4">Pro</div>
+        <h3 class="text-xl font-display font-bold mb-1">Full Service</h3>
+        <p class="text-white/45 text-sm mb-5">Hands-off ownership of your product.</p>
+        <div class="flex items-end gap-1 mb-1">
+          <span class="text-4xl font-display font-bold leading-none price" data-inr="49000" data-usd="580"></span>
+        </div>
+        <p class="text-white/40 text-xs mb-6">per month</p>
+        <div class="space-y-2.5 mb-7 flex-1">
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Up to 6 apps / sites</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Everything in Growth</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Dedicated developer time</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Analytics &amp; growth support</div>
+        </div>
+        <a href="support/contact.html" class="btn-vivid text-center px-5 py-3 rounded-xl text-sm">Choose Pro</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="price-card" style="--pc1:#ff6b8a;--pc2:#ffb84f">
+        <div class="pc-shimmer"></div>
+        <div class="pc-eyebrow mb-4">Enterprise</div>
+        <h3 class="text-xl font-display font-bold mb-1">Scale</h3>
+        <p class="text-white/45 text-sm mb-5">A whole portfolio, run like your own team.</p>
+        <div class="flex items-end gap-1 mb-1">
+          <span class="text-4xl font-display font-bold leading-none price" data-inr="149000" data-usd="1750"></span>
+        </div>
+        <p class="text-white/40 text-xs mb-6">per month</p>
+        <div class="space-y-2.5 mb-7 flex-1">
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Unlimited apps / sites</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Everything in Pro</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>Dedicated team &amp; manager</div>
+          <div class="feat-row"><span class="feat-check"><svg class="w-2.5 h-2.5 text-[#0b0a18]" fill="none" stroke="currentColor" stroke-width="3.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>24/7 priority SLA</div>
+        </div>
+        <a href="support/contact.html" class="btn-ghost text-center px-5 py-3 rounded-xl text-sm">Talk to sales</a>
+      </div>
+    </div>
+
+    <p class="text-center text-white/35 text-xs mt-6 reveal-d5">
+      All management plans are billed monthly and can be cancelled anytime. USD prices are approximate and converted at ~₹85 = $1.
+    </p>
+
+    <!-- ═══ FAQ ═══ -->
+    <div class="mt-20 max-w-3xl mx-auto reveal-d5">
+      <h2 class="text-2xl md:text-3xl font-display font-bold mb-7 text-center">Frequently asked</h2>
+      <div class="space-y-3">
+        <details class="faq-item">
+          <summary class="faq-q">What does "we handle every aspect" mean?
+            <svg class="faq-chev w-5 h-5 text-white/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-white/55 text-sm leading-relaxed">Hosting, monitoring, updates, bug fixes, store compliance, and security — the day-to-day running of your app or website so you don't have to think about it. Higher tiers add new features, dedicated developer time, and growth support.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Is the app development price really just ₹10,000?
+            <svg class="faq-chev w-5 h-5 text-white/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-white/55 text-sm leading-relaxed">That's the starting point for a focused build. Final pricing depends on the features, number of platforms, and integrations you need — we give you a fixed quote before any work begins.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Can I just book one hour of consultancy?
+            <svg class="faq-chev w-5 h-5 text-white/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-white/55 text-sm leading-relaxed">Absolutely. Consultancy is billed per hour at ₹1,999 with no commitment. Book a single session or several — whatever you need.</div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-q">Do you handle apps you didn't build?
+            <svg class="faq-chev w-5 h-5 text-white/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          </summary>
+          <div class="px-6 pb-5 text-white/55 text-sm leading-relaxed">Yes. Any of the management plans work for existing apps and websites. We start with a short audit, then take over the parts you want us to run.</div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ═══ CTA ═══ -->
+    <div class="mt-20 text-center reveal-d5">
+      <div class="relative rounded-[28px] p-10 md:p-14 overflow-hidden" style="background:linear-gradient(135deg,rgba(181,107,255,.12),rgba(56,225,255,.08));border:1px solid rgba(255,255,255,.1)">
+        <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full" style="background:radial-gradient(circle,rgba(56,225,255,.25),transparent 70%);filter:blur(30px)"></div>
+        <div class="absolute -bottom-20 -left-20 w-72 h-72 rounded-full" style="background:radial-gradient(circle,rgba(236,72,153,.22),transparent 70%);filter:blur(30px)"></div>
+        <div class="relative">
+          <h2 class="text-3xl md:text-4xl font-display font-bold mb-3">Not sure which fits?</h2>
+          <p class="text-white/60 max-w-lg mx-auto mb-7">Tell us about your project and we'll recommend the right mix — usually within a day.</p>
+          <a href="support/contact.html" class="btn-vivid inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl">
+            Talk to us
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-10 py-12 text-center">
+    <div class="flex items-center justify-center gap-4 mb-5">
+      <span class="w-8 h-px" style="background:linear-gradient(90deg,transparent,var(--c-cyan))"></span>
+      <span class="text-[10px] tracking-[.3em] uppercase text-white/30">Made with care</span>
+      <span class="w-8 h-px" style="background:linear-gradient(90deg,var(--c-coral),transparent)"></span>
+    </div>
+    <p class="text-white/30 text-xs tracking-[.1em] uppercase">&copy; 2025 Imautotech · All rights reserved</p>
+  </footer>
+
+  <script>
+  (function(){
+    const fmt = { INR: { sym: '₹', locale: 'en-IN' }, USD: { sym: '$', locale: 'en-US' } };
+    let cur = 'INR';
+
+    function render(){
+      const f = fmt[cur];
+      document.querySelectorAll('.price').forEach(el => {
+        const val = Number(el.dataset[cur.toLowerCase()]);
+        el.innerHTML = `<span class="amount">${f.sym}${val.toLocaleString(f.locale)}</span>`;
+      });
+    }
+
+    document.querySelectorAll('.cur-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.cur === cur) return;
+        cur = btn.dataset.cur;
+        document.querySelectorAll('.cur-btn').forEach(b => b.classList.toggle('active', b === btn));
+        render();
+      });
+    });
+
+    render();
+  })();
+  </script>
+</body>
+</html>
