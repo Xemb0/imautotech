@@ -4,31 +4,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacy Policy | Imautotech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={corePlugins:{preflight:false}}</script>
+  <script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{fontFamily:{display:['Playfair Display','serif'],body:['DM Sans','sans-serif']}}}}</script>
+  <style>
+    *{font-family:'DM Sans',sans-serif}
+    h1,h2,h3,.font-display{font-family:'Playfair Display',serif}
+    body{background:#08080c}
+    @keyframes reveal{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{animation:reveal .7s cubic-bezier(.16,1,.3,1) both}
+    .reveal-d1{animation:reveal .7s cubic-bezier(.16,1,.3,1) .08s both}
+    .reveal-d2{animation:reveal .7s cubic-bezier(.16,1,.3,1) .16s both}
+    .reveal-d3{animation:reveal .7s cubic-bezier(.16,1,.3,1) .24s both}
+    .grain{position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+    /* Editorial article */
+    .article{color:rgba(255,255,255,.72);line-height:1.75;font-size:16px}
+    .article section{padding:48px 0;border-top:1px solid rgba(255,255,255,.05);scroll-margin-top:120px}
+    .article section:first-child{border-top:0;padding-top:0}
+    .article h2{font-size:30px;line-height:1.2;color:#fff;margin-bottom:20px;font-weight:700;letter-spacing:-.01em}
+    .article h3{font-size:16px;font-weight:600;color:rgba(255,255,255,.92);margin:28px 0 12px;letter-spacing:.01em;font-family:'DM Sans',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:11px;color:#c7a376}
+    .article p{margin-bottom:16px}
+    .article p:last-child{margin-bottom:0}
+    .article strong{color:rgba(255,255,255,.92);font-weight:600}
+    .article ul{margin:12px 0 20px;padding:0;list-style:none}
+    .article li{position:relative;padding:6px 0 6px 24px;color:rgba(255,255,255,.7)}
+    .article li::before{content:'';position:absolute;left:0;top:16px;width:10px;height:1px;background:#c7a376;opacity:.6}
+    .article a{color:#c7a376;text-decoration:none;border-bottom:1px solid rgba(199,163,118,.3);transition:border-color .3s}
+    .article a:hover{border-bottom-color:#c7a376}
+    .section-num{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:#c7a376;letter-spacing:.08em;margin-bottom:8px;display:block}
+    .dropcap::first-letter{font-family:'Playfair Display',serif;float:left;font-size:72px;line-height:.88;padding:6px 12px 0 0;color:#c7a376;font-weight:700}
+
+    /* TOC */
+    .toc{position:sticky;top:40px}
+    .toc a{display:block;padding:9px 14px;font-size:12px;color:rgba(255,255,255,.4);border-left:1px solid rgba(255,255,255,.08);transition:all .3s;line-height:1.45}
+    .toc a:hover{color:rgba(255,255,255,.85);border-left-color:rgba(199,163,118,.5)}
+    .toc a.active{color:#c7a376;border-left-color:#c7a376;background:rgba(199,163,118,.04)}
+    .toc-num{display:inline-block;font-family:'Playfair Display',serif;font-style:italic;font-size:11px;color:rgba(255,255,255,.3);margin-right:8px;width:18px}
+    .toc a.active .toc-num{color:#c7a376}
+    .corner-flourish{position:absolute;width:48px;height:48px;border:1px solid rgba(199,163,118,.18);pointer-events:none}
+    .corner-tl{top:-1px;left:-1px;border-right:0;border-bottom:0}
+    .corner-br{bottom:-1px;right:-1px;border-left:0;border-top:0}
+  </style>
 </head>
-<body class="bg-gray-950 text-white min-h-screen">
-  <nav class="border-b border-white/5 px-6 py-4">
-    <div class="max-w-3xl mx-auto flex justify-between items-center">
-      <a href="../index.html" class="text-lg font-bold">Imautotech</a>
-      <a id="back-link" href="index.html" class="text-white/40 hover:text-white/70 text-sm">&larr; Support</a>
+<body class="text-white min-h-screen">
+  <div class="grain"></div>
+
+  <div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] rounded-full" style="background:radial-gradient(circle,rgba(199,163,118,.05) 0%,transparent 70%)"></div>
+    <div class="absolute bottom-[-30%] left-[-10%] w-[520px] h-[520px] rounded-full" style="background:radial-gradient(circle,rgba(56,189,248,.03) 0%,transparent 70%)"></div>
+  </div>
+
+  <nav class="relative z-10 px-6 py-5">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="text-sm tracking-[.2em] uppercase text-white/50 hover:text-white/80 transition-colors">Imautotech</a>
+      <a id="back-link" href="index.html" class="inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-xs tracking-[.15em] uppercase transition-colors">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Support
+      </a>
     </div>
   </nav>
 
-  <div class="max-w-3xl mx-auto px-6 py-12">
-    <div class="mb-10">
-      <span class="text-sm text-indigo-400 font-semibold">Legal</span>
-      <h1 id="page-title" class="text-4xl font-bold mt-1">Privacy Policy</h1>
-      <p class="text-white/40 text-sm mt-2">Last updated: April 10, 2026</p>
+  <div class="relative z-10 max-w-6xl mx-auto px-6 pt-8 pb-24">
+
+    <!-- Editorial masthead -->
+    <header class="mb-16 md:mb-20 reveal relative">
+      <span class="corner-flourish corner-tl"></span>
+      <div class="flex items-center gap-3 mb-8">
+        <span class="w-8 h-px bg-[#c7a376]"></span>
+        <p class="text-[10px] tracking-[.3em] uppercase text-[#c7a376]">The Legal Archive · Volume I</p>
+      </div>
+      <h1 id="page-title" class="text-5xl md:text-7xl font-display font-bold leading-[1.02] max-w-3xl"><em class="text-[#c7a376]">Privacy</em> Policy</h1>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-3 mt-8 text-[11px] tracking-[.22em] uppercase">
+        <span class="text-white/30">Last revised · April 10, 2026</span>
+        <span class="text-white/15">●</span>
+        <span class="text-white/30">Reading time · 6 min</span>
+        <span class="text-white/15">●</span>
+        <span class="text-white/30">Jurisdiction · Global</span>
+      </div>
+    </header>
+
+    <div class="grid lg:grid-cols-[240px_1fr] gap-x-14 gap-y-10">
+      <!-- TOC -->
+      <aside class="hidden lg:block reveal-d1">
+        <nav class="toc">
+          <p class="text-[10px] tracking-[.3em] uppercase text-white/30 px-4 mb-3">Contents</p>
+          <a href="#s1"><span class="toc-num">I</span>Introduction</a>
+          <a href="#s2"><span class="toc-num">II</span>What we collect</a>
+          <a href="#s3"><span class="toc-num">III</span>How we use data</a>
+          <a href="#s4"><span class="toc-num">IV</span>Third parties</a>
+          <a href="#s5"><span class="toc-num">V</span>Retention</a>
+          <a href="#s6"><span class="toc-num">VI</span>Security</a>
+          <a href="#s7"><span class="toc-num">VII</span>Children's privacy</a>
+          <a href="#s8"><span class="toc-num">VIII</span>Your rights</a>
+          <a href="#s9"><span class="toc-num">IX</span>Changes</a>
+          <a href="#s10"><span class="toc-num">X</span>Contact</a>
+        </nav>
+      </aside>
+
+      <!-- Article -->
+      <article id="content" class="article reveal-d2 max-w-2xl"></article>
     </div>
 
-    <article id="content" class="prose prose-invert max-w-none text-white/70 leading-relaxed space-y-6">
-      <p>Loading...</p>
-    </article>
+    <!-- Closing block -->
+    <div class="mt-24 pt-12 border-t border-white/5 reveal-d3 text-center">
+      <p class="text-[10px] tracking-[.3em] uppercase text-white/30 mb-4">End of Document</p>
+      <div class="w-px h-10 bg-gradient-to-b from-[#c7a376]/60 to-transparent mx-auto mb-4"></div>
+      <p class="font-display italic text-white/40 text-sm">Transparency is trust.</p>
+    </div>
   </div>
 
-  <footer class="border-t border-white/5 py-8 text-center mt-12">
-    <p class="text-white/30 text-sm">&copy; 2025 Imautotech</p>
+  <footer class="relative z-10 py-10 text-center">
+    <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mx-auto mb-6"></div>
+    <p class="text-white/20 text-xs tracking-[.1em] uppercase">&copy; 2025 Imautotech</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -37,7 +126,7 @@
   (async function() {
     const product = new URLSearchParams(window.location.search).get('product');
     let appName = 'Our Application';
-    let companyName = 'Imautotech';
+    const companyName = 'Imautotech';
 
     if (product) {
       document.getElementById('back-link').href = `index.html?product=${product}`;
@@ -45,94 +134,123 @@
       if (p) appName = p.title;
     }
 
-    document.getElementById('page-title').textContent = `${appName} - Privacy Policy`;
+    document.getElementById('page-title').innerHTML = `<em class="text-[#c7a376]">Privacy</em> Policy`;
+    const eyebrow = document.querySelector('header p');
+    if (product) eyebrow.textContent = `The Legal Archive · ${appName}`;
     document.title = `${appName} Privacy Policy | Imautotech`;
 
+    const contactLink = product ? `contact.html?product=${product}` : 'contact.html';
+    const deleteLink = product ? `delete.html?product=${product}` : 'delete.html';
+
     document.getElementById('content').innerHTML = `
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">1. Introduction</h2>
-        <p>${companyName} ("we", "our", or "us") operates <strong>${appName}</strong>. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application and related services.</p>
-        <p>By using ${appName}, you agree to the collection and use of information in accordance with this policy.</p>
+      <section id="s1">
+        <span class="section-num">I — Introduction</span>
+        <h2>The Foundation</h2>
+        <p class="dropcap">${companyName} ("we", "our", or "us") operates <strong>${appName}</strong>. This Privacy Policy is our commitment, written plainly, about how your information moves through our systems — what we collect, why we collect it, and the care we take in holding it.</p>
+        <p>By using ${appName}, you agree to the collection and use of information described here. Where our practices exceed what the law requires, that is by design.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">2. Information We Collect</h2>
-        <h3 class="text-lg font-medium text-white/90 mb-2">2.1 Information You Provide</h3>
-        <ul class="list-disc pl-6 space-y-1">
-          <li>Account registration information (name, email address)</li>
-          <li>Profile information and preferences</li>
-          <li>Communications you send to us (support tickets, feedback)</li>
+      <section id="s2">
+        <span class="section-num">II — What We Collect</span>
+        <h2>Information we gather</h2>
+        <h3>2.1 You give us</h3>
+        <ul>
+          <li>Account registration details — your name and email address</li>
+          <li>Profile information and preferences you set within the app</li>
+          <li>Correspondence you send us, including support tickets and product feedback</li>
         </ul>
-        <h3 class="text-lg font-medium text-white/90 mb-2 mt-4">2.2 Information Collected Automatically</h3>
-        <ul class="list-disc pl-6 space-y-1">
-          <li>Device information (model, operating system, unique identifiers)</li>
-          <li>Usage data (features used, time spent, crash reports)</li>
-          <li>Advertising identifiers (for personalized ads, if applicable)</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">3. How We Use Your Information</h2>
-        <ul class="list-disc pl-6 space-y-1">
-          <li>To provide and maintain ${appName}</li>
-          <li>To improve and personalize your experience</li>
-          <li>To communicate with you about updates and support</li>
-          <li>To detect and prevent fraud or abuse</li>
-          <li>To comply with legal obligations</li>
+        <h3>2.2 Collected automatically</h3>
+        <ul>
+          <li>Device information such as model, operating system, and unique identifiers</li>
+          <li>Usage telemetry — features accessed, duration, and anonymized crash reports</li>
+          <li>Advertising identifiers used for personalised placements, where applicable</li>
         </ul>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">4. Third-Party Services</h2>
-        <p>We may use the following third-party services that collect information:</p>
-        <ul class="list-disc pl-6 space-y-1">
-          <li><strong>Google AdMob</strong> — for displaying advertisements</li>
-          <li><strong>Firebase Analytics</strong> — for usage analytics and crash reporting</li>
-          <li><strong>Google Play Services</strong> — for app distribution and updates</li>
-        </ul>
-        <p class="mt-2">Each third-party service has its own Privacy Policy governing the use of your data.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">5. Data Retention</h2>
-        <p>We retain your personal data only as long as necessary to provide our services. You may request deletion of your data at any time by contacting us or using the <a href="delete.html${product ? '?product=' + product : ''}" class="text-indigo-400 hover:text-indigo-300 underline">Delete My Account</a> option.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">6. Data Security</h2>
-        <p>We implement industry-standard security measures to protect your personal information, including encryption in transit and at rest. However, no method of transmission over the Internet is 100% secure.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">7. Children's Privacy</h2>
-        <p>${appName} is not intended for children under 13. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">8. Your Rights</h2>
-        <ul class="list-disc pl-6 space-y-1">
-          <li>Access your personal data</li>
-          <li>Correct inaccurate data</li>
-          <li>Request deletion of your data</li>
-          <li>Opt out of marketing communications</li>
-          <li>Data portability</li>
+      <section id="s3">
+        <span class="section-num">III — How We Use It</span>
+        <h2>Purpose of collection</h2>
+        <ul>
+          <li>To operate and maintain ${appName}</li>
+          <li>To improve your experience and personalise content where relevant</li>
+          <li>To communicate with you about updates, issues, and support</li>
+          <li>To detect, prevent, and respond to fraudulent or abusive activity</li>
+          <li>To comply with obligations under applicable law</li>
         </ul>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">9. Changes to This Policy</h2>
-        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.</p>
+      <section id="s4">
+        <span class="section-num">IV — Third Parties</span>
+        <h2>Services we rely on</h2>
+        <p>To deliver a reliable product, we partner with services that may receive information when you use ${appName}:</p>
+        <ul>
+          <li><strong>Google AdMob</strong> — serves and measures advertisements</li>
+          <li><strong>Firebase Analytics</strong> — anonymised usage analytics and crash reporting</li>
+          <li><strong>Google Play Services</strong> — distribution, updates, and billing</li>
+        </ul>
+        <p>Each operates under its own privacy terms, which we encourage you to review.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">10. Contact Us</h2>
-        <p>If you have questions about this Privacy Policy, please contact us:</p>
-        <ul class="list-disc pl-6 space-y-1">
-          <li>Email: <a href="mailto:imautotech@gmail.com" class="text-indigo-400 hover:text-indigo-300">imautotech@gmail.com</a></li>
-          <li>Support: <a href="contact.html${product ? '?product=' + product : ''}" class="text-indigo-400 hover:text-indigo-300">Raise a ticket</a></li>
+      <section id="s5">
+        <span class="section-num">V — Retention</span>
+        <h2>How long we keep it</h2>
+        <p>We retain personal data only for as long as needed to provide our services, fulfil legal obligations, or resolve disputes. When you no longer wish us to hold your information, use the <a href="${deleteLink}">Delete My Account</a> page — or write to us and we will honour the request.</p>
+      </section>
+
+      <section id="s6">
+        <span class="section-num">VI — Security</span>
+        <h2>How we protect it</h2>
+        <p>We apply industry-standard safeguards including encryption in transit and at rest, access controls, and routine review of our systems. No transmission over the Internet is entirely immune to risk; we work continuously to narrow that gap.</p>
+      </section>
+
+      <section id="s7">
+        <span class="section-num">VII — Children's Privacy</span>
+        <h2>Minors under 13</h2>
+        <p>${appName} is not directed at children under the age of 13, and we do not knowingly collect information from them. If you believe a child has shared personal data with us, please contact us so we can remove it.</p>
+      </section>
+
+      <section id="s8">
+        <span class="section-num">VIII — Your Rights</span>
+        <h2>What you may request</h2>
+        <ul>
+          <li>Access to the personal data we hold about you</li>
+          <li>Correction of information that is inaccurate or incomplete</li>
+          <li>Deletion of your account and associated data</li>
+          <li>To opt out of marketing communications at any time</li>
+          <li>Portability of your data in a common machine-readable format</li>
+        </ul>
+      </section>
+
+      <section id="s9">
+        <span class="section-num">IX — Changes</span>
+        <h2>Updates to this policy</h2>
+        <p>We may revise this Privacy Policy from time to time. Material changes will be reflected by an updated revision date at the top of this document, and where appropriate, by a notice within the app.</p>
+      </section>
+
+      <section id="s10">
+        <span class="section-num">X — Contact</span>
+        <h2>Reach our team</h2>
+        <p>For any question about this policy, your data, or our practices:</p>
+        <ul>
+          <li>Email — <a href="mailto:support@imautotech.in">support@imautotech.in</a></li>
+          <li>Open a support thread — <a href="${contactLink}">Raise a ticket</a></li>
         </ul>
       </section>
     `;
+
+    // TOC scrollspy
+    const links = document.querySelectorAll('.toc a');
+    const sections = document.querySelectorAll('.article section');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => io.observe(s));
   })();
   </script>
 </body>

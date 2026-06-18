@@ -4,30 +4,115 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms of Service | Imautotech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={corePlugins:{preflight:false}}</script>
+  <script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{fontFamily:{display:['Playfair Display','serif'],body:['DM Sans','sans-serif']}}}}</script>
+  <style>
+    *{font-family:'DM Sans',sans-serif}
+    h1,h2,h3,.font-display{font-family:'Playfair Display',serif}
+    body{background:#08080c}
+    @keyframes reveal{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{animation:reveal .7s cubic-bezier(.16,1,.3,1) both}
+    .reveal-d1{animation:reveal .7s cubic-bezier(.16,1,.3,1) .08s both}
+    .reveal-d2{animation:reveal .7s cubic-bezier(.16,1,.3,1) .16s both}
+    .reveal-d3{animation:reveal .7s cubic-bezier(.16,1,.3,1) .24s both}
+    .grain{position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+    .article{color:rgba(255,255,255,.72);line-height:1.75;font-size:16px}
+    .article section{padding:48px 0;border-top:1px solid rgba(255,255,255,.05);scroll-margin-top:120px}
+    .article section:first-child{border-top:0;padding-top:0}
+    .article h2{font-size:30px;line-height:1.2;color:#fff;margin-bottom:20px;font-weight:700;letter-spacing:-.01em}
+    .article p{margin-bottom:16px}
+    .article p:last-child{margin-bottom:0}
+    .article strong{color:rgba(255,255,255,.92);font-weight:600}
+    .article ul{margin:12px 0 20px;padding:0;list-style:none}
+    .article li{position:relative;padding:6px 0 6px 24px;color:rgba(255,255,255,.7)}
+    .article li::before{content:'';position:absolute;left:0;top:16px;width:10px;height:1px;background:#c7a376;opacity:.6}
+    .article a{color:#c7a376;text-decoration:none;border-bottom:1px solid rgba(199,163,118,.3);transition:border-color .3s}
+    .article a:hover{border-bottom-color:#c7a376}
+    .section-num{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:#c7a376;letter-spacing:.08em;margin-bottom:8px;display:block}
+    .dropcap::first-letter{font-family:'Playfair Display',serif;float:left;font-size:72px;line-height:.88;padding:6px 12px 0 0;color:#c7a376;font-weight:700}
+
+    .toc{position:sticky;top:40px}
+    .toc a{display:block;padding:9px 14px;font-size:12px;color:rgba(255,255,255,.4);border-left:1px solid rgba(255,255,255,.08);transition:all .3s;line-height:1.45}
+    .toc a:hover{color:rgba(255,255,255,.85);border-left-color:rgba(199,163,118,.5)}
+    .toc a.active{color:#c7a376;border-left-color:#c7a376;background:rgba(199,163,118,.04)}
+    .toc-num{display:inline-block;font-family:'Playfair Display',serif;font-style:italic;font-size:11px;color:rgba(255,255,255,.3);margin-right:8px;width:20px}
+    .toc a.active .toc-num{color:#c7a376}
+    .corner-flourish{position:absolute;width:48px;height:48px;border:1px solid rgba(199,163,118,.18);pointer-events:none}
+    .corner-tl{top:-1px;left:-1px;border-right:0;border-bottom:0}
+  </style>
 </head>
-<body class="bg-gray-950 text-white min-h-screen">
-  <nav class="border-b border-white/5 px-6 py-4">
-    <div class="max-w-3xl mx-auto flex justify-between items-center">
-      <a href="../index.html" class="text-lg font-bold">Imautotech</a>
-      <a id="back-link" href="index.html" class="text-white/40 hover:text-white/70 text-sm">&larr; Support</a>
+<body class="text-white min-h-screen">
+  <div class="grain"></div>
+
+  <div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] rounded-full" style="background:radial-gradient(circle,rgba(199,163,118,.05) 0%,transparent 70%)"></div>
+    <div class="absolute bottom-[-30%] left-[-10%] w-[520px] h-[520px] rounded-full" style="background:radial-gradient(circle,rgba(168,85,247,.03) 0%,transparent 70%)"></div>
+  </div>
+
+  <nav class="relative z-10 px-6 py-5">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <a href="../index.html" class="text-sm tracking-[.2em] uppercase text-white/50 hover:text-white/80 transition-colors">Imautotech</a>
+      <a id="back-link" href="index.html" class="inline-flex items-center gap-2 text-white/30 hover:text-white/60 text-xs tracking-[.15em] uppercase transition-colors">
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Support
+      </a>
     </div>
   </nav>
 
-  <div class="max-w-3xl mx-auto px-6 py-12">
-    <div class="mb-10">
-      <span class="text-sm text-purple-400 font-semibold">Legal</span>
-      <h1 id="page-title" class="text-4xl font-bold mt-1">Terms of Service</h1>
-      <p class="text-white/40 text-sm mt-2">Last updated: April 10, 2026</p>
+  <div class="relative z-10 max-w-6xl mx-auto px-6 pt-8 pb-24">
+
+    <header class="mb-16 md:mb-20 reveal relative">
+      <span class="corner-flourish corner-tl"></span>
+      <div class="flex items-center gap-3 mb-8">
+        <span class="w-8 h-px bg-[#c7a376]"></span>
+        <p class="text-[10px] tracking-[.3em] uppercase text-[#c7a376]" id="eyebrow">The Legal Archive · Volume II</p>
+      </div>
+      <h1 id="page-title" class="text-5xl md:text-7xl font-display font-bold leading-[1.02] max-w-3xl">Terms of <em class="text-[#c7a376]">Service</em></h1>
+      <div class="flex flex-wrap items-center gap-x-8 gap-y-3 mt-8 text-[11px] tracking-[.22em] uppercase">
+        <span class="text-white/30">Last revised · April 10, 2026</span>
+        <span class="text-white/15">●</span>
+        <span class="text-white/30">Reading time · 7 min</span>
+        <span class="text-white/15">●</span>
+        <span class="text-white/30">Governed by · Indian law</span>
+      </div>
+    </header>
+
+    <div class="grid lg:grid-cols-[240px_1fr] gap-x-14 gap-y-10">
+      <aside class="hidden lg:block reveal-d1">
+        <nav class="toc">
+          <p class="text-[10px] tracking-[.3em] uppercase text-white/30 px-4 mb-3">Contents</p>
+          <a href="#s1"><span class="toc-num">I</span>Acceptance</a>
+          <a href="#s2"><span class="toc-num">II</span>License</a>
+          <a href="#s3"><span class="toc-num">III</span>User responsibilities</a>
+          <a href="#s4"><span class="toc-num">IV</span>Intellectual property</a>
+          <a href="#s5"><span class="toc-num">V</span>Purchases</a>
+          <a href="#s6"><span class="toc-num">VI</span>Advertisements</a>
+          <a href="#s7"><span class="toc-num">VII</span>Disclaimers</a>
+          <a href="#s8"><span class="toc-num">VIII</span>Liability</a>
+          <a href="#s9"><span class="toc-num">IX</span>Termination</a>
+          <a href="#s10"><span class="toc-num">X</span>Changes</a>
+          <a href="#s11"><span class="toc-num">XI</span>Governing law</a>
+          <a href="#s12"><span class="toc-num">XII</span>Contact</a>
+        </nav>
+      </aside>
+
+      <article id="content" class="article reveal-d2 max-w-2xl"></article>
     </div>
 
-    <article id="content" class="prose prose-invert max-w-none text-white/70 leading-relaxed space-y-6">
-      <p>Loading...</p>
-    </article>
+    <div class="mt-24 pt-12 border-t border-white/5 reveal-d3 text-center">
+      <p class="text-[10px] tracking-[.3em] uppercase text-white/30 mb-4">End of Document</p>
+      <div class="w-px h-10 bg-gradient-to-b from-[#c7a376]/60 to-transparent mx-auto mb-4"></div>
+      <p class="font-display italic text-white/40 text-sm">Fair terms, honestly written.</p>
+    </div>
   </div>
 
-  <footer class="border-t border-white/5 py-8 text-center mt-12"><p class="text-white/30 text-sm">&copy; 2025 Imautotech</p></footer>
+  <footer class="relative z-10 py-10 text-center">
+    <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mx-auto mb-6"></div>
+    <p class="text-white/20 text-xs tracking-[.1em] uppercase">&copy; 2025 Imautotech</p>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../js/supabase-config.js"></script>
@@ -39,79 +124,105 @@
     if (product) {
       document.getElementById('back-link').href = `index.html?product=${product}`;
       const { data: p } = await _supabase.from('products').select('title').eq('slug', product).single();
-      if (p) appName = p.title;
+      if (p) { appName = p.title; document.getElementById('eyebrow').textContent = `The Legal Archive · ${appName}`; }
     }
 
-    document.getElementById('page-title').textContent = `${appName} - Terms of Service`;
     document.title = `${appName} Terms of Service | Imautotech`;
+    const contactLink = product ? `contact.html?product=${product}` : 'contact.html';
+    const deleteLink = product ? `delete.html?product=${product}` : 'delete.html';
 
     document.getElementById('content').innerHTML = `
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">1. Acceptance of Terms</h2>
-        <p>By downloading, installing, or using <strong>${appName}</strong> ("the App"), you agree to be bound by these Terms of Service. If you do not agree, do not use the App.</p>
+      <section id="s1">
+        <span class="section-num">I — Acceptance</span>
+        <h2>Before you continue</h2>
+        <p class="dropcap">By downloading, installing, or using <strong>${appName}</strong> ("the App"), you agree to these Terms of Service. They form a binding agreement between you and Imautotech. If any part of these terms does not sit right with you, please do not use the App.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">2. License</h2>
-        <p>Imautotech grants you a limited, non-exclusive, non-transferable, revocable license to use the App for personal, non-commercial purposes subject to these Terms.</p>
+      <section id="s2">
+        <span class="section-num">II — License</span>
+        <h2>What we grant you</h2>
+        <p>Imautotech grants you a limited, non-exclusive, non-transferable, revocable licence to use the App for personal, non-commercial purposes, subject to these Terms. The App itself, its design, and its code remain the property of Imautotech.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">3. User Responsibilities</h2>
-        <ul class="list-disc pl-6 space-y-1">
-          <li>You must be at least 13 years old to use the App</li>
-          <li>You are responsible for maintaining the confidentiality of your account</li>
-          <li>You agree not to use the App for any unlawful purpose</li>
+      <section id="s3">
+        <span class="section-num">III — Your Responsibilities</span>
+        <h2>How to use the App</h2>
+        <ul>
+          <li>You must be at least 13 years of age to use the App</li>
+          <li>You are responsible for keeping your account credentials confidential</li>
+          <li>You agree not to use the App for any unlawful or fraudulent purpose</li>
           <li>You agree not to reverse engineer, decompile, or disassemble the App</li>
-          <li>You agree not to distribute, sell, or sublicense the App</li>
+          <li>You agree not to distribute, sell, or sublicense the App or its components</li>
         </ul>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">4. Intellectual Property</h2>
-        <p>All content, features, and functionality of ${appName} are owned by Imautotech and are protected by copyright, trademark, and other intellectual property laws.</p>
+      <section id="s4">
+        <span class="section-num">IV — Intellectual Property</span>
+        <h2>Ownership of content</h2>
+        <p>All content, features, and functionality within ${appName} — including source code, design, graphics, and text — are owned by Imautotech and are protected by copyright, trademark, and other intellectual-property laws. Nothing in these Terms transfers any such ownership to you.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">5. In-App Purchases & Subscriptions</h2>
-        <p>Some features may require in-app purchases or subscriptions. All purchases are final and non-refundable except as required by applicable law. Subscriptions auto-renew unless cancelled before the renewal date.</p>
+      <section id="s5">
+        <span class="section-num">V — Purchases</span>
+        <h2>In-app purchases &amp; subscriptions</h2>
+        <p>Certain features may be gated behind in-app purchases or recurring subscriptions. All purchases are final and non-refundable except where required by applicable law. Subscriptions renew automatically unless cancelled before the renewal date through your store account.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">6. Advertisements</h2>
-        <p>The App may display advertisements from third-party providers including Google AdMob. Ad content is governed by the respective provider's terms.</p>
+      <section id="s6">
+        <span class="section-num">VI — Advertisements</span>
+        <h2>Third-party ads</h2>
+        <p>The App may display advertisements served by partners including Google AdMob. Ad content is governed by the respective provider's terms and privacy policies.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">7. Disclaimer of Warranties</h2>
-        <p>The App is provided "AS IS" without warranties of any kind, either express or implied. We do not warrant that the App will be uninterrupted, error-free, or free of viruses.</p>
+      <section id="s7">
+        <span class="section-num">VII — Disclaimers</span>
+        <h2>No warranties</h2>
+        <p>The App is provided <strong>"as is"</strong> and <strong>"as available"</strong>, without warranties of any kind, express or implied. We do not warrant that the App will be uninterrupted, error-free, or free of harmful components.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">8. Limitation of Liability</h2>
-        <p>Imautotech shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the App.</p>
+      <section id="s8">
+        <span class="section-num">VIII — Limitation of Liability</span>
+        <h2>What we are not liable for</h2>
+        <p>To the fullest extent permitted by law, Imautotech shall not be liable for indirect, incidental, special, consequential, or punitive damages arising out of or in connection with your use of the App, including but not limited to loss of profits, data, or goodwill.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">9. Account Termination</h2>
-        <p>We reserve the right to suspend or terminate your access to the App at any time for violation of these Terms. You may also request account deletion through our <a href="delete.html${product ? '?product=' + product : ''}" class="text-indigo-400 hover:text-indigo-300 underline">Delete My Account</a> page.</p>
+      <section id="s9">
+        <span class="section-num">IX — Termination</span>
+        <h2>Ending your access</h2>
+        <p>We reserve the right to suspend or terminate your access to the App for any violation of these Terms. You may also request permanent removal of your account at any time via the <a href="${deleteLink}">Delete My Account</a> page.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">10. Changes to Terms</h2>
-        <p>We may modify these Terms at any time. Continued use of the App after changes constitutes acceptance of the new Terms.</p>
+      <section id="s10">
+        <span class="section-num">X — Changes</span>
+        <h2>Revisions to these terms</h2>
+        <p>We may revise these Terms at any time. Continued use of the App following the publication of updated Terms constitutes your acceptance of them.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">11. Governing Law</h2>
-        <p>These Terms are governed by the laws of India. Any disputes shall be resolved in the courts of Dehradun, Uttarakhand.</p>
+      <section id="s11">
+        <span class="section-num">XI — Governing Law</span>
+        <h2>Jurisdiction</h2>
+        <p>These Terms are governed by the laws of India. Any dispute arising out of or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Dehradun, Uttarakhand.</p>
       </section>
 
-      <section>
-        <h2 class="text-xl font-semibold text-white mb-3">12. Contact</h2>
-        <p>For questions about these Terms, contact us at <a href="mailto:imautotech@gmail.com" class="text-indigo-400 hover:text-indigo-300">imautotech@gmail.com</a> or <a href="contact.html${product ? '?product=' + product : ''}" class="text-indigo-400 hover:text-indigo-300">raise a support ticket</a>.</p>
+      <section id="s12">
+        <span class="section-num">XII — Contact</span>
+        <h2>Questions &amp; correspondence</h2>
+        <p>For questions about these Terms, write to us at <a href="mailto:support@imautotech.in">support@imautotech.in</a> or <a href="${contactLink}">raise a support ticket</a> and we'll respond.</p>
       </section>
     `;
+
+    const links = document.querySelectorAll('.toc a');
+    const sections = document.querySelectorAll('.article section');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => io.observe(s));
   })();
   </script>
 </body>

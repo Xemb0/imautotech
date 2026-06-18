@@ -90,13 +90,24 @@ function subscribeToMessages(ticketId, callback) {
 // ── Render Chat Message ──
 function renderMessage(msg) {
   const isAdmin = msg.sender_type === 'admin';
-  const time = new Date(msg.created_at).toLocaleString();
+  const d = new Date(msg.created_at);
+  const time = d.toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  const label = isAdmin ? 'Support Team' : 'You';
+  const labelColor = isAdmin ? 'color:#c7a376' : 'color:rgba(255,255,255,.45)';
   return `
-    <div class="flex ${isAdmin ? 'justify-start' : 'justify-end'} mb-3">
-      <div class="max-w-[80%] ${isAdmin ? 'bg-indigo-600/20 border-indigo-500/30' : 'bg-white/5 border-white/10'} border rounded-2xl px-4 py-3">
-        <div class="text-xs ${isAdmin ? 'text-indigo-400' : 'text-white/40'} mb-1">${isAdmin ? 'Support Team' : 'You'} &middot; ${time}</div>
-        <div class="text-sm text-white/80 whitespace-pre-wrap">${msg.message}</div>
+    <div class="msg flex ${isAdmin ? 'justify-start' : 'justify-end'}">
+      <div class="max-w-[82%] ${isAdmin ? 'msg-admin' : 'msg-user'} rounded-2xl ${isAdmin ? 'rounded-tl-sm' : 'rounded-tr-sm'} px-4 py-3">
+        <div class="flex items-center gap-2 mb-1.5">
+          <span class="text-[10px] tracking-[.18em] uppercase font-medium" style="${labelColor}">${label}</span>
+          <span class="w-0.5 h-0.5 rounded-full bg-white/20"></span>
+          <span class="text-[10px] text-white/30">${time}</span>
+        </div>
+        <div class="text-sm text-white/85 leading-relaxed whitespace-pre-wrap">${escapeHtml(msg.message)}</div>
       </div>
     </div>
   `;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 }
