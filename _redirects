@@ -31,3 +31,8 @@
 #    redirect and the S2S webhook. The webhook proxies to PlayParty's Supabase callback. ──
 /playparty/return            /playparty/return.html                                  200
 /playparty/phonepe-webhook   /.netlify/functions/playparty-phonepe-webhook           200!
+
+# ── Central payment hub (one PhonePe gateway for all Autotech apps) ──
+#    /pay/create   server-to-server, signed per app   ·   /pay/webhook  the single PhonePe webhook
+/pay/create                  /.netlify/functions/pay-create                          200!
+/pay/webhook                 /.netlify/functions/pay-webhook                         200!

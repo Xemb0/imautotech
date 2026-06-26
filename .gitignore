@@ -4,3 +4,6 @@
 # Node tooling — never commit (scripts embed Supabase service_role keys)
 scripts/node_modules/
 node_modules/
+
+# hub secrets — never commit
+.netlify-env.local
