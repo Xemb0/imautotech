@@ -26,3 +26,8 @@
 /our_products/rentle/privacy-policy.html           https://rentle.imautotech.in/privacy-policy.html         301!
 /our_products/rentle/terms-of-service.html         https://rentle.imautotech.in/terms-of-service.html       301!
 /our_products/rentle/contact.html                  https://rentle.imautotech.in/contact.html                301!
+
+# ── PlayParty premium (PhonePe) — the approved merchant domain hosts both the post-payment
+#    redirect and the S2S webhook. The webhook proxies to PlayParty's Supabase callback. ──
+/playparty/return            /playparty/return.html                                  200
+/playparty/phonepe-webhook   /.netlify/functions/playparty-phonepe-webhook           200!

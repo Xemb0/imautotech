@@ -1,0 +1,4 @@
+# imautotech.in is a static site; the only server-side piece is the PlayParty PhonePe webhook,
+# which lives as a Netlify Function. Publish dir stays as configured in the Netlify UI (repo root).
+[functions]
+  directory = "netlify/functions"
