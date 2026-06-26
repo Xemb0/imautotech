@@ -49,7 +49,9 @@ Deno.serve(async (req) => {
   if (!secret) return respond({ error: "Payments are not configured yet." }, 500);
 
   // userId = the booking id, so the hub's webhook can map the payment back to THIS booking.
-  const hubBody = JSON.stringify({ app: "consultation", plan: "hour", userId: booking.id });
+  // returnUrl carries the booking id so the thanks page can show the REAL status (paid vs cancelled).
+  const returnUrl = `https://imautotech.in/consultation/thanks?b=${booking.id}`;
+  const hubBody = JSON.stringify({ app: "consultation", plan: "hour", userId: booking.id, returnUrl });
   const sig = await hmacHex(secret, hubBody);
   try {
     const resp = await fetch(hubUrl, {

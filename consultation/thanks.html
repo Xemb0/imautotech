@@ -3,19 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Booking received — imautotech</title>
+  <title>Booking — imautotech</title>
 </head>
 <body style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#0b0b13;color:#fff;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center;padding:24px">
   <div style="max-width:440px">
-    <div style="font-size:48px;margin-bottom:10px">✅</div>
-    <h1 style="font-size:26px;margin:0 0 10px">Booking received</h1>
-    <p style="opacity:.7;line-height:1.6;margin:0 0 26px">
-      Thanks for booking a consultancy session. We've recorded your payment and will email you shortly
-      to schedule your hour. If you need anything sooner, just reply to that email or reach us via support.
-    </p>
-    <a href="/" style="display:inline-block;padding:13px 26px;background:linear-gradient(135deg,#b56bff,#38e1ff);color:#0b0b13;border-radius:12px;text-decoration:none;font-weight:700">
-      Back to imautotech
-    </a>
+    <div id="icon" style="font-size:48px;margin-bottom:10px">⏳</div>
+    <h1 id="title" style="font-size:26px;margin:0 0 10px">Confirming your payment…</h1>
+    <p id="msg" style="opacity:.7;line-height:1.6;margin:0 0 26px">One moment while we confirm with PhonePe.</p>
+    <a id="home" href="/" style="display:none;margin:0 6px;padding:13px 26px;background:linear-gradient(135deg,#b56bff,#38e1ff);color:#0b0b13;border-radius:12px;text-decoration:none;font-weight:700">Back to imautotech</a>
+    <a id="retry" href="/pricing.html" style="display:none;margin:0 6px;padding:13px 26px;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15);border-radius:12px;text-decoration:none;font-weight:600">Back to pricing</a>
   </div>
+  <script>
+  (function(){
+    var SB = "https://pjeqnlwzyhjvahbrgham.supabase.co";
+    var KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqZXFubHd6eWhqdmFoYnJnaGFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MTA0ODMsImV4cCI6MjA5MTk4NjQ4M30.ISlefW_qxwSI4n-QbtuZSPz5uRNC6AJM6-keFk7Knm4";
+    var b = new URLSearchParams(location.search).get('b');
+    function show(icon, title, msg, retry){
+      document.getElementById('icon').textContent = icon;
+      document.getElementById('title').textContent = title;
+      document.getElementById('msg').textContent = msg;
+      document.getElementById('home').style.display = 'inline-block';
+      if(retry) document.getElementById('retry').style.display = 'inline-block';
+    }
+    var neutral = function(){ show('🙏', 'Thanks!', "If your payment went through, we'll email you shortly to schedule your hour. If you cancelled, you weren't charged — you can book again anytime.", true); };
+    if(!b){ neutral(); return; }
+    var tries = 0;
+    (function poll(){
+      tries++;
+      fetch(SB + '/functions/v1/consultation-status?b=' + encodeURIComponent(b), { headers: { apikey: KEY, Authorization: 'Bearer ' + KEY } })
+        .then(function(r){ return r.json(); })
+        .then(function(j){
+          if(j && j.status === 'COMPLETED'){ show('✅', 'Booking received', "Thanks for booking a consultancy hour — we've recorded your payment and will email you shortly to schedule.", false); return; }
+          if(tries >= 8){ neutral(); return; }
+          setTimeout(poll, 1500);
+        })
+        .catch(function(){ if(tries >= 8){ neutral(); } else { setTimeout(poll, 1500); } });
+    })();
+  })();
+  </script>
 </body>
 </html>
