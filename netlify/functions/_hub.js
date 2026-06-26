@@ -22,6 +22,15 @@ const APPS = {
       yearly: { amount_paise: 179900, premium_days: 365 },
     },
   },
+  // imautotech.in's own 1-on-1 consultancy fee. The "grant" just marks the booking paid (no premium).
+  consultation: {
+    secretEnv: "HUB_SECRET_CONSULTATION",
+    grantUrl: "https://pjeqnlwzyhjvahbrgham.supabase.co/functions/v1/consultation-record",
+    returnUrl: "https://imautotech.in/consultation/thanks",
+    plans: {
+      hour: { amount_paise: 199900, premium_days: 0 }, // ₹1,999 / hour
+    },
+  },
 };
 
 const getApp = (id) => APPS[id] || null;

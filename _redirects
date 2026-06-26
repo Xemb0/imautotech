@@ -36,3 +36,8 @@
 #    /pay/create   server-to-server, signed per app   ·   /pay/webhook  the single PhonePe webhook
 /pay/create                  /.netlify/functions/pay-create                          200!
 /pay/webhook                 /.netlify/functions/pay-webhook                         200!
+
+# ── Consultancy booking (imautotech's own ₹1,999/hr fee, paid via the hub) ──
+/consultation/thanks         /consultation/thanks.html                               200
+# Edge-function SOURCE lives in the repo for version control but must not be served publicly.
+/supabase/*                  /404.html                                               404!

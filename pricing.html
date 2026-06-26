@@ -191,7 +191,7 @@
               <span class="text-5xl md:text-6xl font-display font-bold leading-none price" data-inr="1999" data-usd="24"></span>
             </div>
             <p class="text-white/45 text-sm mt-2">per hour</p>
-            <a href="support/contact.html" class="btn-vivid mt-6 inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm w-full md:w-auto">
+            <a href="#book-consult" onclick="openConsult(event)" class="btn-vivid mt-6 inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm w-full md:w-auto">
               Book a session
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
             </a>
@@ -429,6 +429,53 @@
     });
 
     render();
+  })();
+  </script>
+
+  <!-- ═══ Consultancy booking modal → PhonePe (via the imautotech payment hub) ═══ -->
+  <div id="consultModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(6,6,12,.8);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;font-family:'Outfit',system-ui,sans-serif">
+    <div style="width:100%;max-width:420px;background:#13131d;border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:26px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:4px">
+        <h3 style="font-size:20px;font-weight:800;margin:0;color:#fff">Book a consultancy hour</h3>
+        <button onclick="closeConsult()" aria-label="Close" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:24px;cursor:pointer;line-height:1">&times;</button>
+      </div>
+      <p style="color:rgba(255,255,255,.55);font-size:13px;margin:0 0 18px;line-height:1.5">1-on-1, billed per hour. We'll email you to schedule the call after payment.</p>
+      <input id="cName" type="text" placeholder="Your name" autocomplete="name" style="width:100%;box-sizing:border-box;margin-bottom:10px;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#fff;font-size:14px;outline:none">
+      <input id="cEmail" type="email" placeholder="Email" autocomplete="email" style="width:100%;box-sizing:border-box;margin-bottom:10px;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#fff;font-size:14px;outline:none">
+      <input id="cPhone" type="tel" placeholder="Phone (optional)" autocomplete="tel" style="width:100%;box-sizing:border-box;margin-bottom:10px;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#fff;font-size:14px;outline:none">
+      <div id="cErr" style="display:none;color:#ff8a8a;font-size:13px;margin:2px 2px 0"></div>
+      <button id="cPay" onclick="payConsult()" style="width:100%;margin-top:10px;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#b56bff,#38e1ff);color:#0b0b13;font-weight:800;font-size:15px;cursor:pointer">Pay &#8377;1,999</button>
+      <p style="color:rgba(255,255,255,.35);font-size:11px;text-align:center;margin:13px 0 0">Secured by PhonePe &middot; UPI, cards &amp; wallets &middot; Non-refundable</p>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var SB = "https://pjeqnlwzyhjvahbrgham.supabase.co";
+    var KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqZXFubHd6eWhqdmFoYnJnaGFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MTA0ODMsImV4cCI6MjA5MTk4NjQ4M30.ISlefW_qxwSI4n-QbtuZSPz5uRNC6AJM6-keFk7Knm4";
+    var modal = document.getElementById('consultModal');
+    window.openConsult = function(e){ if(e) e.preventDefault(); modal.style.display='flex'; };
+    window.closeConsult = function(){ modal.style.display='none'; };
+    modal.addEventListener('click', function(ev){ if(ev.target === modal) closeConsult(); });
+    window.payConsult = async function(){
+      var name = document.getElementById('cName').value.trim();
+      var email = document.getElementById('cEmail').value.trim();
+      var phone = document.getElementById('cPhone').value.trim();
+      var err = document.getElementById('cErr'), btn = document.getElementById('cPay');
+      err.style.display = 'none';
+      if(!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Please enter your name and a valid email.'; err.style.display='block'; return; }
+      btn.disabled = true; var old = btn.innerHTML; btn.innerHTML = 'Starting&hellip;';
+      try{
+        var r = await fetch(SB + "/functions/v1/consultation-book", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "apikey": KEY, "Authorization": "Bearer " + KEY },
+          body: JSON.stringify({ name: name, email: email, phone: phone })
+        });
+        var j = await r.json();
+        if(j && j.redirectUrl){ window.location.href = j.redirectUrl; return; }
+        err.textContent = (j && j.error) || "Couldn't start payment. Please try again.";
+        err.style.display = 'block'; btn.disabled = false; btn.innerHTML = old;
+      } catch(_){ err.textContent = "Network error. Please try again."; err.style.display='block'; btn.disabled=false; btn.innerHTML=old; }
+    };
   })();
   </script>
 </body>
