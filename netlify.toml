@@ -2,3 +2,10 @@
 # which lives as a Netlify Function. Publish dir stays as configured in the Netlify UI (repo root).
 [functions]
   directory = "netlify/functions"
+
+[build.environment]
+  # HUB_PHONEPE_ENV is a non-secret environment selector ("PROD"/"UAT"), NOT a credential. Its value
+  # "PROD" is a common byte sequence that appears in committed APKs and HTML, which trips Netlify's
+  # secrets scanner. Exclude just this key — the real secrets (client secret, callback pass, shared
+  # secret) stay scanned and are never present in the repo.
+  SECRETS_SCAN_OMIT_KEYS = "HUB_PHONEPE_ENV"
