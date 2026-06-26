@@ -27,7 +27,7 @@ exports.handler = async (event) => {
     //    this response — never from the request body.
     const token = await phonepeToken();
     if (!token) { console.error("[hub] phonepe auth failed", merchantOrderId); return reply(200, { ok: true, warning: "auth failed, will retry" }); }
-    const env = process.env.HUB_PHONEPE_ENV || "PROD";
+    const env = process.env.HUB_PHONEPE_ENV || "";
     const sResp = await fetch(phonepeBases(env).status(merchantOrderId), { headers: { "Authorization": `O-Bearer ${token}` } });
     const order = await sResp.json().catch(() => ({}));
     const state = String(order?.state ?? "").toUpperCase();

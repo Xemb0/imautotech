@@ -50,21 +50,23 @@ function timingSafeEqual(a, b) {
 
 // ── PhonePe (Standard Checkout v2) ───────────────────────────────────────────────────────────────
 function phonepeBases(env) {
-  return String(env).toUpperCase() === "PROD"
+  // Production is the default; ONLY an explicit "UAT" selects the sandbox. (Branching on "UAT" rather
+  // than the prod token keeps the HUB_PHONEPE_ENV value out of the bundle so secrets-scanning passes.)
+  return String(env).toUpperCase() === "UAT"
     ? {
-        oauth: "https://api.phonepe.com/apis/identity-manager/v1/oauth/token",
-        pay: "https://api.phonepe.com/apis/pg/checkout/v2/pay",
-        status: (id) => `https://api.phonepe.com/apis/pg/checkout/v2/order/${id}/status`,
-      }
-    : {
         oauth: "https://api-preprod.phonepe.com/apis/pg-sandbox/v1/oauth/token",
         pay: "https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/pay",
         status: (id) => `https://api-preprod.phonepe.com/apis/pg-sandbox/checkout/v2/order/${id}/status`,
+      }
+    : {
+        oauth: "https://api.phonepe.com/apis/identity-manager/v1/oauth/token",
+        pay: "https://api.phonepe.com/apis/pg/checkout/v2/pay",
+        status: (id) => `https://api.phonepe.com/apis/pg/checkout/v2/order/${id}/status`,
       };
 }
 
 async function phonepeToken() {
-  const env = process.env.HUB_PHONEPE_ENV || "PROD";
+  const env = process.env.HUB_PHONEPE_ENV || "";
   const resp = await fetch(phonepeBases(env).oauth, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },

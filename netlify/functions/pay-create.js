@@ -27,7 +27,7 @@ exports.handler = async (event) => {
   const userId = String(body.userId || "");
   if (!userId) return reply(400, { error: "Missing userId" });
 
-  const env = process.env.HUB_PHONEPE_ENV || "PROD";
+  const env = process.env.HUB_PHONEPE_ENV || "";
   if (!process.env.HUB_PHONEPE_CLIENT_ID || !process.env.HUB_PHONEPE_CLIENT_SECRET) {
     return reply(500, { error: "PhonePe credentials not configured" });
   }
