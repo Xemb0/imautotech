@@ -54,9 +54,13 @@ exports.handler = async (event) => {
       }),
     });
     const j = await resp.json().catch(() => ({}));
-    if (!j?.redirectUrl) return reply(502, { error: "PhonePe order failed", detail: j });
+    if (!j?.redirectUrl) {
+      console.warn("[hub] phonepe order failed", body.app, j); // detail stays server-side, not echoed
+      return reply(502, { error: "PhonePe order failed" });
+    }
     return reply(200, { ok: true, merchantOrderId, redirectUrl: j.redirectUrl, orderId: j.orderId ?? null });
   } catch (e) {
-    return reply(500, { error: String((e && e.message) || e) });
+    console.error("[hub] pay-create error", body && body.app, e && e.message);
+    return reply(500, { error: "Internal error" });
   }
 };

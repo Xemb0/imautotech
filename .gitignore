@@ -7,3 +7,5 @@ node_modules/
 
 # hub secrets — never commit
 .netlify-env.local
+*.env.local
+.netlify-env*
