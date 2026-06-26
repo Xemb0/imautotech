@@ -29,6 +29,7 @@ const APPS = {
     returnUrl: "https://imautotech.in/consultation/thanks",
     plans: {
       hour: { amount_paise: 199900, premium_days: 0 }, // ₹1,999 / hour
+      quick: { amount_paise: 900, premium_days: 0 },   // ₹9 / 5-min intro call (real, full pipeline)
     },
   },
 };
