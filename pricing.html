@@ -12,8 +12,8 @@
   <script>tailwind.config={corePlugins:{preflight:false},theme:{extend:{fontFamily:{display:['Fraunces','serif'],body:['Outfit','sans-serif']}}}}</script>
   <style>
     :root{
-      --bg:#0b0a18;
-      --ink:#f5f3ff;
+      --bg:#ffffff;
+      --ink:#15131f;
       --c-blue:#4f7cff;
       --c-mint:#2de3b0;
       --c-violet:#b56bff;
@@ -103,6 +103,37 @@
     .faq-q::-webkit-details-marker{display:none}
     .faq-item[open] .faq-chev{transform:rotate(45deg)}
     .faq-chev{transition:transform .35s cubic-bezier(.2,.9,.3,1.2);flex-shrink:0}
+
+    /* ═══ LIGHT THEME — match the white imautotech.in homepage ═══ */
+    body{background:var(--bg);color:#15131f}
+    .text-white{color:#15131f!important}
+    .text-white\/70{color:rgba(21,19,31,.66)!important}
+    .text-white\/60{color:rgba(21,19,31,.62)!important}
+    .text-white\/55{color:rgba(21,19,31,.58)!important}
+    .text-white\/50{color:rgba(21,19,31,.54)!important}
+    .text-white\/45{color:rgba(21,19,31,.5)!important}
+    .text-white\/40{color:rgba(21,19,31,.46)!important}
+    .text-white\/35{color:rgba(21,19,31,.42)!important}
+    .text-white\/30{color:rgba(21,19,31,.4)!important}
+    .border-white\/10{border-color:rgba(21,19,31,.1)!important}
+    /* glass surfaces → white cards with subtle dark borders + soft shadow */
+    .price-card{background:#fff!important;border-color:rgba(21,19,31,.09)!important;box-shadow:0 14px 38px -22px rgba(21,19,31,.3)}
+    .price-card.featured{background:linear-gradient(160deg,rgba(181,107,255,.1),rgba(56,225,255,.05))!important}
+    .faq-item{background:#fff!important;border-color:rgba(21,19,31,.09)!important}
+    .faq-item:hover{border-color:rgba(21,19,31,.2)!important}
+    .pill-tag{background:rgba(21,19,31,.04)!important;border-color:rgba(21,19,31,.1)!important;color:rgba(21,19,31,.7)!important}
+    .cur-toggle{background:rgba(21,19,31,.04)!important;border-color:rgba(21,19,31,.1)!important}
+    .cur-btn{color:rgba(21,19,31,.55)!important}
+    .feat-row{color:rgba(21,19,31,.66)!important}
+    .btn-ghost{background:rgba(21,19,31,.04)!important;border-color:rgba(21,19,31,.16)!important;color:#15131f!important}
+    .btn-ghost:hover{background:rgba(21,19,31,.08)!important;border-color:rgba(21,19,31,.3)!important}
+    /* ambient: soften the colour blobs to faint pastels on white, dark grid, drop the grain */
+    .blob{mix-blend-mode:normal!important;opacity:.14!important;filter:blur(95px)}
+    .grid-overlay{background-image:linear-gradient(rgba(21,19,31,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(21,19,31,.035) 1px,transparent 1px)!important}
+    .grain{display:none}
+    .sparkle{background:var(--c-violet);box-shadow:0 0 8px rgba(181,107,255,.55)}
+    ::-webkit-scrollbar-thumb{background:rgba(21,19,31,.15)}
+    ::-webkit-scrollbar-thumb:hover{background:rgba(21,19,31,.28)}
   </style>
 </head>
 <body class="min-h-screen">
