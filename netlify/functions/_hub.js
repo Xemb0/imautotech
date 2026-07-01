@@ -22,6 +22,18 @@ const APPS = {
       yearly: { amount_paise: 179900, premium_days: 365 },
     },
   },
+  watchparty: {
+    secretEnv: "HUB_SECRET_WATCHPARTY",
+    grantUrl: "https://kmngufxafbtfvdakcyjn.supabase.co/functions/v1/hub-grant-premium",
+    returnUrl: "https://imautotech.in/watchparty/return",
+    // WEB prices — ~10% under the in-app store prices (₹50 / ₹100 / ₹1000), since
+    // the web/UPI fee is ~0% vs the stores' ~15%: we net more AND give web buyers a discount.
+    plans: {
+      weekly: { amount_paise: 4500, premium_days: 7 },     // ₹45  / week  (app ₹50)
+      monthly: { amount_paise: 9000, premium_days: 30 },   // ₹90  / month (app ₹100)
+      yearly: { amount_paise: 90000, premium_days: 365 },  // ₹900 / year  (app ₹1000)
+    },
+  },
   // imautotech.in's own 1-on-1 consultancy fee. The "grant" just marks the booking paid (no premium).
   consultation: {
     secretEnv: "HUB_SECRET_CONSULTATION",

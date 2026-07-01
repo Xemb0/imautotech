@@ -32,6 +32,9 @@
 /playparty/return            /playparty/return.html                                  200
 /playparty/phonepe-webhook   /.netlify/functions/playparty-phonepe-webhook           200!
 
+# ── WatchParty premium (PhonePe via the hub) — post-payment browser redirect. ──
+/watchparty/return           /watchparty/return.html                                 200
+
 # ── Central payment hub (one PhonePe gateway for all Autotech apps) ──
 #    /pay/create   server-to-server, signed per app   ·   /pay/webhook  the single PhonePe webhook
 /pay/create                  /.netlify/functions/pay-create                          200!
