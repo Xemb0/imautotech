@@ -32,6 +32,7 @@ const APPS = {
       weekly: { amount_paise: 4500, premium_days: 7 },     // ₹45  / week  (app ₹50)
       monthly: { amount_paise: 9000, premium_days: 30 },   // ₹90  / month (app ₹100)
       yearly: { amount_paise: 90000, premium_days: 365 },  // ₹900 / year  (app ₹1000)
+      test: { amount_paise: 100, premium_days: 1 },        // ₹1 / 1 day — LIVE TEST plan; remove after verifying
     },
   },
   // imautotech.in's own 1-on-1 consultancy fee. The "grant" just marks the booking paid (no premium).
