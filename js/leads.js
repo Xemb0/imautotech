@@ -51,31 +51,13 @@
       status: 'new',
     };
 
-    try {
-      const { data, error } = await client.from('leads').insert(row).select().single();
-      if (error) throw error;
-      return data;
-    } catch (supaErr) {
-      // SAFETY NET: if the Supabase insert fails (e.g. the leads table hasn't
-      // been created yet, or a transient error), don't lose the lead — mirror it
-      // to the existing SheetDB sheet so it's still captured. Once the leads
-      // table is live and stable this branch is never hit and can be removed.
-      try {
-        await fetch('https://sheetdb.io/api/v1/jrmqrr3j0yon2', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data: [{
-            timestamp: new Date().toISOString(),
-            name: row.name, email: row.email, phone: row.phone || '',
-            source: row.source, message: row.message || '',
-          }] }),
-        });
-        console.warn('[leads] Supabase insert failed; captured via SheetDB fallback.', supaErr);
-        return { fallback: true };
-      } catch (sheetErr) {
-        throw supaErr; // both failed — surface the original error to the form
-      }
-    }
+    // The public key may INSERT leads but not READ them back (the read policy is
+    // support-agents only). So do NOT chain .select() — the read-back runs inside
+    // the insert transaction, hits RLS, and rolls the whole insert back, silently
+    // losing the lead. return=minimal (no .select()) commits the row.
+    const { error } = await client.from('leads').insert(row);
+    if (error) throw error; // surfaces as the form's "please try again" message
+    return { ok: true };
   }
   window.createLead = createLead;
 
