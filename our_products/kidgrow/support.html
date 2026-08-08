@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KidGrow Support — We're here to help</title>
+<meta name="description" content="Get help with KidGrow: FAQs, contact, subscriptions, and parental controls.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFFBF3; --paper:#FFFFFF; --ink:#2E2440; --ink-soft:#6C6080;
+    --line:#ECE4D6; --line-strong:#DCD2E4;
+    --grape:#8B3FE8; --grape-deep:#6A1FC2; --grape-soft:#F1E6FF;
+    --sun-soft:#FFF3CC; --green-soft:#DCF7E4; --blue-soft:#DDEEFF; --pink-soft:#FFE2F2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Fredoka',system-ui,sans-serif;background:var(--cream);color:var(--ink);
+    overflow-x:hidden;line-height:1.55}
+  .blob{position:fixed;border-radius:50%;filter:blur(60px);opacity:.55;pointer-events:none;z-index:0}
+  .b1{width:420px;height:380px;background:var(--grape-soft);top:-120px;left:-120px}
+  .b2{width:360px;height:320px;background:var(--sun-soft);top:40%;right:-140px}
+  .b3{width:380px;height:340px;background:var(--blue-soft);bottom:-120px;left:-120px}
+  main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 24px}
+  header{display:flex;align-items:center;justify-content:space-between;padding:28px 0}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:22px;color:var(--ink);text-decoration:none}
+  .logo-mark{width:40px;height:40px;border-radius:13px;background:var(--grape);
+    box-shadow:0 4px 0 var(--grape-deep);display:grid;place-items:center;font-size:20px}
+  nav a{color:var(--ink-soft);text-decoration:none;font-weight:600;margin-left:22px}
+  nav a:hover{color:var(--ink)}
+  .hero{text-align:center;padding:44px 0 8px}
+  h1{font-size:clamp(30px,5vw,44px);font-weight:700}
+  .hero p{color:var(--ink-soft);font-size:18px;margin-top:10px}
+  .contact{background:var(--paper);border:1.5px solid var(--line);border-radius:26px;
+    box-shadow:0 4px 0 var(--line);padding:30px;text-align:center;margin:34px 0}
+  .contact .big{font-size:19px;font-weight:600}
+  .contact a.mail{display:inline-block;margin-top:12px;background:var(--grape);color:#fff;
+    font-weight:700;padding:14px 28px;border-radius:999px;text-decoration:none;box-shadow:0 5px 0 var(--grape-deep)}
+  .contact a.mail:active{transform:translateY(3px);box-shadow:0 2px 0 var(--grape-deep)}
+  .contact .note{color:var(--ink-soft);font-size:14px;margin-top:12px}
+  h2{font-size:24px;margin:40px 0 16px}
+  details{background:var(--paper);border:1.5px solid var(--line);border-radius:20px;
+    box-shadow:0 3px 0 var(--line);margin-bottom:12px;overflow:hidden}
+  summary{cursor:pointer;font-weight:600;font-size:16px;padding:18px 22px;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;gap:12px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:22px;color:var(--ink-soft);flex-shrink:0}
+  details[open] summary::after{content:"–"}
+  details p{padding:0 22px 18px;color:var(--ink-soft);font-size:15px}
+  details p+p{margin-top:8px}
+  footer{border-top:1.5px solid var(--line);margin-top:56px;padding:32px 0 44px;
+    display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;color:var(--ink-soft);font-size:14px}
+  footer a{color:var(--ink-soft);font-weight:600;text-decoration:none}
+  footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<main>
+  <header>
+    <a class="logo" href="index.html"><div class="logo-mark">🌱</div>KidGrow</a>
+    <nav><a href="index.html">Home</a><a href="index.html#parents">For parents</a></nav>
+  </header>
+
+  <div class="hero">
+    <h1>How can we help? 💛</h1>
+    <p>Real humans (and parents) answer every message.</p>
+  </div>
+
+  <div class="contact">
+    <div class="big">The fastest way to reach us is email:</div>
+    <a class="mail" href="mailto:support@imautotech.in?subject=KidGrow%20Support">support@imautotech.in</a>
+    <div class="note">We reply within 1–2 business days. Tell us your device model and what happened — screenshots help a lot!</div>
+  </div>
+
+  <h2>Frequently asked questions</h2>
+
+  <details>
+    <summary>My child got out of the app / into the wrong section — how does Kid Mode work?</summary>
+    <p>When Kid Mode is locked (the green lock in the top corner), Settings and other grown-up areas are protected by a math question only grown-ups can answer. To lock or unlock, tap the lock pill in the status bar.</p>
+    <p>Tip: you can also enable iOS Guided Access (Settings → Accessibility) for an extra layer that keeps the home button/gestures locked too.</p>
+  </details>
+
+  <details>
+    <summary>How do I turn sections (Camera, Videos, Games…) on or off?</summary>
+    <p>Open Settings from the dock (it's behind the parental gate), then toggle any section. The change appears on your child's home screen immediately.</p>
+  </details>
+
+  <details>
+    <summary>How do pretend Calls and Messages work? Is my child contacting anyone real?</summary>
+    <p>No. Calls and Messages are fully pretend — there is no real network, dialing, or chat. Your child "calls" only the trusted grown-ups you add in Settings, and the conversation is simulated on the device.</p>
+  </details>
+
+  <details>
+    <summary>How does the learning adapt to my child?</summary>
+    <p>KidGrow uses spaced repetition: cards your child knows well appear less often, and the ones they mix up come back sooner. The Grown-ups Zone shows exactly what's known, what's being learned, and which pairs get confused.</p>
+  </details>
+
+  <details>
+    <summary>How do I manage or cancel my KidGrow Pro subscription?</summary>
+    <p>Subscriptions are handled by the App Store. Open Settings on your iPhone → tap your name → Subscriptions → KidGrow, where you can change or cancel anytime. Cancelling keeps Pro active until the end of the paid period.</p>
+    <p>To restore a purchase on a new device: Grown-ups Zone → Restore purchases.</p>
+  </details>
+
+  <details>
+    <summary>Does KidGrow show ads or talk to strangers?</summary>
+    <p>Never. KidGrow has no third-party ads, no chats with real people, and nothing your child can stumble into. The pretend Internet and Friends sections are entirely on-device.</p>
+  </details>
+
+  <details>
+    <summary>How do I delete my account and data?</summary>
+    <p>Email us at <a href="mailto:support@imautotech.in?subject=Delete%20my%20KidGrow%20account">support@imautotech.in</a> from the address you signed up with, and we'll delete your account and associated data within 30 days — or follow the steps on our <a href="delete-account.html">account deletion page</a>. Learning progress stored only on your device is removed when you delete the app.</p>
+  </details>
+
+  <details>
+    <summary>Something's not working — sound, speech, or a frozen screen.</summary>
+    <p>First try: check the ring/silent switch and volume, then force-quit and reopen the app. If speech is silent, make sure the speaker button in the app is on (yellow).</p>
+    <p>Still stuck? Email us with your device model and iOS version and we'll dig in.</p>
+  </details>
+
+  <footer>
+    <div>© 2026 KidGrow · An <a href="../../index.html" style="color:inherit">Imautotech</a> product</div>
+    <div><a href="index.html">KidGrow home</a> · <a href="privacy-policy.html">Privacy</a> · <a href="terms-of-service.html">Terms</a></div>
+  </footer>
+</main>
+</body>
+</html>
