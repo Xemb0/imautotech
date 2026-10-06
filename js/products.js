@@ -1,4 +1,29 @@
 (function () {
+  const productWebsites = [
+    { slug: 'dosolution', title: 'DoSolution', url: 'https://dosolutions.online' },
+    { slug: 'watchparty', title: 'WatchParty', url: 'https://watchparty.online' },
+    { slug: 'arc-launcher', title: 'Arc Launcher', url: 'https://arclauncher.imautotech.in' },
+    { slug: 'playparty', title: 'PlayParty', url: 'https://playparty.space' },
+    { slug: 'puzzle-arrow-world', title: 'Puzzle Arrow World', url: 'https://arrows.imautotech.in' },
+    { slug: 'kidgrow', title: 'KidGrow', url: 'https://kidgrow.imautotech.in' },
+    { slug: 'wx-gamepad', title: 'WX Gamepad', url: 'https://wxgamepad.imautotech.in' },
+    { slug: 'rentle', title: 'Rentle', url: 'https://rentle.imautotech.in' },
+    { slug: 'onetapmusic', title: 'OneTapMusic', url: 'https://onetapmusic.imautotech.in' },
+    { slug: 'nestlink', title: 'NestLink', url: 'https://nestlink.imautotech.in' },
+    { slug: 'labourchawk', title: 'LabourChauk', url: 'https://labourchauk.imautotech.in' },
+    { slug: 'printlabel', title: 'PrintLabel', url: 'https://printlabel.imautotech.in' },
+    { slug: 'ringreminder', title: 'RingReminder', url: 'https://ringreminder.imautotech.in' },
+    { slug: 'bloodlabs', title: 'Bloodlabs', url: 'https://bloodlabs.imautotech.in' },
+  ];
+
+  function websiteFor(product) {
+    const normalize = value => (value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    return productWebsites.find(website =>
+      normalize(website.slug) === normalize(product.slug) ||
+      normalize(website.title) === normalize(product.title)
+    );
+  }
+
   const platformIcons = {
     Android: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.523 2.23l1.644-1.644a.53.53 0 00-.75-.75L16.55 1.7C15.14.955 13.576.5 12 .5S8.86.955 7.45 1.7L5.583.836a.53.53 0 00-.75.75L6.477 2.23C4.343 3.63 2.883 5.893 2.648 8.5h18.704c-.235-2.607-1.695-4.87-3.829-6.27zM8.5 6a1 1 0 110-2 1 1 0 010 2zm7 0a1 1 0 110-2 1 1 0 010 2zM3 10v8a2 2 0 002 2h1v3.5a1.5 1.5 0 003 0V20h6v3.5a1.5 1.5 0 003 0V20h1a2 2 0 002-2v-8H3zm-3 1.5a1.5 1.5 0 013 0v5a1.5 1.5 0 01-3 0v-5zm21 0a1.5 1.5 0 013 0v5a1.5 1.5 0 01-3 0v-5z"/></svg>',
     iOS: '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>',
@@ -9,7 +34,11 @@
   };
 
   function renderProductCard(p) {
-    // Redirect intentionally disabled for now — product cards are display-only.
+    const website = websiteFor(p);
+    const link = website ? website.url : p.has_custom_page && p.custom_page_path
+      ? p.custom_page_path
+      : `our_products/product.html?slug=${p.slug}`;
+
     const platforms = (p.platforms || []).map(pl =>
       `<span class="inline-flex items-center gap-1 text-xs text-white/70">${platformIcons[pl] || ''}${pl}</span>`
     ).join('');
@@ -19,7 +48,7 @@
       : `<div class="w-16 h-16 rounded-2xl bg-gradient-to-br ${p.gradient || 'from-gray-600 to-gray-500'} flex items-center justify-center text-white text-2xl font-bold shadow-lg">${p.title[0]}</div>`;
 
     return `
-      <div class="group block">
+      <a href="${link}" class="group block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-400">
         <div class="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:shadow-2xl hover:-translate-y-1" style="box-shadow: 0 0 0 transparent;">
           <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="box-shadow: 0 0 40px ${p.glow_color || 'rgba(99,102,241,0.2)'}"></div>
           <div class="relative z-10">
@@ -34,10 +63,11 @@
             <p class="text-white/60 text-sm mb-4 line-clamp-2">${p.description || ''}</p>
             <div class="flex items-center justify-between">
               <div class="flex gap-2">${platforms}</div>
+              <span class="text-xs text-white/40 group-hover:text-white/70 transition-colors">${website ? 'Visit website' : 'Explore'} &rarr;</span>
             </div>
           </div>
         </div>
-      </div>
+      </a>
     `;
   }
 
@@ -66,7 +96,6 @@
       .from('products')
       .select('*')
       .eq('organization', org)
-      .eq('is_visible', true)
       .order('display_order');
 
     if (error || !products) {
@@ -74,9 +103,19 @@
       return;
     }
 
+    // Include announced products not yet in the catalog, but respect hidden entries.
+    const catalog = products.filter(product => product.is_visible === true);
+    if (org === 'imautotech') {
+      productWebsites.forEach(website => {
+        if (!products.some(product => websiteFor(product) === website)) {
+          catalog.push({ slug: website.slug, title: website.title });
+        }
+      });
+    }
+
     container.innerHTML = `
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        ${products.map(renderProductCard).join('')}
+        ${catalog.map(renderProductCard).join('')}
       </div>
     `;
   };
