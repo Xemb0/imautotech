@@ -1,0 +1,7 @@
+[build]
+  base = "product-sites"
+  command = "node build.mjs bloodlabs"
+  publish = "dist/bloodlabs"
+
+[build.environment]
+  NODE_VERSION = "22"

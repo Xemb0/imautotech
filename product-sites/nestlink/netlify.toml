@@ -1,0 +1,7 @@
+[build]
+  base = "product-sites"
+  command = "node build.mjs nestlink"
+  publish = "dist/nestlink"
+
+[build.environment]
+  NODE_VERSION = "22"

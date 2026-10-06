@@ -1,0 +1,7 @@
+[build]
+  base = "product-sites"
+  command = "node build.mjs printlabel"
+  publish = "dist/printlabel"
+
+[build.environment]
+  NODE_VERSION = "22"

@@ -1,0 +1,7 @@
+[build]
+  base = "product-sites"
+  command = "node build.mjs ringreminder"
+  publish = "dist/ringreminder"
+
+[build.environment]
+  NODE_VERSION = "22"

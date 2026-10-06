@@ -1,0 +1,7 @@
+[build]
+  base = "product-sites"
+  command = "node build.mjs onetapmusic"
+  publish = "dist/onetapmusic"
+
+[build.environment]
+  NODE_VERSION = "22"

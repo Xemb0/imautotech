@@ -1,0 +1,7 @@
+[build]
+  base = "product-sites"
+  command = "node build.mjs labourchauk"
+  publish = "dist/labourchauk"
+
+[build.environment]
+  NODE_VERSION = "22"
